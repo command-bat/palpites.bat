@@ -1,0 +1,124 @@
+.header {
+  position: fixed;
+  * {
+    color: var(--text_select);
+  }
+  background-color: var(--background-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: fit-content;
+  width: -webkit-fill-available;
+}
+.nav {
+  width: -webkit-fill-available;
+  display: flex;
+  justify-content: space-between;
+}
+.left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 25px;
+  padding: 15px;
+  padding-left: 25px;
+}
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  gap: 25px;
+  padding: 15px;
+  position: absolute;
+  right: 50%;
+  left: 50%;
+  place-self: center;
+}
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: end-start;
+  height: 100%;
+}
+.menulogin {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  justify-content: space-between;
+}
+.btn_login,
+.btn_register {
+  margin: auto;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn_login {
+  background-color: var(--color_secondary);
+}
+.btn_register {
+  background-color: var(--color_primary);
+}
+.center div {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  cursor: pointer;
+  font-size: large;
+  gap: 10px;
+}
+
+.switchTheme {
+  all: unset;
+
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: var(--color_primary) !important;
+}
+
+.switchTheme svg {
+  height: 1.75em;
+  width: 1.75em;
+  color: var(--color_primary) !important;
+}
+
+.iconSite {
+  width: 28px;
+  height: 28px;
+  border-radius: 74% 75% 10% 10%;
+}
+
+.title {
+  font-size: large;
+  font-variant-caps: small-caps;
+  font-size: 24px;
+}
+
+.backgroundTitle {
+  background-color: var(--color_primary);
+  padding: 5px;
+  padding-right: 15px;
+  border-radius: 5px 15px 15px 5px;
+}
+.backgroundTitle .title {
+  gap: 10px;
+  display: inline-flex;
+  text-transform: capitalize;
+}
