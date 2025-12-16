@@ -17,9 +17,25 @@ export default function header({
   title = "home",
   icon = <FaHouse />,
   setShowSidebar,
+  showSidebar,
 }) {
   const [chosenDarkMode, setChosenDarkMode] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(true);
 
+  useEffect(() => {
+    const media = window.matchMedia(
+      "(width <= 767px) and (orientation: portrait)"
+    );
+
+    const update = () => {
+      setIsDesktop(!media.matches);
+    };
+
+    update(); // estado inicial
+    media.addEventListener("change", update);
+
+    return () => media.removeEventListener("change", update);
+  }, []);
   // const HeaderLinks = [
   //   {
   //     icon: <img width="24" src="/placeholder/icon.jpg" alt="" />,
@@ -47,12 +63,18 @@ export default function header({
     <>
       <header className={styles.header}>
         <nav className={styles.left}>
-          <div className={styles.backgroundTitle}>
+          <button
+            className={styles.backgroundTitle}
+            disabled={isDesktop}
+            onClick={() => {
+              setShowSidebar(!showSidebar);
+            }}
+          >
             <span className={styles.title}>
               {icon}
               <span className={styles.titleSpan}>{title}</span>
             </span>
-          </div>
+          </button>
         </nav>
         <nav className={styles.center}>
           <div>

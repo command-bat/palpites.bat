@@ -17,12 +17,17 @@ import {
 export default function RootLayout({ children }) {
   const [page, setPage] = useState("home");
   const [icon, setIcon] = useState(<FaHouse />);
-  const [showSidebar, setShowSidebar] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   return (
     <html lang="pt-br">
       <body className={styles.body}>
-        <Header title={page} icon={icon} setShowSidebar={setShowSidebar} />
+        <Header
+          title={page}
+          icon={icon}
+          setShowSidebar={setShowSidebar}
+          showSidebar={showSidebar}
+        />
         <Sidebar
           showSidebar={showSidebar}
           setPage={setPage}

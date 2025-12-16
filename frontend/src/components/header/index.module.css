@@ -45,7 +45,7 @@
     display: none;
   }
 }
-@container (max-width: 600px) {
+@container (max-width: 767px) {
   .center {
     display: none;
   }
@@ -126,6 +126,8 @@
 }
 
 .backgroundTitle {
+  all: unset;
+  cursor: pointer;
   background-color: var(--color_primary);
   padding: 5px;
   padding-right: 15px;
