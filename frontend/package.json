@@ -8,7 +8,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "next": "16.0.7",
+    "js-cookie": "^3.0.0-rc.0",
+    "next": "^16.0.10",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-icons": "^5.5.0"
