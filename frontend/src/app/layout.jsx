@@ -19,8 +19,14 @@ export default function RootLayout({ children }) {
   const [icon, setIcon] = useState(<FaHouse />);
   const [showSidebar, setShowSidebar] = useState(false);
 
+  useEffect(() => {
+    document.title = `Palpites.bat - ${page}`;
+  }, [page]);
   return (
     <html lang="pt-br">
+      <head>
+        <link rel="icon" type="image/jpg" href="/placeholder/icon.jpg"></link>
+      </head>
       <body className={styles.body}>
         <Header
           title={page}
