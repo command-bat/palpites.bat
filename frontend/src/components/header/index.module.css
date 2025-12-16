@@ -9,11 +9,13 @@
   justify-content: space-between;
   height: fit-content;
   width: -webkit-fill-available;
+  container-type: inline-size;
 }
-.nav {
-  width: -webkit-fill-available;
-  display: flex;
-  justify-content: space-between;
+.left,
+.center,
+.right {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 .left {
   display: flex;
@@ -35,6 +37,18 @@
   right: 50%;
   left: 50%;
   place-self: center;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+@container (max-width: 400px) {
+  .titleSpan {
+    display: none;
+  }
+}
+@container (max-width: 600px) {
+  .center {
+    display: none;
+  }
 }
 .right {
   display: flex;

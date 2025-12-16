@@ -50,7 +50,7 @@ export default function header({
           <div className={styles.backgroundTitle}>
             <span className={styles.title}>
               {icon}
-              {title}
+              <span className={styles.titleSpan}>{title}</span>
             </span>
           </div>
         </nav>
