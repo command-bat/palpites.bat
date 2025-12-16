@@ -19,8 +19,11 @@ export default function RootLayout({ children }) {
   const [icon, setIcon] = useState(<FaHouse />);
   const [showSidebar, setShowSidebar] = useState(false);
 
+  const capitalize = (str) =>
+    str ? str.substring(0, 1).toUpperCase() + str.substring(1) : "";
+
   useEffect(() => {
-    document.title = `Palpites.bat - ${page}`;
+    document.title = `Palpites.bat - ${capitalize(page)}`;
   }, [page]);
   return (
     <html lang="pt-br">
