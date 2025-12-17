@@ -1,12 +1,13 @@
-:root {
+:root,
+:root[data-theme="light"] {
   --background: #ffffff;
   --background-secondary: #151e2e; /*alterar*/
 
-  --background-select: #172133;
+  --background-select: #0b131e;
 
   --detais: #182133;
-  --color_primary: #6634de;
-  --color_secondary: #15815e;
+  --color_primary: #15815e;
+  --color_secondary: #6634de;
 
   --text_select: #fff;
   --text_unselect: #6a798b;
@@ -19,13 +20,32 @@
     --background: #151e2e;
     --background-secondary: #0b131e;
 
+    --background-select: #172133;
+
     --detais: #182133;
     --color_primary: #6634de;
     --color_secondary: #15815e;
 
     --text_select: #fff;
     --text_unselect: #6a798b;
+
+    --shadows: rgba(0, 0, 0, 0.1);
   }
+}
+:root[data-theme="dark"] {
+  --background: #151e2e;
+  --background-secondary: #0b131e;
+
+  --background-select: #172133;
+
+  --detais: #182133;
+  --color_primary: #6634de;
+  --color_secondary: #15815e;
+
+  --text_select: #fff;
+  --text_unselect: #6a798b;
+
+  --shadows: rgba(0, 0, 0, 0.1);
 }
 
 html,

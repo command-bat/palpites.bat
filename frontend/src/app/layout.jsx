@@ -5,16 +5,6 @@ import Header from "../components/header";
 import Sidebar from "../components/sidebar";
 import styles from "@/app/layout.module.css";
 import Cookies from "js-cookie";
-import {
-  FaHouse,
-  FaSquareCheck,
-  FaUserGroup,
-  FaRegClock,
-  FaChartSimple,
-  FaUser,
-  FaMoon,
-  FaSun,
-} from "react-icons/fa6";
 export default function RootLayout({ children }) {
   const [page, setPage] = useState(
     Cookies.get("page") ? Cookies.get("page") : "home"
@@ -35,7 +25,6 @@ export default function RootLayout({ children }) {
       </head>
       <body className={styles.body}>
         <Header
-          title={page}
           icon={icon}
           setShowSidebar={setShowSidebar}
           showSidebar={showSidebar}

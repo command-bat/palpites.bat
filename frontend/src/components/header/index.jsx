@@ -5,13 +5,36 @@ import { useEffect, useState, useRef } from "react";
 import Icon from "../icon";
 import Cookies from "js-cookie";
 
-export default function header({
-  title = Cookies.get("page"),
-  setShowSidebar,
-  showSidebar,
-}) {
+export default function header({ setShowSidebar, showSidebar }) {
+  const [title, setTitle] = useState("home");
   const [chosenDarkMode, setChosenDarkMode] = useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
+
+  useEffect(() => {
+    setTitle(Cookies.get("page") || "home");
+  }, []);
+
+  useEffect(() => {
+    const savedTheme = Cookies.get("theme");
+
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+      setChosenDarkMode(savedTheme === "dark");
+    } else {
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      setChosenDarkMode(prefersDark);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (chosenDarkMode === null) return;
+
+    const theme = chosenDarkMode ? "dark" : "light";
+    document.documentElement.dataset.theme = theme;
+    Cookies.set("theme", theme, { expires: 365 });
+  }, [chosenDarkMode]);
 
   useEffect(() => {
     const media = window.matchMedia(

@@ -136,7 +136,10 @@
   padding: 5px;
   padding-right: 15px;
   border-radius: 5px 15px 15px 5px;
+  width: min-content;
+  transition: max-width 0.03s ease;
 }
+
 .backgroundTitle .title {
   gap: 10px;
   display: inline-flex;
