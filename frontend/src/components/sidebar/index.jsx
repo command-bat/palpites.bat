@@ -26,15 +26,10 @@ export default function sidebar({
 
     const interval = setInterval(() => {
       const page = Cookies.get("page") || "home";
-
+      setChosenTargetPage(page);
       if (page !== lastPage) {
-        // 1️⃣ Atualiza a página escolhida
-        setChosenTargetPage(page);
-
-        // 2️⃣ Inverte o showSidebar
         setShowSidebar((prev) => !prev);
 
-        // 3️⃣ Atualiza lastPage
         lastPage = page;
       }
     }, 500);
@@ -51,7 +46,7 @@ export default function sidebar({
       setIsDesktop(!media.matches);
     };
 
-    update(); // estado inicial
+    update();
     media.addEventListener("change", update);
 
     return () => media.removeEventListener("change", update);

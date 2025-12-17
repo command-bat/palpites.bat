@@ -14,7 +14,7 @@ export default function header({ setShowSidebar, showSidebar }) {
     const interval = setInterval(() => {
       const page = Cookies.get("page") || "home";
       setTitle((prev) => (prev !== page ? page : prev));
-    }, 650); // checa a cada meio segundo
+    }, 650);
 
     return () => clearInterval(interval);
   }, []);
@@ -50,7 +50,7 @@ export default function header({ setShowSidebar, showSidebar }) {
       setIsDesktop(!media.matches);
     };
 
-    update(); // estado inicial
+    update();
     media.addEventListener("change", update);
 
     return () => media.removeEventListener("change", update);
