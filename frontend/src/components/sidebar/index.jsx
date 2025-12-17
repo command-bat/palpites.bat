@@ -14,18 +14,59 @@ import Icon from "../icon";
 export default function sidebar({
   page = "home",
   showSidebar = false,
+  setShowSidebar,
   setPage,
   setIcon,
 }) {
-  const [chosenTargetPage, setChosenTargetPage] = useState(
-    Cookies.get("page") ? Cookies.get("page") : "home"
-  );
+  const [chosenTargetPage, setChosenTargetPage] = useState("home");
+  const [isDesktop, setIsDesktop] = useState(true);
 
+  useEffect(() => {
+    let lastPage = Cookies.get("page") || "home";
+
+    const interval = setInterval(() => {
+      const page = Cookies.get("page") || "home";
+
+      if (page !== lastPage) {
+        // 1️⃣ Atualiza a página escolhida
+        setChosenTargetPage(page);
+
+        // 2️⃣ Inverte o showSidebar
+        setShowSidebar((prev) => !prev);
+
+        // 3️⃣ Atualiza lastPage
+        lastPage = page;
+      }
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, [setShowSidebar]);
+
+  useEffect(() => {
+    const media = window.matchMedia(
+      "(width <= 767px) and (orientation: portrait)"
+    );
+
+    const update = () => {
+      setIsDesktop(!media.matches);
+    };
+
+    update(); // estado inicial
+    media.addEventListener("change", update);
+
+    return () => media.removeEventListener("change", update);
+  }, []);
   // className={styles.}
 
   return (
     <>
-      <div className={showSidebar ? styles.mobile : styles.desktop}>
+      <div
+        className={
+          isDesktop
+            ? styles.desktop
+            : styles.mobile + " " + (showSidebar ? styles.open : styles.close)
+        }
+      >
         <div className={styles.sidebar}>
           <div>
             <input
@@ -50,100 +91,100 @@ export default function sidebar({
 
           <div>
             <input
-              checked={chosenTargetPage == "guesses"}
+              checked={chosenTargetPage == "palpites"}
               type={"radio"}
               name={"sidebarSelect"}
               id={"sidebarSelectGuesses"}
-              value={"guesses"}
+              value={"palpites"}
               onChange={() => {
-                setChosenTargetPage("guesses");
+                setChosenTargetPage("palpites");
                 setPage("palpites");
-                Cookies.set("page", "guesses");
+                Cookies.set("page", "palpites");
               }}
             />
             <label htmlFor="sidebarSelectGuesses">
               <div>
-                <Icon icon={"guesses"} className={styles.icon} />
+                <Icon icon={"palpites"} className={styles.icon} />
               </div>
               <span>Palpites</span>
             </label>
           </div>
           <div>
             <input
-              checked={chosenTargetPage == "friends"}
+              checked={chosenTargetPage == "amigos"}
               type={"radio"}
               name={"sidebarSelect"}
               id={"sidebarSelectFriends"}
-              value={"friends"}
+              value={"amigos"}
               onChange={() => {
-                setChosenTargetPage("friends");
+                setChosenTargetPage("amigos");
                 setPage("amigos");
-                Cookies.set("page", "friends");
+                Cookies.set("page", "amigos");
               }}
             />
             <label htmlFor="sidebarSelectFriends">
               <div>
-                <Icon icon={"friends"} className={styles.icon} />
+                <Icon icon={"amigos"} className={styles.icon} />
               </div>
               <span>Amigos</span>
             </label>
           </div>
           <div>
             <input
-              checked={chosenTargetPage == "history"}
+              checked={chosenTargetPage == "historico"}
               type={"radio"}
               name={"sidebarSelect"}
               id={"sidebarSelectHistory"}
-              value={"history"}
+              value={"historico"}
               onChange={() => {
-                setChosenTargetPage("history");
+                setChosenTargetPage("historico");
                 setPage("historico");
-                Cookies.set("page", "history");
+                Cookies.set("page", "historico");
               }}
             />
             <label htmlFor="sidebarSelectHistory">
               <div>
-                <Icon icon={"history"} className={styles.icon} />
+                <Icon icon={"historico"} className={styles.icon} />
               </div>
               <span>Historico</span>
             </label>
           </div>
           <div>
             <input
-              checked={chosenTargetPage == "comparator"}
+              checked={chosenTargetPage == "comparador"}
               type={"radio"}
               name={"sidebarSelect"}
               id={"sidebarSelectComparator"}
-              value={"comparator"}
+              value={"comparador"}
               onChange={() => {
-                setChosenTargetPage("comparator");
+                setChosenTargetPage("comparador");
                 setPage("comparador");
-                Cookies.set("page", "comparator");
+                Cookies.set("page", "comparador");
               }}
             />
             <label htmlFor="sidebarSelectComparator">
               <div>
-                <Icon icon={"comparator"} className={styles.icon} />
+                <Icon icon={"comparador"} className={styles.icon} />
               </div>
               <span> Comparador</span>
             </label>
           </div>
           <div>
             <input
-              checked={chosenTargetPage == "profile"}
+              checked={chosenTargetPage == "perfil"}
               type={"radio"}
               name={"sidebarSelect"}
               id={"sidebarSelectProfile"}
-              value={"profile"}
+              value={"perfil"}
               onChange={() => {
-                setChosenTargetPage("profile");
+                setChosenTargetPage("perfil");
                 setPage("perfil");
-                Cookies.set("page", "profile");
+                Cookies.set("page", "perfil");
               }}
             />
             <label htmlFor="sidebarSelectProfile">
               <div>
-                <Icon icon={"profile"} className={styles.icon} />
+                <Icon icon={"perfil"} className={styles.icon} />
               </div>
               <span>Perfil</span>
             </label>

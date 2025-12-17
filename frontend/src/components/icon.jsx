@@ -15,9 +15,6 @@ import {
 export default function icon({ icon = "house", ...className }) {
   const icons = {
     home: <FaHouse {...(className ? (className = { className }) : "")} />,
-    guesses: (
-      <FaSquareCheck {...(className ? (className = { className }) : "")} />
-    ),
     palpites: (
       <FaSquareCheck {...(className ? (className = { className }) : "")} />
     ),
@@ -25,17 +22,12 @@ export default function icon({ icon = "house", ...className }) {
       <FaUserGroup {...(className ? (className = { className }) : "")} />
     ),
     amigos: <FaUserGroup {...(className ? (className = { className }) : "")} />,
-    history: <FaRegClock {...(className ? (className = { className }) : "")} />,
     historico: (
       <FaRegClock {...(className ? (className = { className }) : "")} />
-    ),
-    comparator: (
-      <FaChartSimple {...(className ? (className = { className }) : "")} />
     ),
     comparador: (
       <FaChartSimple {...(className ? (className = { className }) : "")} />
     ),
-    profile: <FaUser {...(className ? (className = { className }) : "")} />,
     perfil: <FaUser {...(className ? (className = { className }) : "")} />,
     moon: <FaMoon {...(className ? (className = { className }) : "")} />,
     sun: <FaSun {...(className ? (className = { className }) : "")} />,

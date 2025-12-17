@@ -30,9 +30,10 @@ export default function RootLayout({ children }) {
           showSidebar={showSidebar}
         />
         <Sidebar
-          showSidebar={showSidebar}
           setPage={setPage}
           setIcon={setIcon}
+          setShowSidebar={setShowSidebar}
+          showSidebar={showSidebar}
         />
         <div
           style={{

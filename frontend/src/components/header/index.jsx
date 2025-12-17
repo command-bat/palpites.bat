@@ -11,7 +11,12 @@ export default function header({ setShowSidebar, showSidebar }) {
   const [isDesktop, setIsDesktop] = useState(true);
 
   useEffect(() => {
-    setTitle(Cookies.get("page") || "home");
+    const interval = setInterval(() => {
+      const page = Cookies.get("page") || "home";
+      setTitle((prev) => (prev !== page ? page : prev));
+    }, 650); // checa a cada meio segundo
+
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -87,7 +92,7 @@ export default function header({ setShowSidebar, showSidebar }) {
               setChosenDarkMode(!chosenDarkMode);
             }}
           >
-            {chosenDarkMode ? <Icon icon={"moon"} /> : <Icon icon={"sun"} />}
+            {!chosenDarkMode ? <Icon icon={"moon"} /> : <Icon icon={"sun"} />}
           </button>
           <div className={styles.btn_login}>
             <p>Login</p>

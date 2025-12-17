@@ -98,14 +98,10 @@
   }
 }
 
-@media (width <= 767px) and (orientation: portrait),
-  (hover: none) and (pointer: coarse) and (orientation: portrait) {
-  .desktop {
-    display: none !important;
-  }
+.open {
+  display: flex !important;
 }
-@media (width >= 767px) {
-  .mobile {
-    display: none !important;
-  }
+
+.close {
+  display: none !important;
 }
