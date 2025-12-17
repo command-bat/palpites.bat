@@ -17,7 +17,9 @@ export default function sidebar({
   setPage,
   setIcon,
 }) {
-  const [chosenTargetPage, setChosenTargetPage] = useState(Cookies.get("page"));
+  const [chosenTargetPage, setChosenTargetPage] = useState(
+    Cookies.get("page") ? Cookies.get("page") : "home"
+  );
 
   // className={styles.}
 

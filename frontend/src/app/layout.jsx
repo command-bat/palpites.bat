@@ -16,7 +16,9 @@ import {
   FaSun,
 } from "react-icons/fa6";
 export default function RootLayout({ children }) {
-  const [page, setPage] = useState(Cookies.get("page"));
+  const [page, setPage] = useState(
+    Cookies.get("page") ? Cookies.get("page") : "home"
+  );
   const [icon, setIcon] = useState(Cookies.get("icon"));
   const [showSidebar, setShowSidebar] = useState(false);
 
