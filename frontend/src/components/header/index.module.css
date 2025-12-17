@@ -41,6 +41,10 @@
   min-width: 0;
 }
 @container (max-width: 400px) {
+  .backgroundTitle {
+    cursor: pointer;
+  }
+
   .titleSpan {
     display: none;
   }
@@ -88,7 +92,7 @@
   justify-content: center;
   flex-wrap: nowrap;
   flex-direction: row;
-  cursor: pointer;
+  cursor: default;
   font-size: large;
   gap: 10px;
 }
@@ -127,7 +131,7 @@
 
 .backgroundTitle {
   all: unset;
-  cursor: pointer;
+  cursor: default;
   background-color: var(--color_primary);
   padding: 5px;
   padding-right: 15px;

@@ -1,6 +1,5 @@
 "use client";
 import {
-  FaHouse,
   FaSquareCheck,
   FaUserGroup,
   FaRegClock,
@@ -9,6 +8,8 @@ import {
 } from "react-icons/fa6";
 import styles from "./index.module.css";
 import { useEffect, useState, useRef } from "react";
+import Cookies from "js-cookie";
+import Icon from "../icon";
 
 export default function sidebar({
   page = "home",
@@ -16,7 +17,7 @@ export default function sidebar({
   setPage,
   setIcon,
 }) {
-  const [chosenTargetPage, setChosenTargetPage] = useState(page);
+  const [chosenTargetPage, setChosenTargetPage] = useState(Cookies.get("page"));
 
   // className={styles.}
 
@@ -34,12 +35,12 @@ export default function sidebar({
               onChange={() => {
                 setChosenTargetPage("home");
                 setPage("home");
-                setIcon(<FaHouse />);
+                Cookies.set("page", "home");
               }}
             />
             <label htmlFor="sidebarSelectHome">
               <div>
-                <FaHouse className={styles.icon} />
+                <Icon icon={"home"} className={styles.icon} />
               </div>
               <span>Home</span>
             </label>
@@ -55,12 +56,12 @@ export default function sidebar({
               onChange={() => {
                 setChosenTargetPage("guesses");
                 setPage("palpites");
-                setIcon(<FaSquareCheck />);
+                Cookies.set("page", "guesses");
               }}
             />
             <label htmlFor="sidebarSelectGuesses">
               <div>
-                <FaSquareCheck className={styles.icon} />
+                <Icon icon={"guesses"} className={styles.icon} />
               </div>
               <span>Palpites</span>
             </label>
@@ -75,12 +76,12 @@ export default function sidebar({
               onChange={() => {
                 setChosenTargetPage("friends");
                 setPage("amigos");
-                setIcon(<FaUserGroup />);
+                Cookies.set("page", "friends");
               }}
             />
             <label htmlFor="sidebarSelectFriends">
               <div>
-                <FaUserGroup className={styles.icon} />
+                <Icon icon={"friends"} className={styles.icon} />
               </div>
               <span>Amigos</span>
             </label>
@@ -95,12 +96,12 @@ export default function sidebar({
               onChange={() => {
                 setChosenTargetPage("history");
                 setPage("historico");
-                setIcon(<FaRegClock />);
+                Cookies.set("page", "history");
               }}
             />
             <label htmlFor="sidebarSelectHistory">
               <div>
-                <FaRegClock className={styles.icon} />
+                <Icon icon={"history"} className={styles.icon} />
               </div>
               <span>Historico</span>
             </label>
@@ -115,12 +116,12 @@ export default function sidebar({
               onChange={() => {
                 setChosenTargetPage("comparator");
                 setPage("comparador");
-                setIcon(<FaChartSimple />);
+                Cookies.set("page", "comparator");
               }}
             />
             <label htmlFor="sidebarSelectComparator">
               <div>
-                <FaChartSimple className={styles.icon} />
+                <Icon icon={"comparator"} className={styles.icon} />
               </div>
               <span> Comparador</span>
             </label>
@@ -135,12 +136,12 @@ export default function sidebar({
               onChange={() => {
                 setChosenTargetPage("profile");
                 setPage("perfil");
-                setIcon(<FaUser />);
+                Cookies.set("page", "profile");
               }}
             />
             <label htmlFor="sidebarSelectProfile">
               <div>
-                <FaUser className={styles.icon} />
+                <Icon icon={"profile"} className={styles.icon} />
               </div>
               <span>Perfil</span>
             </label>

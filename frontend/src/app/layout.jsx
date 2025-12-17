@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "../components/header";
 import Sidebar from "../components/sidebar";
 import styles from "@/app/layout.module.css";
+import Cookies from "js-cookie";
 import {
   FaHouse,
   FaSquareCheck,
@@ -15,8 +16,8 @@ import {
   FaSun,
 } from "react-icons/fa6";
 export default function RootLayout({ children }) {
-  const [page, setPage] = useState("home");
-  const [icon, setIcon] = useState(<FaHouse />);
+  const [page, setPage] = useState(Cookies.get("page"));
+  const [icon, setIcon] = useState(Cookies.get("icon"));
   const [showSidebar, setShowSidebar] = useState(false);
 
   const capitalize = (str) =>

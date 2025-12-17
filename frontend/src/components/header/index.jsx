@@ -2,20 +2,11 @@
 import Link from "next/link";
 import styles from "./index.module.css";
 import { useEffect, useState, useRef } from "react";
-import {
-  FaHouse,
-  FaSquareCheck,
-  FaUserGroup,
-  FaRegClock,
-  FaChartSimple,
-  FaUser,
-  FaMoon,
-  FaSun,
-} from "react-icons/fa6";
+import Icon from "../icon";
+import Cookies from "js-cookie";
 
 export default function header({
-  title = "home",
-  icon = <FaHouse />,
+  title = Cookies.get("page"),
   setShowSidebar,
   showSidebar,
 }) {
@@ -36,28 +27,6 @@ export default function header({
 
     return () => media.removeEventListener("change", update);
   }, []);
-  // const HeaderLinks = [
-  //   {
-  //     icon: <img width="24" src="/placeholder/icon.jpg" alt="" />,
-  //     label: "Palpites.bat",
-  //     href: "/",
-  //   },
-  //   {
-  //     label: "Admin",
-  //     href: "/admin",
-  //   },
-  // ];
-
-  // {
-  //   HeaderLinks.map(({ label, href, icon }) => (
-  //     <Link href={href} key={href}>
-  //       {icon ? icon : ""}
-  //       <span>{label}</span>
-  //     </Link>
-  //   ));
-  // }
-
-  // className={styles.}
 
   return (
     <>
@@ -71,7 +40,9 @@ export default function header({
             }}
           >
             <span className={styles.title}>
-              {icon}
+              <Icon
+                icon={isDesktop ? title : !showSidebar ? "menu" : "menuOpen"}
+              />
               <span className={styles.titleSpan}>{title}</span>
             </span>
           </button>
@@ -93,7 +64,7 @@ export default function header({
               setChosenDarkMode(!chosenDarkMode);
             }}
           >
-            {chosenDarkMode ? <FaMoon /> : <FaSun />}
+            {chosenDarkMode ? <Icon icon={"moon"} /> : <Icon icon={"sun"} />}
           </button>
           <div className={styles.btn_login}>
             <p>Login</p>
