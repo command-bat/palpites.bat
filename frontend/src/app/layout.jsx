@@ -16,13 +16,11 @@ export default function RootLayout({ children }) {
     str ? str.substring(0, 1).toUpperCase() + str.substring(1) : "";
 
   useEffect(() => {
-    document.title = `Palpites.bat - ${capitalize(page)}`;
+    document.title = `Palpites.bat${page ? " - " + capitalize(page) : ""}`;
   }, [page]);
   return (
     <html lang="pt-br">
-      <head>
-        <link rel="icon" type="image/jpg" href="/placeholder/icon.jpg"></link>
-      </head>
+      <head></head>
       <body className={styles.body}>
         <Header
           icon={icon}
