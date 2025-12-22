@@ -63,6 +63,7 @@
     width: fit-content;
     height: 100vh;
     position: fixed;
+    z-index: -10;
     padding: 15px;
     gap: 5px;
     background-color: var(--background-secondary);

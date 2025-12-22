@@ -1,11 +1,4 @@
 "use client";
-import {
-  FaSquareCheck,
-  FaUserGroup,
-  FaRegClock,
-  FaChartSimple,
-  FaUser,
-} from "react-icons/fa6";
 import styles from "./index.module.css";
 import { useEffect, useState, useRef } from "react";
 import Cookies from "js-cookie";

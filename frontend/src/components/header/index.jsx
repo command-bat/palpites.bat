@@ -4,11 +4,13 @@ import styles from "./index.module.css";
 import { useEffect, useState, useRef } from "react";
 import Icon from "../icon";
 import Cookies from "js-cookie";
+import LoginPopup from "../popups/login_register";
 
 export default function header({ setShowSidebar, showSidebar }) {
   const [title, setTitle] = useState("home");
   const [chosenDarkMode, setChosenDarkMode] = useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
+  const [showLogin, setShowLogin] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -94,11 +96,10 @@ export default function header({ setShowSidebar, showSidebar }) {
           >
             {!chosenDarkMode ? <Icon icon={"moon"} /> : <Icon icon={"sun"} />}
           </button>
-          <div className={styles.btn_login}>
+
+          {showLogin && <LoginPopup onClose={() => setShowLogin(false)} />}
+          <div className={styles.btn_login} onClick={() => setShowLogin(true)}>
             <p>Login</p>
-          </div>
-          <div className={styles.btn_register}>
-            <p>Registrar</p>
           </div>
         </nav>
       </header>

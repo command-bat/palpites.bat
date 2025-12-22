@@ -1,0 +1,202 @@
+/* ================= OVERLAY ================= */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 19, 30, 0.75);
+  backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* ================= POPUP BASE ================= */
+
+.popup {
+  position: relative;
+  width: 380px;
+  padding: 28px;
+  border-radius: 22px;
+
+  background: linear-gradient(
+    180deg,
+    var(--background),
+    var(--background-secondary)
+  );
+
+  backdrop-filter: blur(22px);
+  overflow: hidden;
+
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.65);
+
+  animation: popupIn 0.35s ease-out;
+}
+
+/* ================= BORDA NEON GIRANDO ================= */
+
+.popup::before {
+  content: "";
+  position: absolute;
+  width: 220%;
+  height: 220%;
+  top: -60%;
+  left: -60%;
+
+  background: conic-gradient(
+    from 0deg,
+    var(--color_secondary),
+    var(--color_primary),
+    var(--color_secondary)
+  );
+
+  animation: rotateBorder 6s linear infinite;
+  filter: blur(20px);
+  opacity: 0.85;
+
+  z-index: 0;
+}
+
+/* ================= MÁSCARA INTERNA ================= */
+
+.popup::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 20px;
+
+  background: linear-gradient(
+    180deg,
+    var(--background),
+    var(--background-secondary)
+  );
+
+  z-index: 1;
+}
+
+/* ================= CONTEÚDO ACIMA ================= */
+
+.popup > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ================= BOTÃO FECHAR ================= */
+
+.close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+
+  border: none;
+  background: var(--detais);
+  color: var(--text_select);
+
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.close:hover {
+  background: var(--background-select);
+}
+
+/* ================= TEXTOS ================= */
+
+.title {
+  text-align: center;
+  font-size: 26px;
+  color: var(--text_select);
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text_unselect);
+  margin-bottom: 24px;
+}
+
+/* ================= BOTÕES ================= */
+
+.googleBtn,
+.discordBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px;
+  border-radius: 14px;
+
+  text-decoration: none;
+  font-weight: 600;
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* ---- GOOGLE ---- */
+
+.googleBtn {
+  background: var(--text_select);
+  color: #111;
+  margin-bottom: 14px;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.googleBtn img {
+  width: 22px;
+}
+
+/* ---- DISCORD ---- */
+
+.discordBtn {
+  background: linear-gradient(135deg, var(--color_primary), #4b1cb8);
+
+  color: var(--text_select);
+
+  box-shadow: 0 14px 35px rgba(102, 52, 222, 0.55);
+}
+
+.discordBtn img {
+  width: 22px;
+  filter: brightness(1.15);
+}
+
+/* ================= HOVER ================= */
+
+.googleBtn:hover,
+.discordBtn:hover {
+  transform: translateY(-2px);
+}
+
+/* ================= FOOTER ================= */
+
+.footer {
+  margin-top: 18px;
+  font-size: 12px;
+  color: var(--text_unselect);
+  text-align: center;
+}
+
+/* ================= ANIMAÇÕES ================= */
+
+@keyframes rotateBorder {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes popupIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
