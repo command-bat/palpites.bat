@@ -29,7 +29,7 @@ export default function login_register({ onClose }) {
             Entrar com o Discord
           </a>
 
-          <p className={styles.footer}>Não ficará nada público em sua conta.</p>
+          {/* <p className={styles.footer}>Não ficará nada público em sua conta.</p> */}
         </div>
       </div>
     </>

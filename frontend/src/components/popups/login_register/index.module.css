@@ -152,11 +152,12 @@
   color: #111;
   margin-bottom: 14px;
 
-  box-shadow: 0 14px 35px rgb(124, 124, 124);
+  /* box-shadow: 0 14px 35px rgb(124, 124, 124); */
 }
 
 .googleBtn img {
   width: 22px;
+  filter: brightness(1.15) drop-shadow(0 0 1px rgba(0, 0, 0, 0.7));
 }
 
 /* ---- DISCORD ---- */
@@ -166,12 +167,12 @@
 
   color: var(--text_select);
 
-  box-shadow: 0 14px 35px #6634de;
+  /* box-shadow: 0 14px 35px #6634de; */
 }
 
 .discordBtn img {
   width: 22px;
-  filter: brightness(1.15);
+  filter: brightness(1.15) drop-shadow(0 0 1px rgba(0, 0, 0, 0.2));
 }
 
 /* ================= HOVER ================= */
