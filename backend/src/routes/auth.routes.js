@@ -1,62 +1,49 @@
 const router = require("express").Router();
 const passport = require("passport");
+const { generateToken } = require("../utils/jwt");
 
-// =====================
 // GOOGLE
-// =====================
-router.get(
-    "/google",
-    passport.authenticate("google", { scope: ["profile", "email"] })
-);
+router.get("/google", passport.authenticate("google", { scope: ["email", "profile"] }));
 
 router.get(
     "/google/callback",
-    passport.authenticate("google", {
-        failureRedirect: "/auth/failure",
-        session: true,
-    }),
-    (_req, res) => {
-        res.redirect("/auth/success");
+    passport.authenticate("google", { session: false }),
+    (req, res) => {
+        const token = generateToken(req.user);
+
+        res.cookie("auth_token", token, {
+            httpOnly: true,
+            sameSite: "lax",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+
+        res.redirect(process.env.FRONTEND_URL || "/");
     }
 );
 
-// =====================
 // DISCORD
-// =====================
-router.get(
-    "/discord",
-    passport.authenticate("discord")
-);
+router.get("/discord", passport.authenticate("discord"));
 
 router.get(
     "/discord/callback",
-    passport.authenticate("discord", {
-        failureRedirect: "/auth/failure",
-        session: true,
-    }),
-    (_req, res) => {
-        res.redirect("/auth/success");
+    passport.authenticate("discord", { session: false }),
+    (req, res) => {
+        const token = generateToken(req.user);
+
+        res.cookie("auth_token", token, {
+            httpOnly: true,
+            sameSite: "lax",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+
+        res.redirect(process.env.FRONTEND_URL || "/");
     }
 );
 
-// =====================
-// STATUS
-// =====================
-router.get("/success", (req, res) => {
-    res.json({
-        message: "Authenticated",
-        user: req.user,
-    });
-});
-
-router.get("/failure", (_req, res) => {
-    res.status(401).json({ message: "Authentication failed" });
-});
-
-router.get("/logout", (req, res) => {
-    req.logout(() => {
-        res.json({ message: "Logged out" });
-    });
+// LOGOUT
+router.get("/logout", (_req, res) => {
+    res.clearCookie("auth_token");
+    res.json({ message: "Logged out" });
 });
 
 module.exports = router;

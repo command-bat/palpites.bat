@@ -9,28 +9,25 @@ exports.getMatchById = async (req, res) => {
         return res.status(404).json({ message: "Match not found" });
     }
 
-    // Jogo ainda não ocorreu
     if (match.status !== "FINISHED") {
         return res.json({
             matchId: match.matchId,
-            date: match.utcDate,
+            date: match.date,
             teams: {
-                home: match.homeTeam.name,
-                away: match.awayTeam.name,
+                home: match.homeTeam,
+                away: match.awayTeam,
             },
             status: "NOT_PLAYED",
         });
     }
 
-    // Jogo já ocorreu
     return res.json({
         matchId: match.matchId,
-        date: match.utcDate,
+        date: match.date,
         teams: {
-            home: match.homeTeam.name,
-            away: match.awayTeam.name,
+            home: match.homeTeam,
+            away: match.awayTeam,
         },
-        winner: match.score.winner,
         status: "FINISHED",
     });
 };
