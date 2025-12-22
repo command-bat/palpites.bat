@@ -143,6 +143,8 @@
   font-weight: 600;
 
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  overflow: hidden;
 }
 
 /* ---- GOOGLE ---- */
