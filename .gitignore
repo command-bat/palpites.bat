@@ -1,1 +1,3 @@
-routes.http
+.*
+*/.*
+*node_modules
