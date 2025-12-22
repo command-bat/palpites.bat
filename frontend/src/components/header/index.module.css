@@ -1,8 +1,5 @@
 .header {
   position: fixed;
-  * {
-    color: var(--text_select);
-  }
   background-color: var(--background-secondary);
   display: flex;
   align-items: center;
@@ -39,6 +36,7 @@
   place-self: center;
   flex: 1 1 auto;
   min-width: 0;
+  color: var(--text);
 }
 @container (max-width: 400px) {
   .backgroundTitle {
@@ -108,13 +106,13 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  color: var(--color_primary) !important;
+  /* color: var(--color_primary) !important; */
+  color: var(--text) !important;
 }
 
 .switchTheme svg {
   height: 1.75em;
   width: 1.75em;
-  color: var(--color_primary) !important;
 }
 
 .iconSite {

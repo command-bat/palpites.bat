@@ -4,6 +4,7 @@
   position: fixed;
   inset: 0;
   background: rgba(11, 19, 30, 0.75);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   display: flex;
   align-items: center;
@@ -25,6 +26,7 @@
     var(--background-secondary)
   );
 
+  -webkit-backdrop-filter: blur(22px);
   backdrop-filter: blur(22px);
   overflow: hidden;
 
@@ -92,16 +94,22 @@
   height: 34px;
   border-radius: 50%;
 
-  border: none;
-  background: var(--detais);
-  color: var(--text_select);
+  border-color: var(--text);
+  border-width: 1px;
+  border-style: solid;
+
+  background: var(--background-secondary);
+  opacity: 0.7;
+  color: var(--text);
 
   cursor: pointer;
   transition: background 0.2s ease;
+
+  z-index: 100;
 }
 
 .close:hover {
-  background: var(--background-select);
+  background: var(--background);
 }
 
 /* ================= TEXTOS ================= */
@@ -109,7 +117,7 @@
 .title {
   text-align: center;
   font-size: 26px;
-  color: var(--text_select);
+  color: var(--text);
   margin-bottom: 6px;
 }
 
@@ -144,7 +152,7 @@
   color: #111;
   margin-bottom: 14px;
 
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 14px 35px rgb(124, 124, 124);
 }
 
 .googleBtn img {
@@ -154,11 +162,11 @@
 /* ---- DISCORD ---- */
 
 .discordBtn {
-  background: linear-gradient(135deg, var(--color_primary), #4b1cb8);
+  background: #6634de;
 
   color: var(--text_select);
 
-  box-shadow: 0 14px 35px rgba(102, 52, 222, 0.55);
+  box-shadow: 0 14px 35px #6634de;
 }
 
 .discordBtn img {
