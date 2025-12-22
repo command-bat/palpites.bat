@@ -71,6 +71,8 @@
     flex-direction: column;
     top: 68px;
     color: var(--text_unselect);
+    z-index: -10;
+    position: absolute;
 
     div {
       display: flex;
