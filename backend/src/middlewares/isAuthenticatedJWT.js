@@ -1,17 +1,17 @@
 const jwt = require("jsonwebtoken");
 
-module.exports = function isAuthenticatedJWT(req, res, next) {
-    const token = req.cookies?.auth_token;
+module.exports = function isAuthenticated(req, res, next) {
+    const token = req.cookies.auth_token;
 
     if (!token) {
-        return res.status(401).json({ message: "Unauthorized" });
+        return res.status(401).json({ message: "Não autenticado" });
     }
 
     try {
         const decoded = jwt.verify(token, process.env.SESSION_SECRET);
-        req.user = decoded;
+        req.user = decoded; // contém { id, email }
         next();
     } catch {
-        return res.status(401).json({ message: "Invalid token" });
+        return res.status(401).json({ message: "Token inválido" });
     }
 };

@@ -17,8 +17,8 @@ export function AuthProvider({ children }) {
       if (!res.ok) throw new Error("Not authenticated");
 
       const data = await res.json();
-      console.log("Usuário logado:", data.user); // 👈 console pedido
-      setUser(data.user);
+      console.log("Usuário logado:", data); // 👈 console pedido
+      setUser(data);
     } catch {
       setUser(null);
     } finally {
