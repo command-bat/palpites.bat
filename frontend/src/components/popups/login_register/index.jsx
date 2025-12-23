@@ -1,7 +1,7 @@
 import styles from "./index.module.css";
 
 export default function login_register({ onClose }) {
-  const LINK = process.env.BACKEND_URL;
+  const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
 
   return (
     <>
