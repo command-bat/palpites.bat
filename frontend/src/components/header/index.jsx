@@ -112,9 +112,18 @@ export default function header({ setShowSidebar, showSidebar }) {
                 </div>
               </>
             ) : (
-              <div onClick={logout} className={styles.btn_login}>
-                <p>Logout</p>
-              </div>
+              <>
+                <div>
+                  <img
+                    src={user?.avatar}
+                    alt="useravatar"
+                    style={{ width: "34px" }}
+                  />
+                </div>
+                <div onClick={logout} className={styles.btn_login}>
+                  <p>Logout</p>
+                </div>
+              </>
             )
           ) : (
             <></>
