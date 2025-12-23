@@ -8,9 +8,11 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
+
   async function fetchUser() {
     try {
-      const res = await fetch("http://localhost:3030/users/me", {
+      const res = await fetch(LINK + "/users/me", {
         credentials: "include",
       });
 
