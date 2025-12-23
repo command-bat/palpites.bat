@@ -15,10 +15,10 @@ const UserSchema = new mongoose.Schema(
 
         providers: {
             google: {
-                id: String,
+                id: { type: String },
             },
             discord: {
-                id: String,
+                id: { type: String },
                 username: String,
                 discriminator: String,
             },

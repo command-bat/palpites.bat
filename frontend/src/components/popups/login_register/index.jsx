@@ -2,6 +2,7 @@ import styles from "./index.module.css";
 
 export default function login_register({ onClose }) {
   const LINK = "http://localhost:3030";
+
   return (
     <>
       <div className={styles.overlay}>

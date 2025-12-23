@@ -41,8 +41,12 @@ router.get(
 );
 
 // LOGOUT
-router.get("/logout", (_req, res) => {
-    res.clearCookie("auth_token");
+router.post("/logout", (req, res) => {
+    res.clearCookie("auth_token", {
+        httpOnly: true,
+        sameSite: "lax",
+    });
+
     res.json({ message: "Logged out" });
 });
 

@@ -5,12 +5,14 @@ import { useEffect, useState, useRef } from "react";
 import Icon from "../icon";
 import Cookies from "js-cookie";
 import LoginPopup from "../popups/login_register";
+import { useAuth } from "../../auth/useAuth";
 
 export default function header({ setShowSidebar, showSidebar }) {
   const [title, setTitle] = useState("home");
   const [chosenDarkMode, setChosenDarkMode] = useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
   const [showLogin, setShowLogin] = useState(false);
+  const { user, loading, logout } = useAuth();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -96,11 +98,27 @@ export default function header({ setShowSidebar, showSidebar }) {
           >
             {!chosenDarkMode ? <Icon icon={"moon"} /> : <Icon icon={"sun"} />}
           </button>
-
-          {showLogin && <LoginPopup onClose={() => setShowLogin(false)} />}
-          <div className={styles.btn_login} onClick={() => setShowLogin(true)}>
-            <p>Login</p>
-          </div>
+          {loading === false ? (
+            user === null ? (
+              <>
+                {showLogin && (
+                  <LoginPopup onClose={() => setShowLogin(false)} />
+                )}
+                <div
+                  className={styles.btn_login}
+                  onClick={() => setShowLogin(true)}
+                >
+                  <p>Login</p>
+                </div>
+              </>
+            ) : (
+              <div onClick={logout} className={styles.btn_login}>
+                <p>Logout</p>
+              </div>
+            )
+          ) : (
+            <></>
+          )}
         </nav>
       </header>
     </>

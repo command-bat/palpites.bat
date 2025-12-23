@@ -110,6 +110,7 @@
 
 .close:hover {
   background: var(--background);
+  transform: scale(1.1);
 }
 
 /* ================= TEXTOS ================= */
