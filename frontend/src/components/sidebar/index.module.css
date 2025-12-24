@@ -28,6 +28,8 @@
     top: 68px;
     color: var(--text_unselect);
     animation: slideRight 0.4s ease-out forwards;
+    z-index: -10;
+    position: fixed;
 
     div {
       display: flex;
@@ -72,7 +74,7 @@
     top: 68px;
     color: var(--text_unselect);
     z-index: -10;
-    position: absolute;
+    position: fixed;
 
     div {
       display: flex;
