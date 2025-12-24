@@ -33,7 +33,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   async function logout() {
-    await fetch("http://localhost:3030/auth/logout", {
+    await fetch(LINK + "/auth/logout", {
       method: "POST",
       credentials: "include",
     });
