@@ -1,35 +1,38 @@
-const axios = require("axios");
-const Match = require("../models/match.model");
+const mongoose = require("mongoose");
 
-const API_URL =
-    "https://api.football-data.org/v4/competitions/BSA/matches";
+const MatchSchema = new mongoose.Schema({
+    matchId: { type: Number, unique: true, index: true },
 
-async function syncMatches() {
-    const response = await axios.get(API_URL, {
-        headers: {
-            "X-Auth-Token": process.env.FOOTBALL_DATA_API_KEY,
-        },
-    });
+    competition: {
+        id: Number,
+        name: String,
+        code: String,
+    },
 
-    const matches = response.data.matches;
+    season: {
+        id: Number,
+        startDate: Date,
+        endDate: Date,
+    },
 
-    for (const match of matches) {
-        await Match.updateOne(
-            { matchId: match.id },
-            {
-                matchId: match.id,
-                homeTeam: match.homeTeam?.name || "TBD",
-                awayTeam: match.awayTeam?.name || "TBD",
-                date: match.utcDate,
-                status: match.status, // SCHEDULED | FINISHED | IN_PLAY
-                competition: match.competition?.name || "Brasileirão Série A",
-            },
-            { upsert: true }
-        );
-    }
+    utcDate: Date,
+    status: String,
 
-    console.log(`[FootballData] Synced ${matches.length} matches`);
-    return matches.length;
-}
+    homeTeam: {
+        id: Number,
+        name: String,
+    },
 
-module.exports = { syncMatches };
+    awayTeam: {
+        id: Number,
+        name: String,
+    },
+
+    score: {
+        winner: String,
+    },
+
+    lastUpdated: Date,
+});
+
+module.exports = mongoose.model("Match", MatchSchema);

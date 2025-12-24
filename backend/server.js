@@ -1,9 +1,32 @@
+require("dotenv").config();
+
 const app = require("./src/app");
 const connectDB = require("./src/config/db");
-require("./src/config/cron");
+const {
+    runStartupSync,
+    scheduleDailySync,
+} = require("./src/services/matchSync.service");
 
-connectDB().then(() => {
-    app.listen(process.env.PORT, () => {
-        console.log(`[Server] Running on port ${process.env.PORT}`);
-    });
-});
+const PORT = process.env.PORT;
+
+(async () => {
+    try {
+        // 🔹 Conecta no MongoDB
+        await connectDB();
+        console.log("[DB] Connected");
+
+        // 🔹 Sincroniza ao subir o backend (somente se vazio)
+        await runStartupSync();
+
+        // 🔹 Agenda sincronização diária às 20:00
+        scheduleDailySync();
+
+        // 🔹 Sobe o servidor
+        app.listen(PORT, () => {
+            console.log(`[Server] Running on port ${PORT}`);
+        });
+    } catch (err) {
+        console.error("[Server] Failed to start:", err);
+        process.exit(1);
+    }
+})();

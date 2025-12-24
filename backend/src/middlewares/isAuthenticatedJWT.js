@@ -9,7 +9,7 @@ module.exports = function isAuthenticated(req, res, next) {
 
     try {
         const decoded = jwt.verify(token, process.env.SESSION_SECRET);
-        req.user = decoded; // contém { id, email }
+        req.user = decoded;
         next();
     } catch {
         return res.status(401).json({ message: "Token inválido" });

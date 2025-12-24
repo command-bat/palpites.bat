@@ -1,10 +1,11 @@
 const router = require("express").Router();
-const Match = require("../models/match.model");
 const isAuthenticatedJWT = require("../middlewares/isAuthenticatedJWT");
+const controller = require("../controllers/matches.controller");
 
-router.get("/", isAuthenticatedJWT, async (_req, res) => {
-    const matches = await Match.find().sort({ date: 1 });
-    res.json(matches);
-});
+// Lista resumida
+router.get("/", isAuthenticatedJWT, controller.getMatches);
+
+// Partida específica (completa)
+router.get("/:id", isAuthenticatedJWT, controller.getMatchById);
 
 module.exports = router;
