@@ -2,6 +2,8 @@ const router = require("express").Router();
 const passport = require("passport");
 const { generateToken } = require("../utils/jwt");
 
+const isProd = process.env.NODE_ENV === "production";
+
 // GOOGLE
 router.get("/google", passport.authenticate("google", { scope: ["email", "profile"] }));
 
@@ -13,7 +15,8 @@ router.get(
 
         res.cookie("auth_token", token, {
             httpOnly: true,
-            sameSite: "lax",
+            secure: isProd,
+            sameSite: isProd ? "none" : "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
@@ -32,7 +35,8 @@ router.get(
 
         res.cookie("auth_token", token, {
             httpOnly: true,
-            sameSite: "lax",
+            secure: isProd,
+            sameSite: isProd ? "none" : "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
@@ -44,7 +48,9 @@ router.get(
 router.post("/logout", (req, res) => {
     res.clearCookie("auth_token", {
         httpOnly: true,
-        sameSite: "lax",
+        secure: isProd,
+        sameSite: isProd ? "none" : "lax",
+        path: "/",
     });
 
     res.json({ message: "Logged out" });

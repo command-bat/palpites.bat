@@ -10,6 +10,8 @@ const app = express();
 // 🔹 converter corretamente
 const production = process.env.PRODUCTION === "true";
 
+console.log("Está em produção?", production);
+
 // 🔹 CORS
 app.use(
     cors({

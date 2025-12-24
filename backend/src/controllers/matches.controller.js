@@ -1,4 +1,5 @@
 const Match = require("../models/match.model");
+const Team = require("../models/team.model");
 
 /**
  * GET /matches
@@ -25,14 +26,29 @@ exports.getMatches = async (req, res) => {
 
 /**
  * GET /matches/:id
- * Retorna o documento completo do banco
+ * GET /matches/:id?teams=true
  */
 exports.getMatchById = async (req, res) => {
+    const teams = req.query.teams === "true";
+
     const match = await Match.findOne({ matchId: req.params.id });
 
     if (!match) {
         return res.status(404).json({ message: "Match not found" });
     }
 
-    res.json(match);
+    // Se NÃO pedir teams, retorna direto
+    if (!teams) {
+        return res.json(match);
+    }
+
+    // Se pedir teams=true
+    const homeTeam = await Team.findOne({ id: match.homeTeam.id });
+    const awayTeam = await Team.findOne({ id: match.awayTeam.id });
+
+    res.json({
+        ...match.toObject(),
+        homeTeam: homeTeam || match.homeTeam,
+        awayTeam: awayTeam || match.awayTeam,
+    });
 };
