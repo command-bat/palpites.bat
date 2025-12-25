@@ -4,22 +4,48 @@ const Team = require("../models/team.model");
 /**
  * GET /matches
  * ?limit=10
+ * ?teams=true
  */
 exports.getMatches = async (req, res) => {
     const limit = parseInt(req.query.limit, 10) || 0;
+    const teams = req.query.teams === "true";
 
     const matches = await Match.find()
         .sort({ utcDate: -1 })
         .limit(limit);
 
-    const response = matches.map((match) => ({
-        matchId: match.matchId,
-        awayTeam: match.awayTeam.name,
-        homeTeam: match.homeTeam.name,
-        competition: match.competition.name,
-        startDate: match.utcDate,
-        status: match.status,
-    }));
+    // 🔹 Se NÃO quiser times detalhados
+    if (!teams) {
+        const response = matches.map((match) => ({
+            matchId: match.matchId,
+            awayTeam: match.awayTeam.name,
+            homeTeam: match.homeTeam.name,
+            competition: match.competition.name,
+            startDate: match.utcDate,
+            status: match.status,
+        }));
+
+        return res.json(response);
+    }
+
+    // 🔹 Se quiser times detalhados
+    const response = await Promise.all(
+        matches.map(async (match) => {
+            const homeTeam = await Team.findOne({ id: match.homeTeam.id });
+            const awayTeam = await Team.findOne({ id: match.awayTeam.id });
+
+            return {
+                matchId: match.matchId,
+                competition: match.competition,
+                season: match.season,
+                utcDate: match.utcDate,
+                status: match.status,
+                score: match.score,
+                homeTeam: homeTeam || match.homeTeam,
+                awayTeam: awayTeam || match.awayTeam,
+            };
+        })
+    );
 
     res.json(response);
 };

@@ -1,11 +1,11 @@
 const cron = require("node-cron");
 const Match = require("../models/match.model");
-const { syncMatches } = require("./footballData.service");
+const { syncMatchesByYear } = require("./footballData.service");
 
 async function runStartupSync() {
     console.log("[Sync] Running startup sync...");
     try {
-        await syncMatches();
+        await syncMatchesByYear(2025);
         console.log("[Sync] Startup sync completed");
     } catch (err) {
         console.error("[Sync] Startup sync failed:", err.message);
@@ -16,7 +16,7 @@ function scheduleDailySync() {
     cron.schedule("0 20 * * *", async () => {
         console.log("[Sync] Running daily sync (20:00)");
         try {
-            await syncMatches();
+            await syncMatchesByYear(2025);
             console.log("[Sync] Daily sync completed");
         } catch (err) {
             console.error("[Sync] Daily sync error:", err.message);

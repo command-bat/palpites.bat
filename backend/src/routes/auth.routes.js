@@ -2,7 +2,9 @@ const router = require("express").Router();
 const passport = require("passport");
 const { generateToken } = require("../utils/jwt");
 
-const isProd = process.env.NODE_ENV === "production";
+const isProd = process.env.PRODUCTION === "true";
+
+console.log("Está em produção? (x2)", isProd);
 
 // GOOGLE
 router.get("/google", passport.authenticate("google", { scope: ["email", "profile"] }));
@@ -12,6 +14,13 @@ router.get(
     passport.authenticate("google", { session: false }),
     (req, res) => {
         const token = generateToken(req.user);
+
+        if (!req.user) {
+            console.log("Erro: req.user está indefinido");
+            return res.redirect(
+                (process.env.FRONTEND_URL || "/") + "?error=auth_failed"
+            );
+        }
 
         res.cookie("auth_token", token, {
             httpOnly: true,
@@ -31,6 +40,14 @@ router.get(
     "/discord/callback",
     passport.authenticate("discord", { session: false }),
     (req, res) => {
+
+        if (!req.user) {
+            console.log("Erro: req.user está indefinido");
+            return res.redirect(
+                (process.env.FRONTEND_URL || "/") + "?error=auth_failed"
+            );
+        }
+
         const token = generateToken(req.user);
 
         res.cookie("auth_token", token, {

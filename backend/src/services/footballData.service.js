@@ -1,19 +1,22 @@
 const axios = require("axios");
 const Match = require("../models/match.model");
 const Team = require("../models/team.model");
-
-const API_MATCHES =
-    "https://api.football-data.org/v4/competitions/BSA/matches";
-
-const API_TEAM = (id) =>
-    `https://api.football-data.org/v4/teams/${id}`;
+const saveMatchesBySeason = require("./saveMatchesByYear");
 
 const headers = {
     "X-Auth-Token": process.env.FOOTBALL_DATA_API_KEY,
 };
 
-async function syncMatches() {
-    const { data } = await axios.get(API_MATCHES, { headers });
+const API_MATCHES_BY_SEASON = (season) =>
+    `https://api.football-data.org/v4/competitions/BSA/matches?season=${season}`;
+
+const API_TEAM = (id) => `https://api.football-data.org/v4/teams/${id}`;
+
+/**
+ * Sincroniza todas as partidas de uma temporada
+ */
+async function syncMatchesByYear(season) {
+    const { data } = await axios.get(API_MATCHES_BY_SEASON(season), { headers });
 
     const teamIds = new Set();
 
@@ -21,6 +24,7 @@ async function syncMatches() {
         teamIds.add(match.homeTeam.id);
         teamIds.add(match.awayTeam.id);
 
+        // Salva/atualiza no Mongo
         await Match.updateOne(
             { matchId: match.id },
             {
@@ -44,12 +48,19 @@ async function syncMatches() {
         );
     }
 
+    // Salva partidas em JSON local
+    await saveMatchesBySeason(data.matches, season);
+
+    // Sincroniza times
     await syncTeams([...teamIds]);
 
-    console.log(`[FootballData] Synced ${data.matches.length} matches`);
+    console.log(`[FootballData] Synced ${data.matches.length} matches for season ${season}`);
     return data.matches.length;
 }
 
+/**
+ * Sincroniza times que ainda não existem no banco
+ */
 async function syncTeams(teamIds) {
     for (const id of teamIds) {
         const exists = await Team.findOne({ id });
@@ -69,4 +80,4 @@ async function syncTeams(teamIds) {
     }
 }
 
-module.exports = { syncMatches };
+module.exports = { syncMatchesByYear };
