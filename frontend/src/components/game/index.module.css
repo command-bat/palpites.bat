@@ -1,0 +1,110 @@
+.match {
+  background: var(--background-secondary);
+  display: flex;
+  flex-direction: column;
+  padding: 18px 20px;
+  border-radius: 18px;
+  gap: 20px;
+
+  border: 1px solid var(--detais);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  height: fit-content;
+  margin: 20px;
+  width: calc(60% - 175px);
+}
+
+/* .match:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px var(--color_secondary);
+} */
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* TIMES */
+.homeTeam,
+.awayTeam {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--text_select);
+  font-weight: 500;
+}
+
+.homeTeam {
+  flex-direction: row;
+  background-color: var(--color_secondary);
+  padding: 5px;
+  padding-right: 15px;
+  border-radius: 5px 15px 15px 5px;
+  width: min-content;
+}
+
+.awayTeam {
+  flex-direction: row-reverse;
+  text-align: right;
+  background-color: var(--color_primary);
+  padding: 5px;
+  padding-left: 15px;
+  border-radius: 15px 5px 5px 15px;
+  width: min-content;
+}
+
+/* ESCUDOS */
+.img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* FOOTER */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* BOTÃO PALPITAR */
+.palpitar {
+  background: var(--color_primary);
+  color: var(--text_select);
+  border: none;
+  padding: 10px 22px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.palpitar:hover {
+  transform: scale(1.03);
+  opacity: 0.9;
+}
+
+/* BOTÃO OLHO */
+.eye {
+  background: var(--color_secondary);
+  border: 1px solid var(--detais);
+  color: var(--text_select);
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.15s ease;
+}
+
+.eye:hover {
+  border-color: var(--color_primary);
+  color: var(--color_primary);
+}

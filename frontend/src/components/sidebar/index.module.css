@@ -29,7 +29,6 @@
     color: var(--text_unselect);
     animation: slideRight 0.4s ease-out forwards;
     z-index: -10;
-    position: fixed;
 
     div {
       display: flex;

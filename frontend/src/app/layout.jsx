@@ -6,6 +6,7 @@ import Sidebar from "../components/sidebar";
 import styles from "@/app/layout.module.css";
 import Cookies from "js-cookie";
 import { AuthProvider } from "../auth/AuthContext";
+import MainPage from "../components/pages/index";
 
 export default function RootLayout({ children }) {
   const [page, setPage] = useState(
@@ -36,15 +37,7 @@ export default function RootLayout({ children }) {
             setShowSidebar={setShowSidebar}
             showSidebar={showSidebar}
           />
-          <div
-            style={{
-              top: "68px",
-              left: "46px",
-              position: "absolute",
-              zIndex: "-10",
-            }}
-          ></div>
-          <div> roda pé </div>
+          <MainPage></MainPage>
         </body>
       </html>
     </AuthProvider>

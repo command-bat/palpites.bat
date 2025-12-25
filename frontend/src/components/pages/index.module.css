@@ -1,0 +1,13 @@
+.page {
+  height: calc(100vh - 68px);
+  margin-top: 68px;
+  margin-left: 175px; /* reserva espaço da sidebar */
+  width: calc(100% - 175px);
+  padding: 20px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+}

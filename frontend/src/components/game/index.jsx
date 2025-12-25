@@ -1,21 +1,41 @@
-import UserPalpite from "../userpalpite";
+"use client";
+import styles from "./index.module.css";
 
-export default function Game({ gameID }) {
-  const userID = 11;
-
+export default function MatchCard({ match }) {
+  if (!match) return;
   return (
-    <div>
-      <img
-        src={"/placeholder/" + gameID.hometeam.src}
-        alt={gameID.hometeam.name}
-      />
-      <img
-        src={"/placeholder/" + gameID.visitingteam.src}
-        alt={gameID.visitingteam.name}
-      />
-      {/* <p>{gameID}</p> */}
+    <div className={styles.match}>
+      <div className={styles.header}>
+        <div className={styles.homeTeam}>
+          <img
+            className={styles.img}
+            src={match.homeTeam.crest}
+            alt={match.homeTeam.shortName}
+          />
+          <p>Santos</p>
+        </div>
 
-      <UserPalpite userID={userID} />
+        <div className={styles.awayTeam}>
+          <img
+            className={styles.img}
+            src={match.awayTeam.crest}
+            alt={match.awayTeam.shortName}
+          />
+          <p>Flamengo</p>
+        </div>
+      </div>
+
+      <div className={styles.footer}>
+        <button
+          className={styles.palpitar}
+          onClick={() => alert(match.matchId)}
+        >
+          Palpitar
+        </button>
+        <button className={styles.eye} onClick={() => alert("Em Breve")}>
+          👁️
+        </button>
+      </div>
     </div>
   );
 }
