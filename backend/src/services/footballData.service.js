@@ -1,7 +1,6 @@
 const axios = require("axios");
 const Match = require("../models/match.model");
 const Team = require("../models/team.model");
-const saveMatchesBySeason = require("./saveMatchesByYear");
 
 const headers = {
     "X-Auth-Token": process.env.FOOTBALL_DATA_API_KEY,
@@ -47,9 +46,6 @@ async function syncMatchesByYear(season) {
             { upsert: true }
         );
     }
-
-    // Salva partidas em JSON local
-    await saveMatchesBySeason(data.matches, season);
 
     // Sincroniza times
     await syncTeams([...teamIds]);
