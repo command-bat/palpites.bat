@@ -10,37 +10,38 @@ import {
   FaSun,
   FaBars,
   FaBarsStaggered,
+  FaCircleCheck,
+  FaCircleXmark,
+  FaClock,
+  FaEye,
+  FaEyeSlash,
+  FaLock,
 } from "react-icons/fa6";
 
-export default function icon({ icon = "house", ...className }) {
-  const icons = {
-    home: <FaHouse {...(className ? (className = { className }) : "")} />,
-    palpites: (
-      <FaSquareCheck {...(className ? (className = { className }) : "")} />
-    ),
-    friends: (
-      <FaUserGroup {...(className ? (className = { className }) : "")} />
-    ),
-    amigos: <FaUserGroup {...(className ? (className = { className }) : "")} />,
-    historico: (
-      <FaRegClock {...(className ? (className = { className }) : "")} />
-    ),
-    comparador: (
-      <FaChartSimple {...(className ? (className = { className }) : "")} />
-    ),
-    perfil: <FaUser {...(className ? (className = { className }) : "")} />,
-    moon: <FaMoon {...(className ? (className = { className }) : "")} />,
-    sun: <FaSun {...(className ? (className = { className }) : "")} />,
-    menu: <FaBars {...(className ? (className = { className }) : "")} />,
-    menuOpen: (
-      <FaBarsStaggered {...(className ? (className = { className }) : "")} />
-    ),
-  };
+const iconsMap = {
+  home: FaHouse,
+  palpites: FaSquareCheck,
+  friends: FaUserGroup,
+  amigos: FaUserGroup,
+  historico: FaRegClock,
+  comparador: FaChartSimple,
+  perfil: FaUser,
+  moon: FaMoon,
+  sun: FaSun,
+  menu: FaBars,
+  menuOpen: FaBarsStaggered,
+  circleCheck: FaCircleCheck,
+  circleX: FaCircleXmark,
+  circleClock: FaClock,
+  eyeOpen: FaEye,
+  eyeClose: FaEyeSlash,
+  lock: FaLock,
+};
 
-  return (
-    <>
-      {icons[icon]}
-      {/* {console.log(icon)} */}
-    </>
-  );
+export default function Icon({ icon = "home", className, ...props }) {
+  const IconComponent = iconsMap[icon];
+
+  if (!IconComponent) return null;
+
+  return <IconComponent className={className} {...props} />;
 }

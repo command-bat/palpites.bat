@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.css";
 import Matches from "../../game";
+import Icon from "../../icon";
 
 export default function Home() {
   const [matches, setMatches] = useState([]);
@@ -15,6 +16,10 @@ export default function Home() {
 
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
 
+  const statusRound = {
+    icon: ["circleCheck", "circleX", "circleClock"],
+    text: ["palpitar", "rolado", "finalizou"],
+  };
   async function fetchMatch() {
     setLoading(true);
     try {
@@ -33,20 +38,29 @@ export default function Home() {
     }
   }
 
-  // 🔥 agora só dispara quando "limit" muda
   useEffect(() => {
     fetchMatch();
   }, [limit]);
 
   function matchesSubmit(e) {
     e.preventDefault();
-    setLimit(inputValue); // 🔥 dispara o fetch
+    setLimit(inputValue);
   }
 
   return (
     <>
       <div className={styles.alertMatches}>
-        <p>Jogos:</p>
+        <div className={styles.infosRound}>
+          <h1>Rodada Atual #11</h1>
+          <p>24 dezembro • 15:30 </p>
+        </div>
+        <div className={styles.alertRound}>
+          <div className={styles.icon}>
+            <Icon icon={statusRound.icon[0]} /* trocar o valor */ />
+          </div>
+          <p /* trocar o valor */>{statusRound.text[0]}</p>
+        </div>
+        {/* <p>Jogos:</p>
 
         <form onSubmit={matchesSubmit}>
           <input
@@ -57,7 +71,7 @@ export default function Home() {
           />
 
           <input type="submit" value="Aplicar" />
-        </form>
+        </form> */}
       </div>
 
       {loading && <p>Carregando...</p>}

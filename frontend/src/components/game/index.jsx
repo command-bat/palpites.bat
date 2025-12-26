@@ -1,5 +1,6 @@
 "use client";
 import styles from "./index.module.css";
+import Icon from "../icon";
 
 export default function MatchCard({ match }) {
   if (!match) return;
@@ -32,9 +33,12 @@ export default function MatchCard({ match }) {
         >
           Palpitar
         </button>
-        <button className={styles.eye} onClick={() => alert("Em Breve")}>
-          👁️
-        </button>
+        <Icon
+          className={styles.eye}
+          icon={"eyeOpen"}
+          onClick={() => alert("Em Breve")}
+        />
+        {/* <button onClick={() => alert("Em Breve")}>👁️</button> */}
       </div>
     </div>
   );

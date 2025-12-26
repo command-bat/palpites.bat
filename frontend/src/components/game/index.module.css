@@ -1,5 +1,5 @@
 .match {
-  background: var(--background-secondary);
+  background: var(--background_secondary);
   display: flex;
   flex-direction: column;
   padding: 18px 20px;
@@ -51,36 +51,33 @@
   width: 50%;
 
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   flex-wrap: wrap;
 
   p {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: var(--text);
   }
 }
 
 .homeTeam {
   flex-direction: row;
-  background-color: var(--color_secondary);
   padding-right: 15px;
-  border-radius: 5px 15px 15px 5px;
 }
 
 .awayTeam {
   flex-direction: row-reverse;
   text-align: right;
-  background-color: var(--color_primary);
-  padding-left: 15px;
-  border-radius: 15px 5px 5px 15px;
 }
 
 /* ESCUDOS */
 .img {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   object-fit: contain;
+  filter: drop-shadow(0 0 1px rgb(0, 0, 0));
 }
 
 /* FOOTER */
@@ -92,11 +89,11 @@
 
 /* BOTÃO PALPITAR */
 .palpitar {
-  background: var(--color_primary);
+  background: var(--color_secondary);
   color: var(--text_select);
   border: none;
   padding: 10px 22px;
-  border-radius: 12px;
+  border-radius: 7px;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.15s ease, opacity 0.15s ease;
@@ -108,7 +105,15 @@
 }
 
 /* BOTÃO OLHO */
+
 .eye {
+  color: var(--text_unselect);
+  width: max-content;
+  margin-right: 20px;
+  place-self: center;
+}
+
+/* .eye {
   background: var(--color_secondary);
   border: 1px solid var(--detais);
   color: var(--text_select);
@@ -128,4 +133,4 @@
 .eye:hover {
   border-color: var(--color_primary);
   color: var(--color_primary);
-}
+} */

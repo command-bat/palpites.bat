@@ -27,7 +27,7 @@
     position: fixed;
     padding: 15px;
     gap: 5px;
-    background-color: var(--background-secondary);
+    background-color: var(--background_secondary);
     display: flex;
     flex-direction: column;
     top: 68px;
@@ -57,7 +57,7 @@
     }
     input:checked + label {
       color: var(--text_select);
-      background-color: var(--background-select);
+      background-color: var(--background_select);
       border-radius: 15px;
     }
   }
@@ -70,7 +70,7 @@
     position: fixed;
     padding: 15px;
     gap: 5px;
-    background-color: var(--background-secondary);
+    background-color: var(--background_secondary);
     display: flex;
     flex-direction: column;
     top: 68px;
@@ -98,7 +98,7 @@
     }
     input:checked + label {
       color: var(--text_select);
-      background-color: var(--background-select);
+      background-color: var(--background_select);
       border-radius: 15px;
     }
   }

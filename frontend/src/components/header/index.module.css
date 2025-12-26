@@ -1,6 +1,6 @@
 .header {
   position: fixed;
-  background-color: var(--background-secondary);
+  background-color: var(--background_secondary);
   display: flex;
   align-items: center;
   justify-content: space-between;
