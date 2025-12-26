@@ -9,7 +9,8 @@
 }
 
 /* light mode */
-:root :root[data-theme="light"] {
+:root,
+:root[data-theme="light"] {
   --background: #ffffff;
   --background-secondary: #dcdfe4; /*alterar*/
 
