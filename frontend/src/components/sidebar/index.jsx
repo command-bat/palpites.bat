@@ -4,7 +4,6 @@ import { useEffect, useState, useRef } from "react";
 import Cookies from "js-cookie";
 import Icon from "../icon";
 import { useAuth } from "../../auth/useAuth";
-import { FaLastfmSquare } from "react-icons/fa";
 
 export default function sidebar({
   page = "home",
@@ -18,16 +17,9 @@ export default function sidebar({
   const { user, loading } = useAuth();
 
   useEffect(() => {
-    let lastPage = Cookies.get("page") || "home";
-
     const interval = setInterval(() => {
       const page = Cookies.get("page") || "home";
       setChosenTargetPage(page);
-      if (page !== lastPage) {
-        setShowSidebar((prev) => !prev);
-
-        lastPage = page;
-      }
     }, 500);
 
     return () => clearInterval(interval);
@@ -69,6 +61,9 @@ export default function sidebar({
                 setPage("home");
                 Cookies.set("page", "home");
               }}
+              onClick={() => {
+                setShowSidebar(!showSidebar);
+              }}
             />
             <label htmlFor="sidebarSelectHome">
               <div>
@@ -89,6 +84,9 @@ export default function sidebar({
                 setPage("palpites");
                 Cookies.set("page", "palpites");
               }}
+              onClick={() => {
+                setShowSidebar(!showSidebar);
+              }}
             />
             <label htmlFor="sidebarSelectGuesses">
               <div>
@@ -108,6 +106,9 @@ export default function sidebar({
                 setChosenTargetPage("amigos");
                 setPage("amigos");
                 Cookies.set("page", "amigos");
+              }}
+              onClick={() => {
+                setShowSidebar(!showSidebar);
               }}
             />
             <label htmlFor="sidebarSelectFriends">
@@ -218,6 +219,9 @@ export default function sidebar({
                 setChosenTargetPage("perfil");
                 setPage("perfil");
                 Cookies.set("page", "perfil");
+              }}
+              onClick={() => {
+                setShowSidebar(!showSidebar);
               }}
             />
             <label htmlFor="sidebarSelectProfile">
