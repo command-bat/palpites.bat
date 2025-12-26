@@ -37,6 +37,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 15px;
+  container-type: inline-size;
 }
 
 /* TIMES */
@@ -52,7 +53,10 @@
 
   display: flex;
   /* justify-content: center; */
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
+  @container (max-width: 350px) {
+    flex-direction: column !important;
+  }
 
   p {
     white-space: nowrap;

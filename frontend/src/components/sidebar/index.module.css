@@ -18,6 +18,7 @@
 .mobile,
 .desktop {
   z-index: var(--z-sidebar);
+  position: relative;
 }
 
 .mobile {
