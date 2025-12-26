@@ -3,9 +3,9 @@ const isAuthenticatedJWT = require("../middlewares/isAuthenticatedJWT");
 const controller = require("../controllers/matches.controller");
 
 // Lista resumida
-router.get("/", isAuthenticatedJWT, controller.getMatches);
+router.get("/", controller.getMatches);
 
 // Partida específica (completa)
-router.get("/:id", isAuthenticatedJWT, controller.getMatchById);
+router.get("/:id", controller.getMatchById);
 
 module.exports = router;
