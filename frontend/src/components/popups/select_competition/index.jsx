@@ -7,8 +7,8 @@ export default function SelectCompetition({ onClose, setCompetition }) {
       code: "BSA",
     },
     {
-      name: "Championship",
-      code: "ELC",
+      name: "UEFA Champions League",
+      code: "CL",
     },
   ];
 
