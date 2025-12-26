@@ -3,13 +3,16 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.css";
 import Matches from "../../game";
 import Icon from "../../icon";
+import SelectCompetition from "../../popups/select_competition";
 
 export default function Home() {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // valor digitado no input
-  const [inputValue, setInputValue] = useState(10);
+  const [competition, setCompetition] = useState({
+    name: "Brasileirão",
+    code: "BSA",
+  });
+  const [openSetCompetition, setOpenSetCompetition] = useState(false);
 
   // valor usado no fetch
   const [limit, setLimit] = useState(10);
@@ -24,7 +27,7 @@ export default function Home() {
     setLoading(true);
     try {
       const res = await fetch(
-        `${LINK}/matches/?limit=${limit}&teams=true&season=2025&competition=ELC`,
+        `${LINK}/matches/?limit=${limit}&teams=true&season=2025&competition=${competition.code}`,
         {
           credentials: "include",
         }
@@ -43,12 +46,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchMatch();
-  }, [limit]);
-
-  function matchesSubmit(e) {
-    e.preventDefault();
-    setLimit(inputValue);
-  }
+  }, [limit, competition]);
 
   return (
     <>
@@ -58,7 +56,12 @@ export default function Home() {
           <p>24 dezembro • 15:30 </p>
         </div>
         <div className={styles.alertRight}>
-          <div className={styles.titleCompetition}>Brasileirão</div>
+          <div
+            className={styles.titleCompetition}
+            onClick={() => setOpenSetCompetition(true)}
+          >
+            {competition.name}
+          </div>
           <div className={styles.alertRound}>
             <div className={styles.icon}>
               <Icon icon={statusRound.icon[0]} /* trocar o valor */ />
@@ -66,24 +69,18 @@ export default function Home() {
             <p /* trocar o valor */>{statusRound.text[0]}</p>
           </div>
         </div>
-        {/* <p>Jogos:</p>
-
-        <form onSubmit={matchesSubmit}>
-          <input
-            type="number"
-            min={1}
-            value={inputValue}
-            onChange={(e) => setInputValue(Number(e.target.value))}
-          />
-
-          <input type="submit" value="Aplicar" />
-        </form> */}
       </div>
 
       {loading && <p>Carregando...</p>}
 
       {!loading &&
         matches.map((match) => <Matches key={match.matchId} match={match} />)}
+      {openSetCompetition && (
+        <SelectCompetition
+          onClose={() => setOpenSetCompetition(false)}
+          setCompetition={setCompetition}
+        />
+      )}
     </>
   );
 }
