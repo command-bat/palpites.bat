@@ -23,9 +23,12 @@ export default function Home() {
   async function fetchMatch() {
     setLoading(true);
     try {
-      const res = await fetch(`${LINK}/matches/?limit=${limit}&teams=true`, {
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${LINK}/matches/?limit=${limit}&teams=true&season=2025&competition=ELC`,
+        {
+          credentials: "include",
+        }
+      );
 
       if (!res.ok) throw new Error("Not authenticated");
 
@@ -54,11 +57,14 @@ export default function Home() {
           <h1>Rodada Atual #11</h1>
           <p>24 dezembro • 15:30 </p>
         </div>
-        <div className={styles.alertRound}>
-          <div className={styles.icon}>
-            <Icon icon={statusRound.icon[0]} /* trocar o valor */ />
+        <div className={styles.alertRight}>
+          <div className={styles.titleCompetition}>Brasileirão</div>
+          <div className={styles.alertRound}>
+            <div className={styles.icon}>
+              <Icon icon={statusRound.icon[0]} /* trocar o valor */ />
+            </div>
+            <p /* trocar o valor */>{statusRound.text[0]}</p>
           </div>
-          <p /* trocar o valor */>{statusRound.text[0]}</p>
         </div>
         {/* <p>Jogos:</p>
 
