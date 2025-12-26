@@ -104,9 +104,6 @@ export default function header({ setShowSidebar, showSidebar }) {
           {loading === false ? (
             user === null ? (
               <>
-                {showLogin && (
-                  <LoginPopup onClose={() => setShowLogin(false)} />
-                )}
                 <div
                   className={styles.btn_login}
                   onClick={() => setShowLogin(true)}
@@ -133,6 +130,7 @@ export default function header({ setShowSidebar, showSidebar }) {
           )}
         </nav>
       </header>
+      {showLogin && <LoginPopup onClose={() => setShowLogin(false)} />}
     </>
   );
 }
