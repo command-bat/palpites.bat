@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
   return (
     <AuthProvider>
       <html lang="pt-br">
-        <head></head>
+        {/* <head></head> */}
         <body className={styles.body}>
           <Header
             icon={icon}
@@ -37,7 +37,7 @@ export default function RootLayout({ children }) {
             setShowSidebar={setShowSidebar}
             showSidebar={showSidebar}
           />
-          <MainPage></MainPage>
+          <MainPage page={page} />
         </body>
       </html>
     </AuthProvider>

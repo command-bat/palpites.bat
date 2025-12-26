@@ -1,14 +1,21 @@
 "use client";
 import styles from "./index.module.css";
-import { useEffect, useState, useRef } from "react";
-import Home from "./home/index";
+import Home from "./home";
+import Palpites from "./palpites";
+import Amigos from "./amigos";
+import Historico from "./historico";
+import Comparador from "./comparador";
+import Perfil from "./perfil";
 
-export default function MainPage({}) {
-  return (
-    <>
-      <div className={styles.page}>
-        <Home></Home>
-      </div>
-    </>
-  );
+export default function MainPage({ page }) {
+  const pages = {
+    home: <Home />,
+    palpites: <Palpites />,
+    amigos: <Amigos />,
+    historico: <Historico />,
+    comparador: <Comparador />,
+    perfil: <Perfil />,
+  };
+
+  return <div className={styles.page}>{pages[page] || null}</div>;
 }
