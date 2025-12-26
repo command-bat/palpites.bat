@@ -32,7 +32,7 @@ console.log("Está em produção?", production);
 
 async function runStartupSync() {
 
-    if (!production) {
+    if (production) {
 
         console.log("[Sync] Running startup sync...");
         try {
