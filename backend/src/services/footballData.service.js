@@ -6,16 +6,16 @@ const headers = {
     "X-Auth-Token": process.env.FOOTBALL_DATA_API_KEY,
 };
 
-const API_MATCHES_BY_SEASON = (season) =>
-    `https://api.football-data.org/v4/competitions/BSA/matches?season=${season}`;
+const API_MATCHES_BY_SEASON = (competition, season) =>
+    `https://api.football-data.org/v4/competitions/${competition}/matches?season=${season}`;
 
 const API_TEAM = (id) => `https://api.football-data.org/v4/teams/${id}`;
 
 /**
  * Sincroniza todas as partidas de uma temporada
  */
-async function syncMatchesByYear(season) {
-    const { data } = await axios.get(API_MATCHES_BY_SEASON(season), { headers });
+async function syncMatchesByYear(competition, season) {
+    const { data } = await axios.get(API_MATCHES_BY_SEASON(competition, season), { headers });
 
     const teamIds = new Set();
 
@@ -23,23 +23,33 @@ async function syncMatchesByYear(season) {
         teamIds.add(match.homeTeam.id);
         teamIds.add(match.awayTeam.id);
 
-        // Salva/atualiza no Mongo
         await Match.updateOne(
             { matchId: match.id },
             {
                 matchId: match.id,
-                competition: match.competition,
+
+                seasonYear: season,
+
+                competition: {
+                    id: match.competition.id,
+                    name: match.competition.name,
+                    code: match.competition.code,
+                },
+
                 season: match.season,
                 utcDate: match.utcDate,
                 status: match.status,
+
                 homeTeam: {
                     id: match.homeTeam.id,
                     name: match.homeTeam.name,
                 },
+
                 awayTeam: {
                     id: match.awayTeam.id,
                     name: match.awayTeam.name,
                 },
+
                 score: { winner: match.score?.winner },
                 lastUpdated: match.lastUpdated,
             },
@@ -47,10 +57,12 @@ async function syncMatchesByYear(season) {
         );
     }
 
-    // Sincroniza times
     await syncTeams([...teamIds]);
 
-    console.log(`[FootballData] Synced ${data.matches.length} matches for season ${season}`);
+    console.log(
+        `[FootballData] Synced ${data.matches.length} matches for season ${season} from the ${competition} competition`
+    );
+
     return data.matches.length;
 }
 
