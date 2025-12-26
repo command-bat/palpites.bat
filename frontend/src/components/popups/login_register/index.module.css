@@ -23,7 +23,7 @@
   background: linear-gradient(
     180deg,
     var(--background),
-    var(--background-secondary)
+    var(--background_secondary)
   );
 
   -webkit-backdrop-filter: blur(22px);
@@ -70,7 +70,7 @@
   background: linear-gradient(
     180deg,
     var(--background),
-    var(--background-secondary)
+    var(--background_secondary)
   );
 
   z-index: calc(var(--z-toast) + 1);
@@ -98,7 +98,7 @@
   border-width: 1px;
   border-style: solid;
 
-  background: var(--background-secondary);
+  background: var(--background_secondary);
   opacity: 0.7;
   color: var(--text);
 
