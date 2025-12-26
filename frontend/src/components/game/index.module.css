@@ -8,10 +8,22 @@
 
   border: 1px solid var(--detais);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 20px;
 
   height: fit-content;
-  margin: 20px;
-  width: calc(60% - 175px);
+  width: 45%;
+}
+
+@media (width <= 767px) {
+  .match {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  /* .homeTeam,
+  .awayTeam {
+    flex-direction: column !important;
+  } */
 }
 
 /* .match:hover {
@@ -24,35 +36,44 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 15px;
 }
 
 /* TIMES */
 .homeTeam,
 .awayTeam {
-  display: flex;
   gap: 10px;
   align-items: center;
   color: var(--text_select);
   font-weight: 500;
+
+  padding: 5px;
+  width: 50%;
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .homeTeam {
   flex-direction: row;
   background-color: var(--color_secondary);
-  padding: 5px;
   padding-right: 15px;
   border-radius: 5px 15px 15px 5px;
-  width: min-content;
 }
 
 .awayTeam {
   flex-direction: row-reverse;
   text-align: right;
   background-color: var(--color_primary);
-  padding: 5px;
   padding-left: 15px;
   border-radius: 15px 5px 5px 15px;
-  width: min-content;
 }
 
 /* ESCUDOS */

@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999;
+  z-index: var(--z-toast);
 }
 
 /* ================= POPUP BASE ================= */
@@ -56,7 +56,7 @@
   filter: blur(20px);
   opacity: 0.85;
 
-  z-index: 0;
+  z-index: var(--z-toast);
 }
 
 /* ================= MÁSCARA INTERNA ================= */
@@ -73,14 +73,14 @@
     var(--background-secondary)
   );
 
-  z-index: 1;
+  z-index: calc(var(--z-toast) + 1);
 }
 
 /* ================= CONTEÚDO ACIMA ================= */
 
 .popup > * {
   position: relative;
-  z-index: 2;
+  z-index: calc(var(--z-toast) + 2);
 }
 
 /* ================= BOTÃO FECHAR ================= */
@@ -105,7 +105,7 @@
   cursor: pointer;
   transition: background 0.2s ease;
 
-  z-index: 100;
+  z-index: calc(var(--z-toast) + 100);
 }
 
 .close:hover {

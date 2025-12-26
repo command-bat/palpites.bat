@@ -10,18 +10,18 @@ export default function MatchCard({ match }) {
           <img
             className={styles.img}
             src={match.homeTeam.crest}
-            alt={match.homeTeam.shortName}
+            alt={match.homeTeam.name}
           />
-          <p>Santos</p>
+          <p>{match.homeTeam.shortName}</p>
         </div>
 
         <div className={styles.awayTeam}>
           <img
             className={styles.img}
             src={match.awayTeam.crest}
-            alt={match.awayTeam.shortName}
+            alt={match.awayTeam.name}
           />
-          <p>Flamengo</p>
+          <p>{match.awayTeam.shortName}</p>
         </div>
       </div>
 

@@ -5,8 +5,9 @@
   align-items: center;
   justify-content: space-between;
   height: fit-content;
-  width: -webkit-fill-available;
+  width: 99dvw;
   container-type: inline-size;
+  z-index: var(--z-header);
 }
 .left,
 .center,

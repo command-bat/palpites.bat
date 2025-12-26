@@ -35,6 +35,8 @@ export default function header({ setShowSidebar, showSidebar }) {
       ).matches;
       setChosenDarkMode(prefersDark);
     }
+
+    console.log(savedTheme);
   }, []);
 
   useEffect(() => {
@@ -43,6 +45,7 @@ export default function header({ setShowSidebar, showSidebar }) {
     const theme = chosenDarkMode ? "dark" : "light";
     document.documentElement.dataset.theme = theme;
     Cookies.set("theme", theme, { expires: 365 });
+    console.log(theme);
   }, [chosenDarkMode]);
 
   useEffect(() => {

@@ -1,13 +1,21 @@
 .page {
   height: calc(100vh - 68px);
   margin-top: 68px;
-  margin-left: 175px; /* reserva espaço da sidebar */
-  width: calc(100% - 175px);
   padding: 20px;
 
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  /* justify-content: center; */
+  justify-content: space-evenly;
+
   align-content: flex-start;
+
+  z-index: var(--z-content);
+}
+@media (width >= 767px) {
+  .page {
+    margin-left: 175px; /* reserva espaço da sidebar */
+    width: calc(100% - 175px);
+  }
 }

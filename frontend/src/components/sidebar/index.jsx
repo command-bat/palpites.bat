@@ -31,9 +31,7 @@ export default function sidebar({
   }, [setShowSidebar]);
 
   useEffect(() => {
-    const media = window.matchMedia(
-      "(width <= 767px) and (orientation: portrait)"
-    );
+    const media = window.matchMedia("(width <= 767px)");
 
     const update = () => {
       setIsDesktop(!media.matches);

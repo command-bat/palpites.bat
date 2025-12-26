@@ -1,5 +1,15 @@
-:root,
-:root[data-theme="light"] {
+:root {
+  --z-background: 0;
+  --z-content: 10;
+  --z-header: 100;
+  --z-sidebar: 200;
+  --z-overlay: 900;
+  --z-modal: 1000;
+  --z-toast: 1100;
+}
+
+/* light mode */
+:root :root[data-theme="light"] {
   --background: #ffffff;
   --background-secondary: #dcdfe4; /*alterar*/
 
@@ -18,6 +28,7 @@
   --shadows: rgb(255, 0, 0);
 }
 
+/* dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #151e2e;

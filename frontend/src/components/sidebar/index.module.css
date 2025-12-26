@@ -15,6 +15,11 @@
   }
 }
 
+.mobile,
+.desktop {
+  z-index: var(--z-sidebar);
+}
+
 .mobile {
   .sidebar {
     width: -webkit-fill-available;
@@ -28,7 +33,6 @@
     top: 68px;
     color: var(--text_unselect);
     animation: slideRight 0.4s ease-out forwards;
-    z-index: -10;
 
     div {
       display: flex;
@@ -64,7 +68,6 @@
     width: fit-content;
     height: 100vh;
     position: fixed;
-    z-index: -10;
     padding: 15px;
     gap: 5px;
     background-color: var(--background-secondary);
@@ -72,7 +75,6 @@
     flex-direction: column;
     top: 68px;
     color: var(--text_unselect);
-    z-index: -10;
     position: fixed;
 
     div {
