@@ -238,11 +238,11 @@ export default function sidebar({
                 value={"admin"}
                 onChange={() => {
                   setChosenTargetPage("admin");
-                  setPage("perfil");
+                  setPage("admin");
                   Cookies.set("page", "admin");
                 }}
               />
-              <label htmlFor="sidebarSelectProfile">
+              <label htmlFor="sidebarSelectAdmin">
                 <div>
                   <Icon icon={"terminal"} className={styles.icon} />
                 </div>

@@ -15,6 +15,7 @@ export default function MainPage({ page }) {
     historico: <Historico />,
     comparador: <Comparador />,
     perfil: <Perfil />,
+    admin: <p>Admin</p>,
   };
 
   return <div className={styles.page}>{pages[page] || null}</div>;
