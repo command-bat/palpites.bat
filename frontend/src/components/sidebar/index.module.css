@@ -111,3 +111,11 @@
 .close {
   display: none !important;
 }
+
+.premiumLock {
+  color: var(--color_primary);
+  input + label {
+    background-color: var(--background_premiun);
+    border-radius: 15px;
+  }
+}
