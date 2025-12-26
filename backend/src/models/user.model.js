@@ -13,6 +13,17 @@ const UserSchema = new mongoose.Schema(
         name: String,
         avatar: String,
 
+        role: {
+            type: String,
+            enum: ["user", "admin"],
+            default: "user",
+        },
+
+        isPremium: {
+            type: Boolean,
+            default: false,
+        },
+
         providers: {
             google: {
                 id: { type: String },

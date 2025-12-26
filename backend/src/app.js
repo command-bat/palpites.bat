@@ -10,8 +10,6 @@ const app = express();
 // 🔹 converter corretamente
 const production = process.env.PRODUCTION === "true";
 
-console.log("Está em produção?", production);
-
 // 🔹 CORS
 app.use(
     cors({
@@ -37,6 +35,7 @@ app.get("/ping", (_req, res) => res.json({ pong: true }));
 app.use("/auth", require("./routes/auth.routes"));
 app.use("/matches", require("./routes/matches.routes"));
 app.use("/users", require("./routes/users.routes"));
+app.use("/admin", require("./routes/admin.routes"));
 
 // 🔹 404
 app.use((_req, res) => res.status(404).json({ message: "Not found" }));
