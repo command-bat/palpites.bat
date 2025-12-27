@@ -10,18 +10,22 @@ const Team = require("../models/team.model");
  */
 exports.getMatches = async (req, res) => {
     const limit = parseInt(req.query.limit, 10) || 0;
-    const teams = (req.query.teams) || "true";
+    const teams = req.query.teams === "true";
     const season = (req.query.season) || 2025;
     const competition = (req.query.competition) || "BSA";
 
     const matches = await Match.find({
         seasonYear: season,
         "competition.code": competition,
+
+        // 🔑 filtro importante
+        "homeTeam.id": { $ne: null },
+        "awayTeam.id": { $ne: null },
     })
         .sort({ utcDate: -1 })
         .limit(limit);
 
-    // 🔹 Se NÃO quiser times detalhados
+    //  times NÃO detalhados
     if (!teams) {
         const response = matches.map((match) => ({
             seasonYear: match.season,
@@ -41,7 +45,7 @@ exports.getMatches = async (req, res) => {
         return res.json(response);
     }
 
-    // 🔹 Se quiser times detalhados
+    //  times detalhados
     const response = await Promise.all(
         matches.map(async (match) => {
             const homeTeam = await Team.findOne({ id: match.homeTeam.id });
