@@ -75,6 +75,7 @@
   font-size: large;
   font-variant-caps: all-small-caps;
   height: 22px;
+  color: var(--text);
 
   text-wrap: nowrap;
   white-space: nowrap;

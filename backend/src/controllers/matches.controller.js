@@ -18,7 +18,7 @@ exports.getMatches = async (req, res) => {
         seasonYear: season,
         "competition.code": competition,
 
-        // 🔑 filtro importante
+        // filtro importante
         "homeTeam.id": { $ne: null },
         "awayTeam.id": { $ne: null },
     })
