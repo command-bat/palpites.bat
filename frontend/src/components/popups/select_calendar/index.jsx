@@ -1,13 +1,8 @@
 import { useEffect, useRef } from "react";
 import styles from "./index.module.css";
 
-export default function SelectCompetition({ setCompetition, onClose }) {
+export default function SelectDate({ date, setDate, onClose }) {
   const ref = useRef(null);
-
-  const competitions = [
-    { name: "Brasileirão", code: "BSA" },
-    { name: "Champions League", code: "CL" },
-  ];
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -19,20 +14,25 @@ export default function SelectCompetition({ setCompetition, onClose }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
 
+  function changeDay(offset) {
+    const newDate = new Date(date);
+    newDate.setDate(date.getDate() + offset);
+    setDate(newDate);
+  }
+
   return (
     <div ref={ref} className={styles.dropdown}>
-      {competitions.map((competition) => (
-        <div
-          key={competition.code}
-          className={styles.option}
-          onClick={() => {
-            setCompetition(competition);
-            onClose();
-          }}
-        >
-          {competition.name}
-        </div>
-      ))}
+      <div className={styles.option} onClick={() => changeDay(-1)}>
+        ←
+      </div>
+
+      <div className={styles.option} onClick={() => setDate(new Date())}>
+        Hoje
+      </div>
+
+      <div className={styles.option} onClick={() => changeDay(1)}>
+        →
+      </div>
     </div>
   );
 }

@@ -4,10 +4,15 @@ import styles from "./index.module.css";
 import Matches from "../../game";
 import Icon from "../../icon";
 import SelectCompetition from "../../popups/select_competition";
+import SelectDate from "../../popups/select_calendar";
 
 export default function Home() {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [openCalendar, setOpenCalendar] = useState(false);
+
   const [competition, setCompetition] = useState({
     name: "Brasileirão",
     code: "BSA",
@@ -19,10 +24,11 @@ export default function Home() {
 
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
 
-  const statusRound = {
-    icon: ["circleCheck", "circleX", "circleClock"],
-    text: ["palpitar", "rolado", "finalizou"],
-  };
+  const formattedDate = `${selectedDate.getDate()} ${selectedDate.toLocaleDateString(
+    "pt-BR",
+    { month: "short" }
+  )} ${selectedDate.getFullYear()}`;
+
   async function fetchMatch() {
     setLoading(true);
     try {
@@ -52,22 +58,46 @@ export default function Home() {
     <>
       <div className={styles.alertMatches}>
         <div className={styles.infosRound}>
-          <h1>Rodada #11</h1>{" "}
-          {/* fazer virar um select tambem (igual ao competition) */}
-          <p>24 dezembro • 15:30 </p>
-        </div>
-        <div className={styles.alertRight}>
-          <div
-            className={styles.titleCompetition}
-            onClick={() => setOpenSetCompetition(true)}
-          >
-            {competition.name}
+          <div className={styles.dateWrapper}>
+            <h1 onClick={() => setOpenCalendar((v) => !v)}>
+              <Icon icon={"calendar"} />
+              {formattedDate}
+            </h1>
+
+            {openCalendar && (
+              <SelectDate
+                date={selectedDate}
+                setDate={(d) => {
+                  setSelectedDate(d);
+                  setOpenCalendar(false);
+                }}
+                onClose={() => setOpenCalendar(false)}
+              />
+            )}
           </div>
-          <div className={styles.alertRound}>
-            <div className={styles.icon}>
-              <Icon icon={statusRound.icon[0]} /* trocar o valor */ />
+        </div>
+
+        <div className={styles.alertRight}>
+          <div className={styles.alertRight}>
+            <div className={styles.competitionWrapper}>
+              <div
+                className={styles.titleCompetition}
+                onClick={() => setOpenSetCompetition((v) => !v)}
+              >
+                <h1>{competition.name}</h1>
+                <Icon icon={"down"} />
+              </div>
+
+              {openSetCompetition && (
+                <SelectCompetition
+                  setCompetition={(c) => {
+                    setCompetition(c);
+                    setOpenSetCompetition(false);
+                  }}
+                  onClose={() => setOpenSetCompetition(false)}
+                />
+              )}
             </div>
-            <p /* trocar o valor */>{statusRound.text[0]}</p>
           </div>
         </div>
       </div>
@@ -76,12 +106,6 @@ export default function Home() {
 
       {!loading &&
         matches.map((match) => <Matches key={match.matchId} match={match} />)}
-      {openSetCompetition && (
-        <SelectCompetition
-          onClose={() => setOpenSetCompetition(false)}
-          setCompetition={setCompetition}
-        />
-      )}
     </>
   );
 }

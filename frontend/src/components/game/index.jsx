@@ -3,6 +3,13 @@ import styles from "./index.module.css";
 import Icon from "../icon";
 
 export default function MatchCard({ match }) {
+  const selectStatusRound = 0;
+  const statusRound = {
+    icon: ["circlePlay", "circleClock", "circleCheck", "circleX"],
+    text: ["palpitar", "rolado", "Acertou", "Errou"],
+    style: ["", "idle", "on", "off"],
+  };
+
   function renderStage(stage) {
     switch (stage) {
       case "FINAL":
@@ -61,6 +68,21 @@ export default function MatchCard({ match }) {
   return (
     <div className={styles.match}>
       <div className={styles.header}>
+        {<div className={styles.date}>{formatDate(match.utcDate)}</div>}
+        <div
+          className={`${styles.alertRound} ${
+            styles[statusRound.style[selectStatusRound]]
+          }`}
+        >
+          <div className={styles.icon}>
+            <Icon
+              icon={statusRound.icon[selectStatusRound]} /* trocar o valor */
+            />
+          </div>
+          <p /* trocar o valor */>{statusRound.text[selectStatusRound]}</p>
+        </div>
+      </div>
+      <div className={styles.body}>
         <div className={styles.homeTeam}>
           <img
             className={styles.img}
@@ -74,9 +96,8 @@ export default function MatchCard({ match }) {
           {stage ? (
             <div className={styles.stage}>{stage}</div>
           ) : (
-            <div className={styles.fakeStage}></div>
+            <div className={styles.fakeStage}>{stage}</div>
           )}
-          {<div className={styles.date}>{formatDate(match.utcDate)}</div>}
         </div>
         <div className={styles.awayTeam}>
           <img

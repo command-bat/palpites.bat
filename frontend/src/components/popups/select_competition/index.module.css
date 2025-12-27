@@ -1,24 +1,10 @@
-/* ================= OVERLAY ================= */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
 
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(11, 19, 30, 0.75);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: var(--z-toast);
-}
-
-/* ================= POPUP BASE ================= */
-
-.popup {
-  position: relative;
-  width: 380px;
-  padding: 28px;
-  border-radius: 22px;
+  width: 220px;
+  padding: 6px;
 
   background: linear-gradient(
     180deg,
@@ -26,150 +12,34 @@
     var(--background_secondary)
   );
 
-  -webkit-backdrop-filter: blur(22px);
-  backdrop-filter: blur(22px);
-  overflow: hidden;
-
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.65);
-
-  animation: popupIn 0.35s ease-out;
-}
-
-/* ================= BORDA NEON GIRANDO ================= */
-
-.popup::before {
-  content: "";
-  position: absolute;
-  width: 220%;
-  height: 220%;
-  top: -60%;
-  left: -60%;
-
-  background: conic-gradient(
-    from 0deg,
-    var(--color_secondary),
-    var(--color_primary),
-    var(--color_secondary)
-  );
-
-  animation: rotateBorder 6s linear infinite;
-  filter: blur(20px);
-  opacity: 0.85;
-
-  z-index: var(--z-toast);
-}
-
-/* ================= MÁSCARA INTERNA ================= */
-
-.popup::after {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  border-radius: 20px;
-
-  background: linear-gradient(
-    180deg,
-    var(--background),
-    var(--background_secondary)
-  );
-
-  z-index: calc(var(--z-toast) + 1);
-}
-
-/* ================= CONTEÚDO ACIMA ================= */
-
-.popup > * {
-  position: relative;
-  z-index: calc(var(--z-toast) + 2);
-}
-
-/* ================= BOTÃO FECHAR ================= */
-
-.close {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-
-  border-color: var(--text);
-  border-width: 1px;
-  border-style: solid;
-
-  background: var(--background_secondary);
-  opacity: 0.7;
-  color: var(--text);
-
-  cursor: pointer;
-  transition: background 0.2s ease;
-
-  z-index: calc(var(--z-toast) + 100);
-}
-
-.close:hover {
-  background: var(--background);
-  transform: scale(1.1);
-}
-
-/* ================= OPÇÕES ================= */
-.competitions {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-}
-
-.competitions p {
-  margin: 0;
-  padding: 14px 16px;
-  border-radius: 14px;
-
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--text);
-
-  cursor: pointer;
-  -webkit-user-select: none;
-  user-select: none;
-
-  background: var(--background_secondary);
+  border-radius: 16px;
   border: 1px solid var(--background_secondary);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
 
-  transition: all 0.18s ease;
-
-  width: 50%;
-
-  margin: 10px;
-
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
+  animation: dropdownIn 0.18s ease;
+  z-index: calc(var(--content) + 10);
 }
 
-/* ================= HOVER OPÇÃO ================= */
-
-.competitions p:hover {
-  border-color: var(--color_primary);
-  transform: translateY(-1px);
-}
-/* ================= ANIMAÇÕES ================= */
-
-@keyframes rotateBorder {
-  to {
-    transform: rotate(360deg);
-  }
+.option {
+  padding: 12px 14px;
+  border-radius: 12px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.18s ease;
 }
 
-@keyframes popupIn {
+.option:hover {
+  background: var(--background_secondary);
+  transform: translateX(2px);
+}
+
+@keyframes dropdownIn {
   from {
     opacity: 0;
-    transform: scale(0.92) translateY(20px);
+    transform: translateY(-6px) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: translateY(0) scale(1);
   }
 }

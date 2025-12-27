@@ -6,29 +6,29 @@
   height: 50px;
 
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   align-content: center;
 
   border-radius: 10px;
   padding: 15px;
+  gap: 5px;
 }
-/* .infosRound,
-.alertRound {
-
-} */
 
 .infosRound {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 50%;
 
   h1 {
+    display: flex;
+
     color: var(--text);
     font-variant-caps: all-petite-caps;
     font-weight: bold;
     font-size: large;
+
+    gap: 5px;
 
     cursor: pointer;
 
@@ -40,7 +40,7 @@
   }
 
   p {
-    color: var(--text_unselect);
+    color: var(--text);
     font-variant-caps: small-caps;
     font-size: small;
 
@@ -48,46 +48,50 @@
   }
 }
 
-.alertRound {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: center;
-  align-content: center;
-  gap: 5px;
-  color: var(--text);
-
-  .icon {
-  }
-
-  p {
-    font-size: large;
-    font-variant-caps: all-small-caps;
-    height: 22px;
-  }
-}
-
 .alertRight {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  width: 50%;
+  max-width: 40%;
 
   cursor: default; /* no futuro quero colocar diferente conforme o estado*/
 }
 
 .titleCompetition {
-  font-weight: bold;
-  font-size: large;
-  font-variant-caps: all-small-caps;
-  height: 22px;
-  color: var(--text);
+  display: flex;
+  justify-content: flex-end;
 
   cursor: pointer;
 
-  text-wrap: nowrap;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  color: var(--text);
+
+  h1 {
+    font-weight: bold;
+    font-size: large;
+    font-variant-caps: all-small-caps;
+    height: 22px;
+
+    gap: 5px;
+
+    text-wrap: nowrap;
+    white-space: nowrap;
+    text-overflow: clip;
+    overflow: hidden;
+  }
   max-width: 100%;
+}
+
+.competitionWrapper {
+  position: relative; /* referência do dropdown */
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 270%;
+}
+
+.dateWrapper {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
 }

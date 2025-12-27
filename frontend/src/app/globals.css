@@ -9,6 +9,13 @@
   --z-toast: 1100;
 }
 
+/* colors */
+:root {
+  --green: #15815e;
+  --red: #811515;
+  --blue: #154781;
+}
+
 /* light mode */
 :root,
 :root[data-theme="light"] {

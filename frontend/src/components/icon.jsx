@@ -18,6 +18,9 @@ import {
   FaLock,
   FaTerminal,
   FaDev,
+  FaCalendarDays,
+  FaCaretDown,
+  FaCirclePlay,
 } from "react-icons/fa6";
 
 const iconsMap = {
@@ -35,11 +38,14 @@ const iconsMap = {
   circleCheck: FaCircleCheck,
   circleX: FaCircleXmark,
   circleClock: FaClock,
+  circlePlay: FaCirclePlay,
   eyeOpen: FaEye,
   eyeClose: FaEyeSlash,
   lock: FaLock,
   terminal: FaTerminal,
   dev: FaDev,
+  calendar: FaCalendarDays,
+  down: FaCaretDown,
 };
 
 export default function Icon({ icon = "home", className, ...props }) {
