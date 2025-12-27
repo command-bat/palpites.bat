@@ -251,7 +251,7 @@ export default function sidebar({
               />
               <label htmlFor="sidebarSelectAdmin">
                 <div>
-                  <Icon icon={"dev"} className={styles.icon} />
+                  <Icon icon={"admin"} className={styles.icon} />
                 </div>
                 <span>Admin</span>
               </label>

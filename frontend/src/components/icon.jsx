@@ -43,7 +43,7 @@ const iconsMap = {
   eyeClose: FaEyeSlash,
   lock: FaLock,
   terminal: FaTerminal,
-  dev: FaDev,
+  admin: FaDev,
   calendar: FaCalendarDays,
   down: FaCaretDown,
 };
