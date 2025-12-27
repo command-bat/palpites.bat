@@ -4,7 +4,8 @@
   gap: 32px;
   padding: 32px;
   color: var(--text);
-  width: 70vw;
+  min-width: 70vw;
+  max-width: 100vw;
 }
 
 /* ---------- FORM ---------- */
