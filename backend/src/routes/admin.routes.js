@@ -5,4 +5,6 @@ const controller = require("../controllers/admin.controller");
 
 router.get("/isAdmin", isAuthenticatedJWT, isAdmin, controller.isAdmin);
 
+router.post("/fetch", isAuthenticatedJWT, isAdmin, controller.fetch);
+
 module.exports = router;

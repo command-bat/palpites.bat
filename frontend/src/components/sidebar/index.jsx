@@ -245,10 +245,13 @@ export default function sidebar({
                   setPage("admin");
                   Cookies.set("page", "admin");
                 }}
+                onClick={() => {
+                  setShowSidebar(!showSidebar);
+                }}
               />
               <label htmlFor="sidebarSelectAdmin">
                 <div>
-                  <Icon icon={"terminal"} className={styles.icon} />
+                  <Icon icon={"dev"} className={styles.icon} />
                 </div>
                 <span>Admin</span>
               </label>

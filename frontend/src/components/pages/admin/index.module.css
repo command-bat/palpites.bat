@@ -1,0 +1,117 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 32px;
+  color: var(--text);
+}
+
+/* ---------- FORM ---------- */
+
+.form {
+  background: var(--background_secondary);
+  border: 1px solid var(--detais);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 800px;
+}
+
+.form h2 {
+  margin-bottom: 8px;
+}
+
+.form input,
+.form select,
+.form textarea {
+  background: var(--background);
+  color: var(--text);
+  border: 1px solid var(--detais);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form textarea {
+  min-height: 120px;
+  resize: vertical;
+  font-family: monospace;
+}
+
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+  border-color: var(--color_primary);
+  box-shadow: 0 0 0 2px
+    color-mix(in srgb, var(--color_primary) 30%, transparent);
+}
+
+.form button {
+  margin-top: 8px;
+  align-self: flex-start;
+  padding: 10px 22px;
+  border-radius: 14px;
+  border: none;
+  background: var(--color_primary);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.form button:hover {
+  opacity: 0.9;
+}
+
+.form button:active {
+  transform: scale(0.96);
+}
+
+.form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- ERROR ---------- */
+
+.error {
+  color: #ff6b6b;
+  font-size: 14px;
+}
+
+/* ---------- HISTORY ---------- */
+
+.history {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.item {
+  background: var(--background_secondary);
+  border: 1px solid var(--detais);
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item strong {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.item pre {
+  background: var(--background);
+  border: 1px solid var(--detais);
+  border-radius: 14px;
+  padding: 14px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.4;
+}

@@ -52,7 +52,8 @@ export default function Home() {
     <>
       <div className={styles.alertMatches}>
         <div className={styles.infosRound}>
-          <h1>Rodada Atual #11</h1>
+          <h1>Rodada #11</h1>{" "}
+          {/* fazer virar um select tambem (igual ao competition) */}
           <p>24 dezembro • 15:30 </p>
         </div>
         <div className={styles.alertRight}>

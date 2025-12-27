@@ -6,6 +6,7 @@ import Amigos from "./amigos";
 import Historico from "./historico";
 import Comparador from "./comparador";
 import Perfil from "./perfil";
+import Admin from "./admin";
 
 export default function MainPage({ page }) {
   const pages = {
@@ -15,7 +16,7 @@ export default function MainPage({ page }) {
     historico: <Historico />,
     comparador: <Comparador />,
     perfil: <Perfil />,
-    admin: <p>Admin</p>,
+    admin: <Admin />,
   };
 
   return <div className={styles.page}>{pages[page] || null}</div>;

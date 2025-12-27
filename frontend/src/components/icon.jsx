@@ -17,6 +17,7 @@ import {
   FaEyeSlash,
   FaLock,
   FaTerminal,
+  FaDev,
 } from "react-icons/fa6";
 
 const iconsMap = {
@@ -38,6 +39,7 @@ const iconsMap = {
   eyeClose: FaEyeSlash,
   lock: FaLock,
   terminal: FaTerminal,
+  dev: FaDev,
 };
 
 export default function Icon({ icon = "home", className, ...props }) {
