@@ -40,6 +40,7 @@ exports.getMatches = async (req, res) => {
             competition: match.competition.name,
             startDate: match.utcDate,
             status: match.status,
+            stage: match.stage,
         }));
 
         return res.json(response);
@@ -60,6 +61,8 @@ exports.getMatches = async (req, res) => {
                 score: match.score,
                 homeTeam: homeTeam || match.homeTeam,
                 awayTeam: awayTeam || match.awayTeam,
+                stage: match.stage,
+
             };
         })
     );

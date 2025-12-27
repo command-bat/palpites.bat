@@ -39,6 +39,8 @@ async function syncMatchesByYear(competition, season) {
                 season: match.season,
                 utcDate: match.utcDate,
                 status: match.status,
+                stage: match.stage,
+
 
                 homeTeam: {
                     id: match.homeTeam.id,

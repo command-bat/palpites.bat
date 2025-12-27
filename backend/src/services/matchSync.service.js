@@ -3,7 +3,7 @@ const Match = require("../models/match.model");
 const { syncMatchesByYear } = require("./footballData.service");
 
 const years = [2025/*, 2026*/]
-const competitions = ["BSA", "ELC"]
+const competitions = ["BSA", "CL"]
 
 //  | WC  | FIFA World Cup
 //  | CL  | UEFA Champions League

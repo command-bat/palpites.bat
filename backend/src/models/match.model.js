@@ -34,6 +34,8 @@ const MatchSchema = new mongoose.Schema({
         winner: String,
     },
 
+    stage: String,
+
     lastUpdated: Date,
 });
 

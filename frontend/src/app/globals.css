@@ -18,13 +18,14 @@
   --background_neg: #151e2e;
   --background_secondary_neg: #0b131e;
 
+  --background_highlight: #15815f77;
+  --background_premiun: #15815f40;
+
   --background_select: #949699;
 
   --detais: #182133;
   --color_primary: #15815e;
   --color_secondary: #6634de;
-
-  --background_premiun: #15815f40;
 
   --text: #000;
   --text_neg: #fff;
@@ -44,6 +45,7 @@
     --background_neg: #ffffff;
     --background_secondary_neg: #dcdfe4;
 
+    --background_highlight: #6634de77;
     --background_premiun: #6634de0d;
 
     --background_select: #172133;
@@ -68,6 +70,7 @@
   --background_neg: #ffffff;
   --background_secondary_neg: #dcdfe4;
 
+  --background_highlight: #6734de77;
   --background_premiun: #6634de0d;
 
   --background_select: #172133;
