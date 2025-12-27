@@ -20,15 +20,21 @@ exports.fetch = async (req, res) => {
             return res.status(400).json({ error: "URL é obrigatória" });
         }
 
+        const parsedUrl = new URL(url);
+
+        const finalHeaders = { ...headers };
+
+        // só adiciona a API key se for football-data
+        if (parsedUrl.origin === "https://api.football-data.org") {
+            finalHeaders["X-Auth-Token"] = process.env.FOOTBALL_DATA_API_KEY;
+        }
+
         const response = await axios({
             url,
             method,
             params,
             data: body,
-            headers: {
-                ...headers,
-                "X-Auth-Token": process.env.FOOTBALL_DATA_API_KEY, // token do .env
-            },
+            headers: finalHeaders,
         });
 
         return res.json(response.data);
