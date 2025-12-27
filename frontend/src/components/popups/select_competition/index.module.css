@@ -152,12 +152,6 @@
 /* ================= HOVER OPÇÃO ================= */
 
 .competitions p:hover {
-  background: linear-gradient(
-    90deg,
-    var(--color_primary),
-    var(--color_secondary)
-  );
-
   border-color: var(--color_primary);
   transform: translateY(-1px);
 }

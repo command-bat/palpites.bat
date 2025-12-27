@@ -30,6 +30,8 @@
     font-weight: bold;
     font-size: large;
 
+    cursor: pointer;
+
     text-wrap: nowrap;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -41,6 +43,8 @@
     color: var(--text_unselect);
     font-variant-caps: small-caps;
     font-size: small;
+
+    cursor: default;
   }
 }
 
@@ -68,6 +72,8 @@
   flex-direction: column;
   align-items: flex-end;
   width: 50%;
+
+  cursor: default; /* no futuro quero colocar diferente conforme o estado*/
 }
 
 .titleCompetition {
@@ -76,6 +82,8 @@
   font-variant-caps: all-small-caps;
   height: 22px;
   color: var(--text);
+
+  cursor: pointer;
 
   text-wrap: nowrap;
   white-space: nowrap;
