@@ -19,28 +19,66 @@ export default function Home() {
   });
   const [openSetCompetition, setOpenSetCompetition] = useState(false);
 
-  // valor usado no fetch
-  const [limit, setLimit] = useState(10);
-
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
 
-  const formattedDate = `${selectedDate.getDate()} ${selectedDate.toLocaleDateString(
-    "pt-BR",
-    { month: "short" }
-  )} ${selectedDate.getFullYear()}`;
+  function formattedDateForDisplay(date) {
+    return `${date.getDate()} ${date.toLocaleDateString("pt-BR", {
+      month: "short",
+    })} ${date.getFullYear()}`;
+  }
 
-  async function fetchMatch() {
+  function formattedDateForFetch(date) {
+    const meses = {
+      jan: "01",
+      fev: "02",
+      mar: "03",
+      abr: "04",
+      mai: "05",
+      jun: "06",
+      jul: "07",
+      ago: "08",
+      set: "09",
+      out: "10",
+      nov: "11",
+      dez: "12",
+    };
+
+    const parts = formattedDateForDisplay(date).split(" ");
+    const dia = parts[0].padStart(2, "0");
+    const mes = meses[parts[1].replace(".", "")];
+    const ano = parts[2];
+
+    return `${ano}-${mes}-${dia}`;
+  }
+
+  // fetch das datas disponíveis
+  async function fetchDate() {
+    try {
+      const res = await fetch(
+        `${LINK}/matches/days?season=2025&competition=${competition.code}`,
+        { credentials: "include" }
+      );
+      if (!res.ok) throw new Error("Not authenticated");
+      const data = await res.json();
+      console.log(data);
+
+      return Array.isArray(data) ? data : [];
+    } catch (err) {
+      return [];
+    }
+  }
+
+  // fetch das partidas da data selecionada
+  async function fetchMatch(date) {
     setLoading(true);
     try {
       const res = await fetch(
-        `${LINK}/matches/?limit=${limit}&teams=true&season=2025&competition=${competition.code}`,
-        {
-          credentials: "include",
-        }
+        `${LINK}/matches/?teams=true&season=2025&competition=${
+          competition.code
+        }&date=${formattedDateForFetch(date)}`,
+        { credentials: "include" }
       );
-
       if (!res.ok) throw new Error("Not authenticated");
-
       const data = await res.json();
       setMatches(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -50,9 +88,21 @@ export default function Home() {
     }
   }
 
+  // Quando pegar do backend:
   useEffect(() => {
-    fetchMatch();
-  }, [limit, competition]);
+    (async () => {
+      const dates = await fetchDate();
+      if (dates.length > 0) {
+        // Cria a data já no horário local (00:00)
+        const [year, month, day] = dates[0].split("-").map(Number);
+        setSelectedDate(new Date(year, month - 1, day));
+      }
+    })();
+  }, [competition]);
+  // atualiza partidas quando competição ou data muda
+  useEffect(() => {
+    fetchMatch(selectedDate);
+  }, [competition, selectedDate]);
 
   return (
     <>
@@ -60,13 +110,13 @@ export default function Home() {
         <div className={styles.infosRound}>
           <div className={styles.dateWrapper}>
             <h1 onClick={() => setOpenCalendar((v) => !v)}>
-              <Icon icon={"calendar"} />
-              {formattedDate}
+              <Icon icon={"calendar"} /> {formattedDateForDisplay(selectedDate)}
             </h1>
 
             {openCalendar && (
               <SelectDate
                 date={selectedDate}
+                availableDates={fetchDate} // função async
                 setDate={(d) => {
                   setSelectedDate(d);
                   setOpenCalendar(false);
@@ -78,31 +128,27 @@ export default function Home() {
         </div>
 
         <div className={styles.alertRight}>
-          <div className={styles.alertRight}>
-            <div className={styles.competitionWrapper}>
-              <div
-                className={styles.titleCompetition}
-                onClick={() => setOpenSetCompetition((v) => !v)}
-              >
-                <h1>{competition.name}</h1>
-                <Icon icon={"down"} />
-              </div>
-
-              {openSetCompetition && (
-                <SelectCompetition
-                  setCompetition={(c) => {
-                    setCompetition(c);
-                    setOpenSetCompetition(false);
-                  }}
-                  onClose={() => setOpenSetCompetition(false)}
-                />
-              )}
+          <div className={styles.competitionWrapper}>
+            <div
+              className={styles.titleCompetition}
+              onClick={() => setOpenSetCompetition((v) => !v)}
+            >
+              <h1>{competition.name}</h1>
+              <Icon icon={"down"} />
             </div>
+
+            {openSetCompetition && (
+              <SelectCompetition
+                setCompetition={(c) => {
+                  setCompetition(c);
+                  setOpenSetCompetition(false);
+                }}
+                onClose={() => setOpenSetCompetition(false)}
+              />
+            )}
           </div>
         </div>
       </div>
-
-      {loading && <p>Carregando...</p>}
 
       {!loading &&
         matches.map((match) => <Matches key={match.matchId} match={match} />)}

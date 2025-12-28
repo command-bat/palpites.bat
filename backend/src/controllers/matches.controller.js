@@ -7,12 +7,17 @@ const Team = require("../models/team.model");
  * ?teams=true
  * ?season=2025
  * ?competition=BSA
+ * ?date=2026-01-28
  */
 exports.getMatches = async (req, res) => {
     const limit = parseInt(req.query.limit, 10) || 0;
     const teams = req.query.teams === "true";
     const season = (req.query.season) || 2025;
     const competition = (req.query.competition) || "BSA";
+    const date = (req.query.date);
+
+    const startDate = new Date(`${date}T00:00:00.000Z`);
+    const endDate = new Date(`${date}T23:59:59.999Z`);
 
     const matches = await Match.find({
         seasonYear: season,
@@ -21,6 +26,11 @@ exports.getMatches = async (req, res) => {
         // filtro importante
         "homeTeam.id": { $ne: null },
         "awayTeam.id": { $ne: null },
+
+        utcDate: {
+            $gte: startDate,
+            $lte: endDate
+        },
     })
         .sort({ utcDate: -1 })
         .limit(limit);
@@ -72,7 +82,7 @@ exports.getMatches = async (req, res) => {
 
 /**
  * GET /matches/:id
- * GET /matches/:id?teams=true
+ * ?teams=true
  */
 exports.getMatchById = async (req, res) => {
     const teams = req.query.teams === "true";
@@ -98,3 +108,115 @@ exports.getMatchById = async (req, res) => {
         awayTeam: awayTeam || match.awayTeam,
     });
 };
+
+
+/**
+ * GET /matches/days
+ * ?season=2026
+ * ?competition=BSA
+ */
+exports.getMatchDays = async (req, res) => {
+    try {
+        // Desativa cache
+        res.set("Cache-Control", "no-store");
+
+        const season = Number(req.query.season) || 2025;
+        const competition = req.query.competition || "BSA";
+        const all = req.query.all === "true"; // transforma em boolean
+
+        // Se all=true, verifica se o usuário é premium
+        if (all) {
+            if (!req.user?.isPremium) {
+                return res.status(403).json({ error: "Apenas usuários premium podem acessar todo o histórico" });
+            }
+
+            // Retorna todos os dias com jogos
+            const days = await Match.aggregate([
+                {
+                    $match: {
+                        seasonYear: season,
+                        "competition.code": competition,
+                        "homeTeam.id": { $ne: null },
+                        "awayTeam.id": { $ne: null },
+                    }
+                },
+                {
+                    $group: {
+                        _id: {
+                            $dateToString: {
+                                format: "%Y-%m-%d",
+                                date: "$utcDate"
+                            }
+                        }
+                    }
+                },
+                { $sort: { _id: 1 } }
+            ]);
+
+            return res.json(days.map(d => d._id));
+        }
+
+        // Caso all=false ou ausente, pega os próximos 7 dias
+        const today = new Date();
+        const sevenDaysLater = new Date();
+        sevenDaysLater.setDate(today.getDate() + 7);
+
+        let days = await Match.aggregate([
+            {
+                $match: {
+                    seasonYear: season,
+                    "competition.code": competition,
+                    "homeTeam.id": { $ne: null },
+                    "awayTeam.id": { $ne: null },
+                    utcDate: { $gte: today, $lte: sevenDaysLater }
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        $dateToString: {
+                            format: "%Y-%m-%d",
+                            date: "$utcDate"
+                        }
+                    }
+                }
+            },
+            { $sort: { _id: 1 } }
+        ]);
+
+        // Se não houver jogos nos próximos 7 dias, pega o próximo dia que tiver algum jogo
+        if (!days.length) {
+            const nextDay = await Match.aggregate([
+                {
+                    $match: {
+                        seasonYear: season,
+                        "competition.code": competition,
+                        "homeTeam.id": { $ne: null },
+                        "awayTeam.id": { $ne: null },
+                        utcDate: { $gte: today }
+                    }
+                },
+                {
+                    $group: {
+                        _id: {
+                            $dateToString: {
+                                format: "%Y-%m-%d",
+                                date: "$utcDate"
+                            }
+                        }
+                    }
+                },
+                { $sort: { _id: 1 } },
+                { $limit: 1 }
+            ]);
+
+            days = nextDay;
+        }
+
+        res.json(days.map(d => d._id));
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Erro ao buscar dias com jogos" });
+    }
+};
+

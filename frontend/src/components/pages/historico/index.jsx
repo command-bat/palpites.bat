@@ -1,6 +1,147 @@
 "use client";
+import { useEffect, useState } from "react";
 import styles from "./index.module.css";
+import Matches from "../../game";
+import Icon from "../../icon";
+import SelectCompetition from "../../popups/select_competition";
+import SelectDate from "../../popups/select_calendar";
 
 export default function Historico() {
-  return <div> Historico </div>;
+  const [matches, setMatches] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [openCalendar, setOpenCalendar] = useState(false);
+
+  const [competition, setCompetition] = useState({
+    name: "Brasileirão",
+    code: "BSA",
+  });
+  const [openSetCompetition, setOpenSetCompetition] = useState(false);
+
+  const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
+
+  function formattedDateForDisplay(date) {
+    return `${date.getDate()} ${date.toLocaleDateString("pt-BR", {
+      month: "short",
+    })} ${date.getFullYear()}`;
+  }
+
+  function formattedDateForFetch(date) {
+    const meses = {
+      jan: "01",
+      fev: "02",
+      mar: "03",
+      abr: "04",
+      mai: "05",
+      jun: "06",
+      jul: "07",
+      ago: "08",
+      set: "09",
+      out: "10",
+      nov: "11",
+      dez: "12",
+    };
+
+    const parts = formattedDateForDisplay(date).split(" ");
+    const dia = parts[0].padStart(2, "0");
+    const mes = meses[parts[1].replace(".", "")];
+    const ano = parts[2];
+
+    return `${ano}-${mes}-${dia}`;
+  }
+
+  // fetch das datas disponíveis
+  async function fetchDate() {
+    try {
+      const res = await fetch(
+        `${LINK}/matches/days?season=2025&competition=${competition.code}&all=true`,
+        { credentials: "include" }
+      );
+      if (!res.ok) throw new Error("Not authenticated");
+      const data = await res.json();
+
+      return Array.isArray(data) ? data : [];
+    } catch (err) {
+      return [];
+    }
+  }
+
+  // fetch das partidas da data selecionada
+  async function fetchMatch(date) {
+    setLoading(true);
+    try {
+      const res = await fetch(
+        `${LINK}/matches/?teams=true&season=2025&competition=${
+          competition.code
+        }&date=${formattedDateForFetch(date)}`,
+        { credentials: "include" }
+      );
+      if (!res.ok) throw new Error("Not authenticated");
+      const data = await res.json();
+      setMatches(Array.isArray(data) ? data : []);
+    } catch (err) {
+      setMatches([]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // atualiza partidas quando competição ou data muda
+  useEffect(() => {
+    fetchMatch(selectedDate);
+  }, [competition, selectedDate]);
+
+  return (
+    <>
+      <div className={styles.alertMatches}>
+        <div className={styles.infosRound}>
+          <div className={styles.dateWrapper}>
+            <h1 onClick={() => setOpenCalendar((v) => !v)}>
+              <Icon icon={"calendar"} /> {formattedDateForDisplay(selectedDate)}
+            </h1>
+
+            {openCalendar && (
+              <SelectDate
+                date={selectedDate}
+                availableDates={fetchDate} // função async
+                setDate={(d) => {
+                  setSelectedDate(d);
+                  setOpenCalendar(false);
+                }}
+                onClose={() => setOpenCalendar(false)}
+              />
+            )}
+          </div>
+        </div>
+
+        <div className={styles.alertRight}>
+          <div className={styles.competitionWrapper}>
+            <div
+              className={styles.titleCompetition}
+              onClick={() => setOpenSetCompetition((v) => !v)}
+            >
+              <h1>{competition.name}</h1>
+              <Icon icon={"down"} />
+            </div>
+
+            {openSetCompetition && (
+              <SelectCompetition
+                setCompetition={(c) => {
+                  setCompetition(c);
+                  setOpenSetCompetition(false);
+                }}
+                onClose={() => setOpenSetCompetition(false)}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+
+      {loading && <p>Carregando...</p>}
+
+      {!loading &&
+        matches.map((match) => <Matches key={match.matchId} match={match} />)}
+    </>
+  );
 }

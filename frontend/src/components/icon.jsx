@@ -21,6 +21,8 @@ import {
   FaCalendarDays,
   FaCaretDown,
   FaCirclePlay,
+  FaAnglesLeft,
+  FaAnglesRight,
 } from "react-icons/fa6";
 
 const iconsMap = {
@@ -46,6 +48,8 @@ const iconsMap = {
   admin: FaDev,
   calendar: FaCalendarDays,
   down: FaCaretDown,
+  arrowTwoLeft: FaAnglesLeft,
+  arrowTwoRight: FaAnglesRight,
 };
 
 export default function Icon({ icon = "home", className, ...props }) {

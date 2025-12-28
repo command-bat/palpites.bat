@@ -37,6 +37,8 @@ app.use("/matches", require("./routes/matches.routes"));
 app.use("/users", require("./routes/users.routes"));
 app.use("/admin", require("./routes/admin.routes"));
 
+app.get("/", (_req, res) => console.log(_req.query));
+
 // 🔹 404
 app.use((_req, res) => res.status(404).json({ message: "Not found" }));
 
