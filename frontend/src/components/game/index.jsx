@@ -83,6 +83,8 @@ export default function MatchCard({ match }) {
   }
 
   async function enviarPalpite() {
+    setShowPicker(false);
+
     console.log(Number(match.matchId));
     console.log(selectedTeam);
     if (!selectedTeam) return;
@@ -109,7 +111,6 @@ export default function MatchCard({ match }) {
 
       setResultado("Palpite enviado com sucesso!");
       console.log("Palpite enviado:", data);
-      setShowPicker(false); // fecha o menu após enviar
     } catch (err) {
       console.error(err);
       setResultado("Erro de conexão com o servidor");
@@ -170,7 +171,7 @@ export default function MatchCard({ match }) {
                 <div
                   key={team.id}
                   className={`${styles.teamOption} ${
-                    selectedTeam === team.shortName ? styles.selected : ""
+                    selectedTeam === selectPalpite[index] ? styles.selected : ""
                   } ${stylesPalpite[index]}`}
                   onClick={() => handleTeamSelect(selectPalpite[index])}
                 >
