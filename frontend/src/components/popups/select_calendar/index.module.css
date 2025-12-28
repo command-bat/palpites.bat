@@ -78,8 +78,7 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: var(--background_secondary);
-  color: var(--text_unselect);
+  background: var(--background_select);
   font-size: 14px;
   font-weight: 500;
   display: flex;
@@ -87,22 +86,25 @@
   justify-content: center;
   cursor: pointer;
   transition: background 0.18s ease, transform 0.18s ease, color 0.18s ease;
+  color: var(--text);
 }
 
 .day:hover:not(:disabled) {
   background: var(--color_primary);
-  color: #fff;
+  color: var(--text);
   transform: scale(1.1);
 }
 
 .day:disabled {
   opacity: 0.3;
   cursor: default;
+  color: var(--text);
+  /* color: var(--text_unselect); */
 }
 
 .selected {
   background: var(--color_secondary);
-  color: #fff;
+  color: var(--text_select) !important;
   font-weight: 600;
   box-shadow: 0 0 6px var(--color_secondary);
 }
