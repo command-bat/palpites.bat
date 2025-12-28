@@ -259,9 +259,6 @@ export default function MatchCard({ match }) {
                 onClick={() => {
                   setShowPicker((v) => !v);
                   setResultado("");
-                  if (!match.hasPalpite) {
-                    setSelectedTeam(null);
-                  }
                 }}
               >
                 Palpitar
