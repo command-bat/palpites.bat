@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./index.module.css";
 import Icon from "../icon";
 
@@ -78,15 +78,17 @@ export default function MatchCard({ match }) {
   if (!match) return null;
   const stage = renderStage(match.stage);
 
-  function handleTeamSelect(team) {
-    setSelectedTeam(team);
-  }
+  useEffect(() => {
+    if (match?.hasPalpite) {
+      setSelectedTeam(match.userPalpite);
+    }
+  }, [match?.hasPalpite, match?.userPalpite]);
 
   async function enviarPalpite() {
     setShowPicker(false);
 
-    console.log(Number(match.matchId));
-    console.log(selectedTeam);
+    // console.log(Number(match.matchId));
+    // console.log(selectedTeam);
     if (!selectedTeam) return;
 
     try {
@@ -117,7 +119,6 @@ export default function MatchCard({ match }) {
     }
   }
 
-  console.log(match);
   return (
     <div className={`${styles.match} ${showPicker ? styles.expanded : ""}`}>
       {showPicker && <div className={styles.blurOverlay}></div>}
@@ -173,7 +174,7 @@ export default function MatchCard({ match }) {
                   className={`${styles.teamOption} ${
                     selectedTeam === selectPalpite[index] ? styles.selected : ""
                   } ${stylesPalpite[index]}`}
-                  onClick={() => handleTeamSelect(selectPalpite[index])}
+                  onClick={() => setSelectedTeam(selectPalpite[index])}
                 >
                   <img src={team.crest} alt={team.name} />
                   <p>{team.shortName}</p>
@@ -199,9 +200,11 @@ export default function MatchCard({ match }) {
         <button
           className={styles.palpitar}
           onClick={() => {
-            setShowPicker(!showPicker);
+            setShowPicker((v) => !v);
             setResultado("");
-            setSelectedTeam(null);
+            if (!match.hasPalpite) {
+              setSelectedTeam(null);
+            }
           }}
         >
           Palpitar

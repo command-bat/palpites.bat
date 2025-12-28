@@ -1,5 +1,7 @@
 const Match = require("../models/match.model");
 const Team = require("../models/team.model");
+const jwt = require("jsonwebtoken");
+const Palpite = require("../models/palpite.model");
 
 /**
  * GET /matches
@@ -8,6 +10,7 @@ const Team = require("../models/team.model");
  * ?season=2025
  * ?competition=BSA
  * ?date=2026-01-28
+ * ?palpite=true
  */
 exports.getMatches = async (req, res) => {
     const limit = parseInt(req.query.limit, 10) || 0;
@@ -15,9 +18,22 @@ exports.getMatches = async (req, res) => {
     const season = (req.query.season) || 2025;
     const competition = (req.query.competition) || "BSA";
     const date = (req.query.date);
+    const palpite = (req.query.palpite === "true") || false;
+    const token = req.cookies.auth_token;
 
     const startDate = new Date(`${date}T00:00:00.000Z`);
     const endDate = new Date(`${date}T23:59:59.999Z`);
+
+    let userId = null;
+
+    if (token) {
+        try {
+            const decoded = jwt.verify(token, process.env.SESSION_SECRET);
+            userId = decoded.id || decoded._id;
+        } catch (e) {
+            userId = null;
+        }
+    }
 
     const matches = await Match.find({
         seasonYear: season,
@@ -35,9 +51,34 @@ exports.getMatches = async (req, res) => {
         .sort({ utcDate: -1 })
         .limit(limit);
 
+    let filteredMatches = matches;
+    let palpitesMap = new Map();
+
+    if (userId) {
+        const matchIds = matches.map(m => m.matchId);
+
+        const palpites = await Palpite.find({
+            userId,
+            matchId: { $in: matchIds }
+        }).select("matchId palpite");
+
+        palpitesMap = new Map(
+            palpites.map(p => [
+                p.matchId,
+                p.palpite
+            ])
+        );
+
+        if (!palpite) {
+            filteredMatches = matches.filter(
+                m => !palpitesMap.has(m.matchId)
+            );
+        }
+    }
+
     //  times NÃO detalhados
     if (!teams) {
-        const response = matches.map((match) => ({
+        const response = filteredMatches.map((match) => ({
             seasonYear: match.season,
             competition: {
                 id: match.competition.id,
@@ -51,6 +92,9 @@ exports.getMatches = async (req, res) => {
             startDate: match.utcDate,
             status: match.status,
             stage: match.stage,
+
+            hasPalpite: palpitesMap.has(match.matchId),
+            userPalpite: palpitesMap.get(match.matchId) || null,
         }));
 
         return res.json(response);
@@ -58,7 +102,7 @@ exports.getMatches = async (req, res) => {
 
     //  times detalhados
     const response = await Promise.all(
-        matches.map(async (match) => {
+        filteredMatches.map(async (match) => {
             const homeTeam = await Team.findOne({ id: match.homeTeam.id });
             const awayTeam = await Team.findOne({ id: match.awayTeam.id });
 
@@ -72,6 +116,9 @@ exports.getMatches = async (req, res) => {
                 homeTeam: homeTeam || match.homeTeam,
                 awayTeam: awayTeam || match.awayTeam,
                 stage: match.stage,
+
+                hasPalpite: palpitesMap.has(match.matchId),
+                userPalpite: palpitesMap.get(match.matchId) || null,
 
             };
         })
