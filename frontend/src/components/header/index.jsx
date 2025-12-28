@@ -27,25 +27,20 @@ export default function header({ setShowSidebar, showSidebar }) {
     const savedTheme = Cookies.get("theme");
 
     if (savedTheme) {
-      document.documentElement.dataset.theme = savedTheme;
       setChosenDarkMode(savedTheme === "dark");
     } else {
+      // Executa apenas no cliente
       const prefersDark = window.matchMedia(
         "(prefers-color-scheme: dark)"
       ).matches;
       setChosenDarkMode(prefersDark);
     }
-
-    console.log(savedTheme);
   }, []);
 
   useEffect(() => {
-    if (chosenDarkMode === null) return;
-
     const theme = chosenDarkMode ? "dark" : "light";
     document.documentElement.dataset.theme = theme;
     Cookies.set("theme", theme, { expires: 365 });
-    console.log(theme);
   }, [chosenDarkMode]);
 
   useEffect(() => {
