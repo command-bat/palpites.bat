@@ -15,7 +15,7 @@ const Palpite = require("../models/palpite.model");
 exports.getMatches = async (req, res) => {
     const limit = parseInt(req.query.limit, 10) || 0;
     const teams = req.query.teams === "true";
-    const season = (req.query.season) || 2025;
+    const season = req.query.season ? Number(req.query.season) : null;
     const competition = (req.query.competition) || "BSA";
     const date = (req.query.date);
     const palpite = (req.query.palpite === "true") || false;
@@ -34,9 +34,7 @@ exports.getMatches = async (req, res) => {
             userId = null;
         }
     }
-
-    const matches = await Match.find({
-        seasonYear: season,
+    const baseMatch = {
         "competition.code": competition,
 
         // filtro importante
@@ -47,7 +45,13 @@ exports.getMatches = async (req, res) => {
             $gte: startDate,
             $lte: endDate
         },
-    })
+    }
+
+    if (season !== null) {
+        baseMatch.seasonYear = season;
+    }
+
+    const matches = await Match.find(baseMatch)
         .sort({ utcDate: -1 })
         .limit(limit);
 
@@ -96,7 +100,7 @@ exports.getMatches = async (req, res) => {
             hasPalpite: palpitesMap.has(match.matchId),
             userPalpite: palpitesMap.get(match.matchId) || null,
         }));
-
+        console.log(response)
         return res.json(response);
     }
 
@@ -123,6 +127,8 @@ exports.getMatches = async (req, res) => {
             };
         })
     );
+
+    console.log(response)
 
     res.json(response);
 };
@@ -164,36 +170,33 @@ exports.getMatchById = async (req, res) => {
  */
 exports.getMatchDays = async (req, res) => {
     try {
-        // Desativa cache
         res.set("Cache-Control", "no-store");
 
-        const season = Number(req.query.season) || 2025;
+        const season = req.query.season ? Number(req.query.season) : null;
         const competition = req.query.competition || "BSA";
-        const all = req.query.all === "true"; // transforma em boolean
+        const all = req.query.all === "true";
 
-        // Se all=true, verifica se o usuário é premium
+        // Construindo o filtro dinamicamente
+        const baseMatch = {
+            "competition.code": competition,
+            "homeTeam.id": { $ne: null },
+            "awayTeam.id": { $ne: null },
+        };
+        if (season !== null) {
+            baseMatch.seasonYear = season;
+        }
+
         if (all) {
             if (!req.user?.isPremium) {
                 return res.status(403).json({ error: "Apenas usuários premium podem acessar todo o histórico" });
             }
 
-            // Retorna todos os dias com jogos
             const days = await Match.aggregate([
-                {
-                    $match: {
-                        seasonYear: season,
-                        "competition.code": competition,
-                        "homeTeam.id": { $ne: null },
-                        "awayTeam.id": { $ne: null },
-                    }
-                },
+                { $match: baseMatch },
                 {
                     $group: {
                         _id: {
-                            $dateToString: {
-                                format: "%Y-%m-%d",
-                                date: "$utcDate"
-                            }
+                            $dateToString: { format: "%Y-%m-%d", date: "$utcDate" }
                         }
                     }
                 },
@@ -203,7 +206,6 @@ exports.getMatchDays = async (req, res) => {
             return res.json(days.map(d => d._id));
         }
 
-        // Caso all=false ou ausente, pega os próximos 7 dias
         const today = new Date();
         const sevenDaysLater = new Date();
         sevenDaysLater.setDate(today.getDate() + 7);
@@ -211,45 +213,32 @@ exports.getMatchDays = async (req, res) => {
         let days = await Match.aggregate([
             {
                 $match: {
-                    seasonYear: season,
-                    "competition.code": competition,
-                    "homeTeam.id": { $ne: null },
-                    "awayTeam.id": { $ne: null },
+                    ...baseMatch,
                     utcDate: { $gte: today, $lte: sevenDaysLater }
                 }
             },
             {
                 $group: {
                     _id: {
-                        $dateToString: {
-                            format: "%Y-%m-%d",
-                            date: "$utcDate"
-                        }
+                        $dateToString: { format: "%Y-%m-%d", date: "$utcDate" }
                     }
                 }
             },
             { $sort: { _id: 1 } }
         ]);
 
-        // Se não houver jogos nos próximos 7 dias, pega o próximo dia que tiver algum jogo
         if (!days.length) {
             const nextDay = await Match.aggregate([
                 {
                     $match: {
-                        seasonYear: season,
-                        "competition.code": competition,
-                        "homeTeam.id": { $ne: null },
-                        "awayTeam.id": { $ne: null },
+                        ...baseMatch,
                         utcDate: { $gte: today }
                     }
                 },
                 {
                     $group: {
                         _id: {
-                            $dateToString: {
-                                format: "%Y-%m-%d",
-                                date: "$utcDate"
-                            }
+                            $dateToString: { format: "%Y-%m-%d", date: "$utcDate" }
                         }
                     }
                 },

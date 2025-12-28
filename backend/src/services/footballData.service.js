@@ -76,18 +76,40 @@ async function syncTeams(teamIds) {
         const exists = await Team.findOne({ id });
         if (exists) continue;
 
-        const { data } = await axios.get(API_TEAM(id), { headers });
+        let success = false;
 
-        await Team.create({
-            id: data.id,
-            name: data.name,
-            shortName: data.shortName,
-            tla: data.tla,
-            crest: data.crest,
-        });
+        while (!success) {
+            try {
+                const { data } = await axios.get(API_TEAM(id), { headers });
 
-        console.log(`[Team] Saved ${data.name}`);
+                await Team.create({
+                    id: data.id,
+                    name: data.name,
+                    shortName: data.shortName,
+                    tla: data.tla,
+                    crest: data.crest,
+                });
+
+                console.log(`[Team] Saved ${data.name}`);
+                success = true; // terminou com sucesso
+
+            } catch (err) {
+                const status = err?.response?.status;
+
+                if (status === 429) {
+                    console.warn(`[RateLimit] Limite atingido ao buscar time ${id}. Aguardando 1 minuto...`);
+                    await sleep(60 * 1000); // espera 1 minuto
+                } else if (status === 400 || status === 404) {
+                    console.warn(`[Team] Time ${id} não encontrado. Continuando...`);
+                    success = true; // ignora e segue para o próximo
+                } else {
+                    console.error(`[Team] Erro inesperado ao buscar time ${id}:`, err.message);
+                    success = true; // ignora e segue para o próximo
+                }
+            }
+        }
     }
 }
+
 
 module.exports = { syncMatchesByYear };

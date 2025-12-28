@@ -108,8 +108,8 @@ export default function SelectDate({ date, setDate, onClose, availableDates }) {
       </div>
 
       <div className={styles.weekdays}>
-        {["D", "S", "T", "Q", "Q", "S", "S"].map((d) => (
-          <span key={d}>{d}</span>
+        {["D", "S", "T", "Q", "Q", "S", "S"].map((d, index) => (
+          <span key={`${d}-${index}`}>{d}</span>
         ))}
       </div>
 

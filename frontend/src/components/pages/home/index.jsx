@@ -14,8 +14,8 @@ export default function Home() {
   const [openCalendar, setOpenCalendar] = useState(false);
 
   const [competition, setCompetition] = useState({
-    name: "Brasileirão",
-    code: "BSA",
+    name: "Copa do Mundo FIFA",
+    code: "WC",
   });
   const [openSetCompetition, setOpenSetCompetition] = useState(false);
 
@@ -55,7 +55,7 @@ export default function Home() {
   async function fetchDate() {
     try {
       const res = await fetch(
-        `${LINK}/matches/days?season=2025&competition=${competition.code}`,
+        `${LINK}/matches/days?competition=${competition.code}`,
         { credentials: "include" }
       );
       if (!res.ok) throw new Error("Not authenticated");
@@ -73,7 +73,7 @@ export default function Home() {
     setLoading(true);
     try {
       const res = await fetch(
-        `${LINK}/matches/?teams=true&season=2025&competition=${
+        `${LINK}/matches/?teams=true&competition=${
           competition.code
         }&date=${formattedDateForFetch(date)}`,
         { credentials: "include" }

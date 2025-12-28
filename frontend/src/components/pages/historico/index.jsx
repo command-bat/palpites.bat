@@ -55,7 +55,7 @@ export default function Historico() {
   async function fetchDate() {
     try {
       const res = await fetch(
-        `${LINK}/matches/days?season=2025&competition=${competition.code}&all=true`,
+        `${LINK}/matches/days?competition=${competition.code}&all=true`,
         { credentials: "include" }
       );
       if (!res.ok) throw new Error("Not authenticated");
@@ -72,7 +72,7 @@ export default function Historico() {
     setLoading(true);
     try {
       const res = await fetch(
-        `${LINK}/matches/?teams=true&season=2025&competition=${
+        `${LINK}/matches/?teams=true&competition=${
           competition.code
         }&date=${formattedDateForFetch(date)}&palpite=true`,
         { credentials: "include" }
