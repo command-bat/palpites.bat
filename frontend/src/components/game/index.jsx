@@ -6,6 +6,9 @@ import Icon from "../icon";
 export default function MatchCard({ match }) {
   const [showPicker, setShowPicker] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState(null);
+  const [resultado, setResultado] = useState(""); // mostra resultado do envio
+
+  const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
 
   const statusRound = {
     icon: ["circlePlay", "circleClock", "circleCheck", "circleX"],
@@ -26,6 +29,8 @@ export default function MatchCard({ match }) {
     styles.tiePalpite,
     styles.awayTeamPalpite,
   ];
+
+  const selectPalpite = ["homeTeam", "tie", "awayTeam"];
 
   const selectStatusRound = 0;
 
@@ -77,6 +82,41 @@ export default function MatchCard({ match }) {
     setSelectedTeam(team);
   }
 
+  async function enviarPalpite() {
+    console.log(Number(match.matchId));
+    console.log(selectedTeam);
+    if (!selectedTeam) return;
+
+    try {
+      const response = await fetch(LINK + "/palpite", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          matchId: Number(match.matchId),
+          palpite: selectedTeam,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setResultado("Erro: " + (data.message || "Falha ao enviar"));
+        return;
+      }
+
+      setResultado("Palpite enviado com sucesso!");
+      console.log("Palpite enviado:", data);
+      setShowPicker(false); // fecha o menu após enviar
+    } catch (err) {
+      console.error(err);
+      setResultado("Erro de conexão com o servidor");
+    }
+  }
+
+  console.log(match);
   return (
     <div className={`${styles.match} ${showPicker ? styles.expanded : ""}`}>
       {showPicker && <div className={styles.blurOverlay}></div>}
@@ -122,37 +162,34 @@ export default function MatchCard({ match }) {
           <p>{match.awayTeam.shortName}</p>
         </div>
 
-        {/* Menu de palpites */}
         {showPicker && (
           <div className={styles.palpiteMenu}>
             <p>Escolha o vencedor</p>
             <div className={styles.teamsPicker}>
               {[match.homeTeam, empate, match.awayTeam].map((team, index) => (
-                <>
-                  <div
-                    key={team.id}
-                    className={`${styles.teamOption} ${
-                      selectedTeam === team.shortName ? styles.selected : ""
-                    } ${stylesPalpite[index]} `}
-                    onClick={() => handleTeamSelect(team.shortName)}
-                  >
-                    <img src={team.crest} alt={team.name} />
-                    <p>{team.shortName}</p>
-                  </div>
-                </>
+                <div
+                  key={team.id}
+                  className={`${styles.teamOption} ${
+                    selectedTeam === team.shortName ? styles.selected : ""
+                  } ${stylesPalpite[index]}`}
+                  onClick={() => handleTeamSelect(selectPalpite[index])}
+                >
+                  <img src={team.crest} alt={team.name} />
+                  <p>{team.shortName}</p>
+                </div>
               ))}
             </div>
+
             <button
               className={`${styles.confirmButton} ${
                 selectedTeam ? styles.active : ""
               }`}
-              onClick={() => {
-                // alert(`Palpite confirmado: ${selectedTeam}`);
-                setShowPicker(!showPicker);
-              }}
+              onClick={enviarPalpite}
             >
               {selectedTeam ? "Confirmar palpite" : "Cancelar"}
             </button>
+
+            {resultado && <p className={styles.resultado}>{resultado}</p>}
           </div>
         )}
       </div>
@@ -160,7 +197,11 @@ export default function MatchCard({ match }) {
       <div className={styles.footer}>
         <button
           className={styles.palpitar}
-          onClick={() => setShowPicker(!showPicker)}
+          onClick={() => {
+            setShowPicker(!showPicker);
+            setResultado("");
+            setSelectedTeam(null);
+          }}
         >
           Palpitar
         </button>

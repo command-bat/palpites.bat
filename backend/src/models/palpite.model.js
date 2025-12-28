@@ -5,21 +5,15 @@ const PalpiteSchema = new mongoose.Schema(
         userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
         matchId: { type: Number, required: true },
 
-        homeTeamId: { type: Number, required: true },
-        awayTeamId: { type: Number, required: true },
 
-        homeScore: { type: Number, required: true },
-        awayScore: { type: Number, required: true },
-
-        round: { type: Number }, // rodada
-        season: { type: Number },
-
-        points: { type: Number, default: 0 }, // calculado depois
-        result: {
+        palpite: {
             type: String,
-            enum: ["WIN", "DRAW", "LOSE", "PENDING"],
-            default: "PENDING",
+            enum: ["homeTeam", "tie", "awayTeam"],
+            default: null,
         },
+
+        lastPalpite: Date,
+
     },
     { timestamps: true }
 );
