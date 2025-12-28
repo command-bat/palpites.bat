@@ -86,7 +86,7 @@
   display: inline-flex;
   flex-direction: column;
   align-items: flex-end;
-  width: 270%;
+  width: 100%;
 }
 
 .dateWrapper {
