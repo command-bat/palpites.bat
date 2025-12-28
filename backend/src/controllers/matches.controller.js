@@ -100,7 +100,6 @@ exports.getMatches = async (req, res) => {
             hasPalpite: palpitesMap.has(match.matchId),
             userPalpite: palpitesMap.get(match.matchId) || null,
         }));
-        console.log(response)
         return res.json(response);
     }
 
@@ -127,8 +126,6 @@ exports.getMatches = async (req, res) => {
             };
         })
     );
-
-    console.log(response)
 
     res.json(response);
 };

@@ -7,6 +7,7 @@ export default function MatchCard({ match }) {
   const [showPicker, setShowPicker] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [resultado, setResultado] = useState(""); // mostra resultado do envio
+  const [selectStatusRound, setSelectStatusRound] = useState(0); // <-- estado do status
 
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
 
@@ -15,6 +16,60 @@ export default function MatchCard({ match }) {
     text: ["palpitar", "rolado", "Acertou", "Errou"],
     style: ["", "idle", "on", "off"],
   };
+
+  const mapWinnerToUserPalpite = (winner) => {
+    switch (winner) {
+      case "HOME_TEAM":
+        return "homeTeam";
+      case "DRAW":
+        return "tie";
+      case "AWAY_TEAM":
+        return "awayTeam";
+      default:
+        return null;
+    }
+  };
+
+  const getMatchStatus = () => {
+    const now = new Date();
+    const winnerMapped = mapWinnerToUserPalpite(match.score.winner);
+
+    if (match.status === "TIMED" && new Date(match.utcDate) > now) return 0;
+    if (
+      match.status !== "TIMED" &&
+      match.status !== "FINISHED" &&
+      new Date(match.utcDate) > now
+    )
+      return 1;
+    if (
+      match.status === "FINISHED" &&
+      match.hasPalpite &&
+      match.userPalpite === winnerMapped
+    )
+      return 2;
+    if (match.status === "FINISHED") return 3;
+    return -1;
+  };
+
+  // Atualiza status a cada minuto e quando o componente monta
+  useEffect(() => {
+    if (!match) return;
+
+    // Atualiza imediatamente ao iniciar
+    setSelectStatusRound(getMatchStatus());
+
+    const interval = setInterval(() => {
+      setSelectStatusRound(getMatchStatus());
+    }, 60 * 1000); // 60 segundos
+
+    return () => clearInterval(interval); // limpa intervalo ao desmontar
+  }, [match]);
+
+  useEffect(() => {
+    if (match?.hasPalpite) {
+      setSelectedTeam(match.userPalpite);
+    }
+  }, [match?.hasPalpite, match?.userPalpite]);
 
   const empate = {
     id: 0,
@@ -31,8 +86,6 @@ export default function MatchCard({ match }) {
   ];
 
   const selectPalpite = ["homeTeam", "tie", "awayTeam"];
-
-  const selectStatusRound = 0;
 
   function renderStage(stage) {
     switch (stage) {
@@ -87,7 +140,7 @@ export default function MatchCard({ match }) {
   async function enviarPalpite() {
     setShowPicker(false);
 
-    // console.log(Number(match.matchId));
+    console.log(match);
     // console.log(selectedTeam);
     if (!selectedTeam) return;
 
@@ -197,18 +250,24 @@ export default function MatchCard({ match }) {
       </div>
 
       <div className={styles.footer}>
-        <button
-          className={styles.palpitar}
-          onClick={() => {
-            setShowPicker((v) => !v);
-            setResultado("");
-            if (!match.hasPalpite) {
-              setSelectedTeam(null);
-            }
-          }}
-        >
-          Palpitar
-        </button>
+        {match.status === "TIMED" &&
+          match.status !== "FINISHED" &&
+          new Date(match.utcDate) > new Date() && (
+            <>
+              <button
+                className={styles.palpitar}
+                onClick={() => {
+                  setShowPicker((v) => !v);
+                  setResultado("");
+                  if (!match.hasPalpite) {
+                    setSelectedTeam(null);
+                  }
+                }}
+              >
+                Palpitar
+              </button>
+            </>
+          )}
         <Icon
           className={styles.eye}
           icon={"eyeOpen"}
