@@ -132,6 +132,9 @@ export default function sidebar({
                     setPage("historico");
                     Cookies.set("page", "historico");
                   }}
+                  onClick={() => {
+                    setShowSidebar(!showSidebar);
+                  }}
                 />
                 <label htmlFor="sidebarSelectHistory">
                   <div>
@@ -176,6 +179,9 @@ export default function sidebar({
                     setChosenTargetPage("comparador");
                     setPage("comparador");
                     Cookies.set("page", "comparador");
+                  }}
+                  onClick={() => {
+                    setShowSidebar(!showSidebar);
                   }}
                 />
                 <label htmlFor="sidebarSelectComparator">
