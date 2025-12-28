@@ -21,7 +21,7 @@ export default function MatchCard({ match }) {
     name: "Empate",
     shortName: "Empate",
     tla: "TIE",
-    crest: "/empate.png",
+    crest: "/placeholder/empate.png",
   };
 
   const stylesPalpite = [
