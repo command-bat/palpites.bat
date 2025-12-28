@@ -23,6 +23,7 @@ import {
   FaCirclePlay,
   FaAnglesLeft,
   FaAnglesRight,
+  FaEquals,
 } from "react-icons/fa6";
 
 const iconsMap = {
@@ -50,6 +51,7 @@ const iconsMap = {
   down: FaCaretDown,
   arrowTwoLeft: FaAnglesLeft,
   arrowTwoRight: FaAnglesRight,
+  equal: FaEquals,
 };
 
 export default function Icon({ icon = "home", className, ...props }) {

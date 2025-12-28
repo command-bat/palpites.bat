@@ -265,28 +265,6 @@
   display: flex;
   gap: 15px;
   justify-content: space-between;
-
-  /* 
-  .homeTeamPalpite,
-  .awayTeamPalpite {
-    width: auto;
-
-    display: flex;
-  }
-
-  .homeTeamPalpite {
-    img,
-    p {
-      place-self: self-start;
-    }
-  }
-
-  .awayTeamPalpite {
-    img,
-    p {
-      place-self: self-end;
-    }
-  } */
 }
 
 .teamOption {
@@ -314,12 +292,24 @@
   transform: scale(1.05);
 }
 
-.selected {
-  /* ou cor primária/secundária do time */
-}
-
 .selected.homeTeamPalpite {
   border-color: var(--color_primary);
+}
+
+.selected.tiePalpite {
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: linear-gradient(
+        var(--background_secondary),
+        var(--background_secondary)
+      )
+      padding-box,
+    linear-gradient(
+        67.5deg,
+        var(--color_primary) 50%,
+        var(--color_secondary) 50%
+      )
+      border-box;
 }
 
 .selected.awayTeamPalpite {
@@ -352,4 +342,12 @@
   backdrop-filter: blur(2px); /* blur real */
   z-index: calc(var(--z-content) + 1); /* fica atrás do palpiteMenu */
   border-radius: 18px; /* combina com o .match */
+}
+.tiePalpite {
+  img {
+    filter: var(--filter);
+  }
+  p {
+    color: var(--text);
+  }
 }

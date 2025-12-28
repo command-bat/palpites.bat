@@ -12,6 +12,21 @@ export default function MatchCard({ match }) {
     text: ["palpitar", "rolado", "Acertou", "Errou"],
     style: ["", "idle", "on", "off"],
   };
+
+  const empate = {
+    id: 0,
+    name: "Empate",
+    shortName: "Empate",
+    tla: "TIE",
+    crest: "/empate.png",
+  };
+
+  const stylesPalpite = [
+    styles.homeTeamPalpite,
+    styles.tiePalpite,
+    styles.awayTeamPalpite,
+  ];
+
   const selectStatusRound = 0;
 
   function renderStage(stage) {
@@ -112,18 +127,13 @@ export default function MatchCard({ match }) {
           <div className={styles.palpiteMenu}>
             <p>Escolha o vencedor</p>
             <div className={styles.teamsPicker}>
-              {[match.homeTeam, match.awayTeam].map((team, index) => (
+              {[match.homeTeam, empate, match.awayTeam].map((team, index) => (
                 <>
-                  {console.log(team)}
                   <div
                     key={team.id}
                     className={`${styles.teamOption} ${
                       selectedTeam === team.shortName ? styles.selected : ""
-                    } ${
-                      index === 0
-                        ? styles.homeTeamPalpite
-                        : styles.awayTeamPalpite
-                    } `}
+                    } ${stylesPalpite[index]} `}
                     onClick={() => handleTeamSelect(team.shortName)}
                   >
                     <img src={team.crest} alt={team.name} />

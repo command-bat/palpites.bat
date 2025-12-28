@@ -41,6 +41,8 @@
   --text_unselect: #82878b;
 
   --shadows: rgb(255, 0, 0);
+
+  --filter: invert(0);
 }
 
 /* dark mode */
@@ -68,6 +70,8 @@
     --text_unselect: #6a798b;
 
     --shadows: rgb(255, 0, 0);
+
+    --filter: invert(1);
   }
 }
 :root[data-theme="dark"] {
@@ -93,6 +97,8 @@
   --text_unselect: #6a798b;
 
   --shadows: rgb(255, 0, 0);
+
+  --filter: invert(1);
 }
 
 html,
