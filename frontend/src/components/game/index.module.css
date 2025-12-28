@@ -6,13 +6,18 @@
   border-radius: 18px;
   gap: 20px;
 
+  position: relative;
+
   border: 1px solid var(--detais);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s ease;
+
   margin-top: 20px;
 
   height: fit-content;
   max-width: 56%;
   min-width: 45%;
+  z-index: var(--z-content);
 }
 
 @media (width <= 767px) {
@@ -92,25 +97,25 @@
   align-items: center;
   gap: 15px;
   container-type: inline-size;
-}
 
-/* TIMES */
-.homeTeam,
-.awayTeam {
-  gap: 10px;
-  align-items: center;
-  color: var(--text_select);
-  font-weight: 500;
+  /* TIMES */
+  .homeTeam,
+  .awayTeam {
+    gap: 10px;
+    align-items: center;
+    color: var(--text_select);
+    font-weight: 500;
 
-  padding: 5px;
+    padding: 5px;
 
-  max-width: 100%;
+    max-width: 100%;
 
-  display: flex;
-  /* justify-content: center; */
-  /* flex-wrap: wrap; */
-  @container (max-width: 350px) {
-    flex-direction: column !important;
+    display: flex;
+    /* justify-content: center; */
+    /* flex-wrap: wrap; */
+    @container (max-width: 350px) {
+      flex-direction: column !important;
+    }
   }
 
   p {
@@ -120,17 +125,18 @@
     color: var(--text);
   }
 }
+.body {
+  .homeTeam {
+    justify-self: start;
+    flex-direction: row;
+    padding-right: 15px;
+  }
 
-.homeTeam {
-  justify-self: start;
-  flex-direction: row;
-  padding-right: 15px;
-}
-
-.awayTeam {
-  justify-self: end;
-  flex-direction: row-reverse;
-  text-align: right;
+  .awayTeam {
+    justify-self: end;
+    flex-direction: row-reverse;
+    text-align: right;
+  }
 }
 
 /* ESCUDOS */
@@ -208,21 +214,142 @@
   }
   .body {
     grid-template-columns: 1fr auto 1fr;
+
+    .homeTeam,
+    .awayTeam {
+      flex-direction: column;
+      gap: 6px;
+      width: 0px;
+    }
+
+    .homeTeam {
+      align-items: flex-start;
+    }
+
+    .awayTeam {
+      align-items: flex-end;
+      text-align: right;
+    }
+  }
+}
+
+/* Quando expandir a div */
+.expanded {
+  padding-bottom: 40px; /* dá espaço para o menu */
+}
+
+/* Menu de palpites */
+.palpiteMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: slideDown 0.3s ease forwards;
+  grid-column: 1 / -1; /* faz ocupar toda a largura do grid */
+  position: relative;
+  z-index: calc(var(--z-content) + 2);
+  color: var(--text);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.teamsPicker {
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+
+  /* 
+  .homeTeamPalpite,
+  .awayTeamPalpite {
+    width: auto;
+
+    display: flex;
   }
 
-  .homeTeam,
-  .awayTeam {
-    flex-direction: column;
-    gap: 6px;
-    width: 0px;
+  .homeTeamPalpite {
+    img,
+    p {
+      place-self: self-start;
+    }
   }
 
-  .homeTeam {
-    align-items: flex-start;
-  }
+  .awayTeamPalpite {
+    img,
+    p {
+      place-self: self-end;
+    }
+  } */
+}
 
-  .awayTeam {
-    align-items: flex-end;
-    text-align: right;
-  }
+.teamOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.teamOption img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}
+
+.teamOption p {
+  margin-top: 5px;
+}
+
+.teamOption:hover {
+  transform: scale(1.05);
+}
+
+.selected {
+  /* ou cor primária/secundária do time */
+}
+
+.selected.homeTeamPalpite {
+  border-color: var(--color_primary);
+}
+
+.selected.awayTeamPalpite {
+  border-color: var(--color_secondary);
+}
+
+.confirmButton {
+  background: #555;
+  color: var(--text_select);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.confirmButton.active {
+  background: var(--green);
+}
+
+.blurOverlay {
+  position: absolute; /* precisa que o pai seja relative */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-backdrop-filter: blur(2px);
+
+  backdrop-filter: blur(2px); /* blur real */
+  z-index: calc(var(--z-content) + 1); /* fica atrás do palpiteMenu */
+  border-radius: 18px; /* combina com o .match */
 }

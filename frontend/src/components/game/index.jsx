@@ -1,32 +1,31 @@
 "use client";
+import { useState } from "react";
 import styles from "./index.module.css";
 import Icon from "../icon";
 
 export default function MatchCard({ match }) {
-  const selectStatusRound = 0;
+  const [showPicker, setShowPicker] = useState(false);
+  const [selectedTeam, setSelectedTeam] = useState(null);
+
   const statusRound = {
     icon: ["circlePlay", "circleClock", "circleCheck", "circleX"],
     text: ["palpitar", "rolado", "Acertou", "Errou"],
     style: ["", "idle", "on", "off"],
   };
+  const selectStatusRound = 0;
 
   function renderStage(stage) {
     switch (stage) {
       case "FINAL":
         return "Final";
-
       case "SEMI_FINALS":
         return "Semifinal";
-
       case "QUARTER_FINALS":
         return "Quartas";
-
       case "LAST_16":
         return "Oitavas";
-
       case "PLAYOFFS":
         return "Playoffs";
-
       default:
         return null;
     }
@@ -34,23 +33,18 @@ export default function MatchCard({ match }) {
 
   function formatDate(dateString) {
     const date = new Date(dateString);
-
-    const day = new Intl.DateTimeFormat("pt-BR", {
-      day: "2-digit",
-    }).format(date);
-
-    let month = new Intl.DateTimeFormat("pt-BR", {
-      month: "short",
-    }).format(date);
-
+    const day = new Intl.DateTimeFormat("pt-BR", { day: "2-digit" }).format(
+      date
+    );
+    let month = new Intl.DateTimeFormat("pt-BR", { month: "short" }).format(
+      date
+    );
     month = month.replace(".", "");
-
     const time = new Intl.DateTimeFormat("pt-BR", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: false,
     }).format(date);
-
     return (
       <>
         <div>
@@ -61,27 +55,31 @@ export default function MatchCard({ match }) {
     );
   }
 
-  if (!match) return;
-
+  if (!match) return null;
   const stage = renderStage(match.stage);
 
+  function handleTeamSelect(team) {
+    setSelectedTeam(team);
+  }
+
   return (
-    <div className={styles.match}>
+    <div className={`${styles.match} ${showPicker ? styles.expanded : ""}`}>
+      {showPicker && <div className={styles.blurOverlay}></div>}
+
       <div className={styles.header}>
-        {<div className={styles.date}>{formatDate(match.utcDate)}</div>}
+        <div className={styles.date}>{formatDate(match.utcDate)}</div>
         <div
           className={`${styles.alertRound} ${
             styles[statusRound.style[selectStatusRound]]
           }`}
         >
           <div className={styles.icon}>
-            <Icon
-              icon={statusRound.icon[selectStatusRound]} /* trocar o valor */
-            />
+            <Icon icon={statusRound.icon[selectStatusRound]} />
           </div>
-          <p /* trocar o valor */>{statusRound.text[selectStatusRound]}</p>
+          <p>{statusRound.text[selectStatusRound]}</p>
         </div>
       </div>
+
       <div className={styles.body}>
         <div className={styles.homeTeam}>
           <img
@@ -99,6 +97,7 @@ export default function MatchCard({ match }) {
             <div className={styles.fakeStage}>{stage}</div>
           )}
         </div>
+
         <div className={styles.awayTeam}>
           <img
             className={styles.img}
@@ -107,12 +106,51 @@ export default function MatchCard({ match }) {
           />
           <p>{match.awayTeam.shortName}</p>
         </div>
+
+        {/* Menu de palpites */}
+        {showPicker && (
+          <div className={styles.palpiteMenu}>
+            <p>Escolha o vencedor</p>
+            <div className={styles.teamsPicker}>
+              {[match.homeTeam, match.awayTeam].map((team, index) => (
+                <>
+                  {console.log(team)}
+                  <div
+                    key={team.id}
+                    className={`${styles.teamOption} ${
+                      selectedTeam === team.shortName ? styles.selected : ""
+                    } ${
+                      index === 0
+                        ? styles.homeTeamPalpite
+                        : styles.awayTeamPalpite
+                    } `}
+                    onClick={() => handleTeamSelect(team.shortName)}
+                  >
+                    <img src={team.crest} alt={team.name} />
+                    <p>{team.shortName}</p>
+                  </div>
+                </>
+              ))}
+            </div>
+            <button
+              className={`${styles.confirmButton} ${
+                selectedTeam ? styles.active : ""
+              }`}
+              onClick={() => {
+                // alert(`Palpite confirmado: ${selectedTeam}`);
+                setShowPicker(!showPicker);
+              }}
+            >
+              {selectedTeam ? "Confirmar palpite" : "Cancelar"}
+            </button>
+          </div>
+        )}
       </div>
 
       <div className={styles.footer}>
         <button
           className={styles.palpitar}
-          onClick={() => alert(match.matchId)}
+          onClick={() => setShowPicker(!showPicker)}
         >
           Palpitar
         </button>
@@ -121,7 +159,6 @@ export default function MatchCard({ match }) {
           icon={"eyeOpen"}
           onClick={() => alert("Em Breve")}
         />
-        {/* <button onClick={() => alert("Em Breve")}>👁️</button> */}
       </div>
     </div>
   );
