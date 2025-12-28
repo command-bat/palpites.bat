@@ -1,4 +1,6 @@
 const Palpite = require("../models/palpite.model");
+const Match = require("../models/match.model");
+
 
 exports.createPalpite = async (req, res) => {
     try {
@@ -13,6 +15,21 @@ exports.createPalpite = async (req, res) => {
             return res.status(400).json({ message: "Palpite inválido" });
         }
 
+        // 🔒 BLOQUEIO POR HORÁRIO
+        const match = await Match.findOne({ matchId });
+
+        if (!match) {
+            return res.status(404).json({ message: "Partida não encontrada" });
+        }
+
+        console.log(new Date())
+        if (new Date() >= match.utcDate - 60_000) {
+            return res
+                .status(400)
+                .json({ message: "Palpite inválido: a partida já iniciou" });
+        }
+
+        // 🔄 cria ou atualiza palpite
         const result = await Palpite.findOneAndUpdate(
             { userId, matchId },
             {
@@ -22,8 +39,8 @@ exports.createPalpite = async (req, res) => {
                 },
             },
             {
-                upsert: true,      // cria se não existir
-                new: true,         // retorna o atualizado
+                upsert: true,
+                new: true,
                 setDefaultsOnInsert: true,
             }
         );
@@ -31,7 +48,6 @@ exports.createPalpite = async (req, res) => {
         return res.status(200).json(result);
 
     } catch (err) {
-        // erro de índice único (raro aqui, mas seguro)
         if (err.code === 11000) {
             return res.status(409).json({ message: "Palpite já existe" });
         }
