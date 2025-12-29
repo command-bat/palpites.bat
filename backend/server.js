@@ -11,6 +11,12 @@ const PORT = process.env.PORT;
 
 (async () => {
     try {
+
+        // 🔹 Sobe o servidor
+        app.listen(PORT, () => {
+            console.log(`[Server] Running on port ${PORT}`);
+        });
+
         // 🔹 Conecta no MongoDB
         await connectDB();
         console.log("[DB] Connected");
@@ -21,10 +27,6 @@ const PORT = process.env.PORT;
         // 🔹 Agenda sincronização diária às 20:00
         scheduleDailySync();
 
-        // 🔹 Sobe o servidor
-        app.listen(PORT, () => {
-            console.log(`[Server] Running on port ${PORT}`);
-        });
     } catch (err) {
         console.error("[Server] Failed to start:", err);
         process.exit(1);
