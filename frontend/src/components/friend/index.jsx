@@ -2,7 +2,7 @@
 import styles from "./index.module.css";
 import Icon from "../icon";
 
-export default function FriendCard({ friend }) {
+export default function FriendCard({ friend, options }) {
   return (
     <div className={styles.card}>
       <div className={styles.avatarWrapper}>
@@ -22,6 +22,15 @@ export default function FriendCard({ friend }) {
         )}
 
         <p className={styles.id}>#{friend._id}</p>
+        {options && (
+          <>
+            <div>
+              {options.map((option) => (
+                <button className={option.color}>{option.text}</button>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

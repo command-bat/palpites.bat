@@ -6,8 +6,8 @@ export default function SelectFriends({ setCompetition, onClose }) {
 
   const friends = [
     { name: "Amigos", code: "friends" },
-    { name: "Solicitações recebidas", code: "send" },
-    { name: "Solicitações enviadas", code: "received" },
+    { name: "Solicitações recebidas", code: "received" },
+    { name: "Solicitações enviadas", code: "send" },
   ];
 
   useEffect(() => {

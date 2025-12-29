@@ -42,6 +42,28 @@ export default function Amigos() {
     }
   }
 
+  async function fetchOrders(value) {
+    setLoading(true);
+
+    try {
+      const resfriends = await fetch(`${LINK}/friends/orders/${value}`, {
+        credentials: "include",
+      });
+
+      if (!resfriends.ok) throw new Error("Not authenticated");
+
+      const friends = await resfriends.json(); // ARRAY direto
+
+      setFriends(friends);
+      console.log("amigos:", friends);
+    } catch (err) {
+      console.error(err);
+      setFriends([]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function sendFriendRequest(value) {
     const normalizedValue = normalizeId(value.trim());
 
@@ -77,6 +99,13 @@ export default function Amigos() {
     fetchFriends();
   }, []);
 
+  useEffect(() => {
+    if (select.code === "friends") fetchFriends();
+    if (select.code === "send" || select.code === "received")
+      fetchOrders(select.code);
+    console.log(select);
+    console.log(friends);
+  }, [select]);
   // filtra em tempo real
   useEffect(() => {
     const value = search.trim().toLowerCase();
@@ -136,7 +165,22 @@ export default function Amigos() {
 
       <div className={styles.list}>
         {filteredFriends.map((friend) => (
-          <Friend key={friend._id} friend={friend} />
+          <Friend
+            key={friend._id}
+            friend={friend}
+            options={
+              select.code === "friends"
+                ? []
+                : select.code === "received"
+                ? [
+                    { text: "Aceitar", color: "green" },
+                    { text: "Recusar", color: "red" },
+                  ]
+                : select.code === "send"
+                ? [{ text: "Cancelar pedido", color: "red" }]
+                : []
+            }
+          />
         ))}
 
         {notFound && search && (
