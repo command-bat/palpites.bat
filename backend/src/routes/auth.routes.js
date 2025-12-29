@@ -13,7 +13,6 @@ router.get(
     "/google/callback",
     passport.authenticate("google", { session: false }),
     (req, res) => {
-        const token = generateToken(req.user);
 
         if (!req.user) {
             console.log("Erro: req.user está indefinido");
@@ -22,10 +21,14 @@ router.get(
             );
         }
 
+        const token = generateToken(req.user);
+
         res.cookie("auth_token", token, {
             httpOnly: true,
             secure: isProd,
             sameSite: isProd ? "none" : "lax",
+            domain: isProd ? ".commandbat.com.br" : "localhost",
+            path: "/",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
@@ -54,6 +57,8 @@ router.get(
             httpOnly: true,
             secure: isProd,
             sameSite: isProd ? "none" : "lax",
+            domain: isProd ? ".commandbat.com.br" : "localhost",
+            path: "/",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
@@ -67,6 +72,7 @@ router.post("/logout", (req, res) => {
         httpOnly: true,
         secure: isProd,
         sameSite: isProd ? "none" : "lax",
+        domain: isProd ? ".commandbat.com.br" : "localhost",
         path: "/",
     });
 
