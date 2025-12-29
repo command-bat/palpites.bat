@@ -24,6 +24,8 @@ import {
   FaAnglesLeft,
   FaAnglesRight,
   FaEquals,
+  FaMagnifyingGlass,
+  FaStar,
 } from "react-icons/fa6";
 
 const iconsMap = {
@@ -52,6 +54,8 @@ const iconsMap = {
   arrowTwoLeft: FaAnglesLeft,
   arrowTwoRight: FaAnglesRight,
   equal: FaEquals,
+  find: FaMagnifyingGlass,
+  star: FaStar,
 };
 
 export default function Icon({ icon = "home", className, ...props }) {

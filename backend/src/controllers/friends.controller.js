@@ -18,7 +18,7 @@ async function findUser(identifier) {
 // Amigos do user logado
 exports.getMyFriends = async (req, res) => {
     const user = await User.findById(req.user.id)
-        .populate("friends.friends", "name email avatar");
+        .populate("friends.friends", "name avatar isPremium");
 
     res.json(user.friends.friends);
 };
@@ -31,7 +31,7 @@ exports.getUserFriends = async (req, res) => {
         return res.status(404).json({ message: "Usuário não encontrado" });
     }
 
-    await user.populate("friends.friends", "name email avatar");
+    await user.populate("friends.friends", "name avatar isPremium");
     res.json(user.friends.friends);
 };
 
@@ -80,7 +80,7 @@ exports.sendFriendRequest = async (req, res) => {
 // Pedidos recebidos
 exports.getReceivedOrders = async (req, res) => {
     const user = await User.findById(req.user.id)
-        .populate("friends.received", "name email avatar");
+        .populate("friends.received", "name avatar isPremium");
 
     res.json(user.friends.received);
 };
@@ -88,7 +88,7 @@ exports.getReceivedOrders = async (req, res) => {
 // Pedidos enviados
 exports.getSendOrders = async (req, res) => {
     const user = await User.findById(req.user.id)
-        .populate("friends.send", "name email avatar");
+        .populate("friends.send", "name avatar isPremium");
 
     res.json(user.friends.send);
 };

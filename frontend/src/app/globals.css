@@ -43,6 +43,7 @@
   --shadows: rgb(255, 0, 0);
 
   --filter: invert(0);
+  --filter2: invert(1);
 }
 
 /* dark mode */
@@ -72,6 +73,7 @@
     --shadows: rgb(255, 0, 0);
 
     --filter: invert(1);
+    --filter2: invert(0);
   }
 }
 :root[data-theme="dark"] {
@@ -99,6 +101,7 @@
   --shadows: rgb(255, 0, 0);
 
   --filter: invert(1);
+  --filter2: invert(0);
 }
 
 html,

@@ -34,8 +34,9 @@ app.get("/ping", (_req, res) => res.json({ pong: true }));
 
 app.use("/auth", require("./routes/auth.routes"));
 app.use("/matches", require("./routes/matches.routes"));
-app.use("/users", require("./routes/users.routes"));
 app.use("/palpite", require("./routes/palpite.routes"));
+app.use("/friends", require("./routes/friends.routes"));
+app.use("/users", require("./routes/users.routes"));
 app.use("/admin", require("./routes/admin.routes"));
 
 app.get("/", (_req, res) => console.log(_req.query));
