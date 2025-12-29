@@ -26,6 +26,7 @@ import {
   FaEquals,
   FaMagnifyingGlass,
   FaStar,
+  FaPlus,
 } from "react-icons/fa6";
 
 const iconsMap = {
@@ -56,6 +57,7 @@ const iconsMap = {
   equal: FaEquals,
   find: FaMagnifyingGlass,
   star: FaStar,
+  plus: FaPlus,
 };
 
 export default function Icon({ icon = "home", className, ...props }) {

@@ -115,9 +115,9 @@
   border-radius: 12px;
 
   background: var(--background);
-  border: 1px dashed var(--primary);
+  border: 1px dashed var(--text_unselect);
 
-  color: var(--primary);
+  color: var(--text);
   cursor: pointer;
   font-weight: 600;
 

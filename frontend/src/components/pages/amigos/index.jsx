@@ -144,7 +144,7 @@ export default function Amigos() {
             className={styles.addFriend}
             onClick={() => sendFriendRequest(search)}
           >
-            ➕ Adicionar "{search}"
+            <Icon icon={"plus"} /> Adicionar "{search}"
           </div>
         )}
       </div>
