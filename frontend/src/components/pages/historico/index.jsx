@@ -5,10 +5,12 @@ import Matches from "../../game";
 import Icon from "../../icon";
 import SelectCompetition from "../../popups/select_competition";
 import SelectDate from "../../popups/select_calendar";
+import { useAuth } from "../../../auth/useAuth";
 
 export default function Historico() {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [openCalendar, setOpenCalendar] = useState(false);
@@ -55,7 +57,9 @@ export default function Historico() {
   async function fetchDate() {
     try {
       const res = await fetch(
-        `${LINK}/matches/days?competition=${competition.code}&all=true`,
+        `${LINK}/matches/days?competition=${competition.code}&all=${
+          user.role === "admin" ? "true" : "old"
+        }`,
         { credentials: "include" }
       );
       if (!res.ok) throw new Error("Not authenticated");

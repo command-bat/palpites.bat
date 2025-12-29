@@ -43,9 +43,11 @@ export default function Amigos() {
   }
 
   async function sendFriendRequest(value) {
+    const normalizedValue = normalizeId(value.trim());
+
     try {
       const res = await fetch(
-        `${LINK}/friends/add/${encodeURIComponent(value)}`,
+        `${LINK}/friends/add/${encodeURIComponent(normalizedValue)}`,
         {
           method: "POST",
           credentials: "include",
@@ -61,10 +63,14 @@ export default function Amigos() {
 
       alert(data.message);
       setSearch("");
-      fetchFriends(); // atualiza lista
+      fetchFriends();
     } catch (err) {
       alert("Erro ao enviar pedido");
     }
+  }
+
+  function normalizeId(value) {
+    return value.startsWith("#") ? value.slice(1) : value;
   }
 
   useEffect(() => {
@@ -74,6 +80,7 @@ export default function Amigos() {
   // filtra em tempo real
   useEffect(() => {
     const value = search.trim().toLowerCase();
+    const normalizedSearch = normalizeId(value);
 
     if (!value) {
       setFilteredFriends(friends);
@@ -84,7 +91,7 @@ export default function Amigos() {
     const filtered = friends.filter((friend) => {
       return (
         friend.name?.toLowerCase().includes(value) ||
-        friend._id?.toLowerCase().includes(value)
+        friend._id?.toLowerCase().includes(normalizedSearch)
       );
     });
 

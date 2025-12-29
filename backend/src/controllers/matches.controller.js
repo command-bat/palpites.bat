@@ -171,7 +171,7 @@ exports.getMatchDays = async (req, res) => {
 
         const season = req.query.season ? Number(req.query.season) : null;
         const competition = req.query.competition || "BSA";
-        const all = req.query.all === "true";
+        const all = req.query.all;
 
         // Construindo o filtro dinamicamente
         const baseMatch = {
@@ -183,9 +183,9 @@ exports.getMatchDays = async (req, res) => {
             baseMatch.seasonYear = season;
         }
 
-        if (all) {
-            if (!req.user?.isPremium) {
-                return res.status(403).json({ error: "Apenas usuários premium podem acessar todo o histórico" });
+        if (all === "true") {
+            if (!req.user?.role === "admin") {
+                return res.status(403).json({ error: "Apenas Admin podem acessar todo o histórico" });
             }
 
             const days = await Match.aggregate([
@@ -202,6 +202,38 @@ exports.getMatchDays = async (req, res) => {
 
             return res.json(days.map(d => d._id));
         }
+
+        if (all === "old") {
+            if (!req.user?.isPremium) {
+                return res.status(403).json({ error: "Apenas usuários premium podem acessar o histórico" });
+            }
+
+            const todayEnd = new Date();
+            todayEnd.setHours(23, 59, 59, 999);
+
+            const days = await Match.aggregate([
+                {
+                    $match: {
+                        ...baseMatch,
+                        utcDate: { $lte: todayEnd }
+                    }
+                },
+                {
+                    $group: {
+                        _id: {
+                            $dateToString: {
+                                format: "%Y-%m-%d",
+                                date: "$utcDate"
+                            }
+                        }
+                    }
+                },
+                { $sort: { _id: -1 } } // mais recentes primeiro (opcional)
+            ]);
+
+            return res.json(days.map(d => d._id));
+        }
+
 
         const today = new Date();
         const sevenDaysLater = new Date();
