@@ -27,7 +27,6 @@ router.get(
             httpOnly: true,
             secure: isProd,
             sameSite: isProd ? "none" : "lax",
-            domain: isProd ? ".commandbat.com.br" : "localhost",
             path: "/",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
@@ -57,7 +56,6 @@ router.get(
             httpOnly: true,
             secure: isProd,
             sameSite: isProd ? "none" : "lax",
-            domain: isProd ? ".commandbat.com.br" : "localhost",
             path: "/",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
@@ -72,7 +70,6 @@ router.post("/logout", (req, res) => {
         httpOnly: true,
         secure: isProd,
         sameSite: isProd ? "none" : "lax",
-        domain: isProd ? ".commandbat.com.br" : "localhost",
         path: "/",
     });
 
