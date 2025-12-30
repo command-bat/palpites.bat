@@ -1,14 +1,21 @@
 import { useEffect, useRef } from "react";
 import styles from "./index.module.css";
 
-export default function SelectFriends({ setCompetition, onClose }) {
+export default function Select({ setValue, onClose, values }) {
   const ref = useRef(null);
 
-  const friends = [
-    { name: "Amigos", code: "friends" },
-    { name: "Solicitações recebidas", code: "received" },
-    { name: "Solicitações enviadas", code: "send" },
-  ];
+  // | WC  | FIFA World Cup
+  // | CL  | UEFA Champions League
+  // | BL1 | Bundesliga
+  // | DED | Eredivisie
+  // | BSA | Campeonato Brasileiro Série A
+  // | PD  | Primera Division
+  // | FL1 | Ligue 1
+  // | ELC | Championship
+  // | PPL | Primeira Liga
+  // | EC  | European Championship
+  // | SA  | Serie A
+  // | PL  | Premier League
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -22,16 +29,16 @@ export default function SelectFriends({ setCompetition, onClose }) {
 
   return (
     <div ref={ref} className={styles.dropdown}>
-      {friends.map((friend) => (
+      {values.map((value) => (
         <div
-          key={friend.code}
+          key={value.code}
           className={styles.option}
           onClick={() => {
-            setCompetition(friend);
+            setValue(value);
             onClose();
           }}
         >
-          {friend.name}
+          {value.name}
         </div>
       ))}
     </div>

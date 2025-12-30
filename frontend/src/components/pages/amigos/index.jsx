@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.css";
 import Icon from "../../icon";
-import SelectFriends from "../../popups/select_friends";
+import SelectFriends from "../../popups/select_dropdown";
 import Friend from "../../friend";
 import Alert from "../../popups/alert";
 
@@ -21,6 +21,12 @@ export default function Amigos() {
   });
 
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
+
+  const valuesFriend = [
+    { name: "Amigos", code: "friends" },
+    { name: "Solicitações recebidas", code: "received" },
+    { name: "Solicitações enviadas", code: "send" },
+  ];
 
   async function fetchFriends() {
     setLoading(true);
@@ -208,11 +214,12 @@ export default function Amigos() {
           </button>
           {openSelect && (
             <SelectFriends
-              setCompetition={(c) => {
+              setValue={(c) => {
                 setSelect(c);
                 setOpenSelect(false);
               }}
               onClose={() => setOpenSelect(false)}
+              values={valuesFriend}
             />
           )}
         </div>

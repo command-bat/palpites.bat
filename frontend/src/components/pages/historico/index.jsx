@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.css";
 import Matches from "../../game";
 import Icon from "../../icon";
-import SelectCompetition from "../../popups/select_competition";
+import SelectCompetition from "../../popups/select_dropdown";
 import SelectDate from "../../popups/select_calendar";
 import { useAuth } from "../../../auth/useAuth";
 
@@ -22,6 +22,21 @@ export default function Historico() {
   const [openSetCompetition, setOpenSetCompetition] = useState(false);
 
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
+
+  const valuesCompetition = [
+    { name: "Copa do Mundo FIFA", code: "WC" },
+    { name: "Champions League", code: "CL" },
+    { name: "Bundesliga", code: "BL1" },
+    { name: "Eredivisie", code: "DED" },
+    { name: "Brasileirão", code: "BSA" },
+    { name: "Primera Division", code: "PD" },
+    { name: "Ligue 1", code: "FL1" },
+    { name: "Championship", code: "ELC" },
+    { name: "Primeira Liga", code: "PPL" },
+    { name: "European Championship", code: "EC" },
+    { name: "Serie A", code: "SA" },
+    { name: "Premier League", code: "PL" },
+  ];
 
   function formattedDateForDisplay(date) {
     return `${date.getDate()} ${date.toLocaleDateString("pt-BR", {
@@ -131,11 +146,12 @@ export default function Historico() {
 
             {openSetCompetition && (
               <SelectCompetition
-                setCompetition={(c) => {
+                setValue={(c) => {
                   setCompetition(c);
                   setOpenSetCompetition(false);
                 }}
                 onClose={() => setOpenSetCompetition(false)}
+                values={valuesCompetition}
               />
             )}
           </div>
