@@ -41,7 +41,6 @@ export default function Amigos() {
       const friends = await resfriends.json(); // ARRAY direto
 
       setFriends(friends);
-      console.log("amigos:", friends);
     } catch (err) {
       console.error(err);
       setFriends([]);
@@ -234,31 +233,32 @@ export default function Amigos() {
       )}
 
       <div className={styles.list}>
-        {filteredFriends.map((friend) => (
-          <Friend
-            key={friend._id}
-            friend={friend}
-            options={
-              select.code === "friends"
-                ? []
-                : select.code === "received"
-                ? [
-                    { text: "Aceitar", color: "green", answer: "accept" },
-                    { text: "Recusar", color: "red", answer: "reject" },
-                  ]
-                : select.code === "send"
-                ? [
-                    {
-                      text: "Cancelar pedido",
-                      color: "gray",
-                      answer: "canceladd",
-                    },
-                  ]
-                : []
-            }
-            onAnswer={handleFriendAnswer}
-          />
-        ))}
+        {!loading &&
+          filteredFriends.map((friend) => (
+            <Friend
+              key={friend._id}
+              friend={friend}
+              options={
+                select.code === "friends"
+                  ? []
+                  : select.code === "received"
+                  ? [
+                      { text: "Aceitar", color: "green", answer: "accept" },
+                      { text: "Recusar", color: "red", answer: "reject" },
+                    ]
+                  : select.code === "send"
+                  ? [
+                      {
+                        text: "Cancelar pedido",
+                        color: "gray",
+                        answer: "canceladd",
+                      },
+                    ]
+                  : []
+              }
+              onAnswer={handleFriendAnswer}
+            />
+          ))}
 
         {notFound && search && (
           <div
