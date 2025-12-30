@@ -273,7 +273,8 @@ export default function MatchCard({ match }) {
                 }
                 className={user?.isPremium ? "" : styles.blockPremium}
               >
-                <Icon icon={"lock"} /> Estatistica globais:
+                <Icon icon={user?.isPremium ? "globe" : "lock"} /> Estatistica
+                globais:
               </p>
 
               {user?.isPremium ? (
@@ -324,7 +325,9 @@ export default function MatchCard({ match }) {
                   </div>
                 </>
               )}
-              <p>Estatistica dos seus amigos:</p>
+              <p>
+                <Icon icon={"friends"} /> Estatistica dos seus amigos:
+              </p>
               <div className={styles.statisticFriends}>
                 <div
                   title={match.homeTeam.name}
