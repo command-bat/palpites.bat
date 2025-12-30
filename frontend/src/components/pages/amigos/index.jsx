@@ -4,6 +4,7 @@ import styles from "./index.module.css";
 import Icon from "../../icon";
 import SelectFriends from "../../popups/select_friends";
 import Friend from "../../friend";
+import Alert from "../../popups/alert";
 
 export default function Amigos() {
   const [openSelect, setOpenSelect] = useState(false);
@@ -12,6 +13,7 @@ export default function Amigos() {
   const [search, setSearch] = useState("");
   const [filteredFriends, setFilteredFriends] = useState([]);
   const [notFound, setNotFound] = useState(false);
+  const [alert, setAlert] = useState(null);
 
   const [select, setSelect] = useState({
     name: "Amigos",
@@ -64,6 +66,41 @@ export default function Amigos() {
     }
   }
 
+  async function fetchAnswer(answers) {
+    setLoading(true);
+
+    try {
+      for (const answer of answers) {
+        const res = await fetch(
+          `${LINK}/friends/${
+            answer.value === "canceladd"
+              ? "canceladd/" + answer.userId
+              : "orders/" + answer.userId + "/" + answer.value
+          }`,
+          {
+            method: "POST",
+            credentials: "include",
+          }
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          setAlert({ message: data.message || "Erro", type: "error" });
+          return;
+        }
+
+        setAlert({ message: data.message, type: "success" });
+      }
+
+      await refreshCurrentList(); // 🔥 ATUALIZA A LISTA
+    } catch {
+      setAlert({ message: "Erro inesperado", type: "error" });
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function sendFriendRequest(value) {
     const normalizedValue = normalizeId(value.trim());
 
@@ -79,20 +116,40 @@ export default function Amigos() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.message || "Usuário não encontrado");
+        setAlert({ message: data.message || "Erro", type: "error" });
         return;
       }
 
-      alert(data.message);
+      setAlert({ message: data.message, type: "success" });
       setSearch("");
-      fetchFriends();
-    } catch (err) {
-      alert("Erro ao enviar pedido");
+      await refreshCurrentList();
+    } catch {
+      setAlert({ message: "Erro ao enviar pedido", type: "error" });
     }
   }
 
   function normalizeId(value) {
     return value.startsWith("#") ? value.slice(1) : value;
+  }
+
+  async function refreshCurrentList() {
+    if (select.code === "friends") await fetchFriends();
+    if (select.code === "send" || select.code === "received") {
+      await fetchOrders(select.code);
+    }
+  }
+
+  function handleFriendAnswer(answerObj) {
+    // answerObj = { value, userId }
+
+    const payload = [
+      {
+        value: answerObj.value,
+        userId: answerObj.userId,
+      },
+    ];
+
+    fetchAnswer(payload);
   }
 
   useEffect(() => {
@@ -103,8 +160,6 @@ export default function Amigos() {
     if (select.code === "friends") fetchFriends();
     if (select.code === "send" || select.code === "received")
       fetchOrders(select.code);
-    console.log(select);
-    console.log(friends);
   }, [select]);
   // filtra em tempo real
   useEffect(() => {
@@ -163,6 +218,14 @@ export default function Amigos() {
         </div>
       </div>
 
+      {alert && (
+        <Alert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => setAlert(null)}
+        />
+      )}
+
       <div className={styles.list}>
         {filteredFriends.map((friend) => (
           <Friend
@@ -173,13 +236,20 @@ export default function Amigos() {
                 ? []
                 : select.code === "received"
                 ? [
-                    { text: "Aceitar", color: "green" },
-                    { text: "Recusar", color: "red" },
+                    { text: "Aceitar", color: "green", answer: "accept" },
+                    { text: "Recusar", color: "red", answer: "reject" },
                   ]
                 : select.code === "send"
-                ? [{ text: "Cancelar pedido", color: "red" }]
+                ? [
+                    {
+                      text: "Cancelar pedido",
+                      color: "gray",
+                      answer: "canceladd",
+                    },
+                  ]
                 : []
             }
+            onAnswer={handleFriendAnswer}
           />
         ))}
 

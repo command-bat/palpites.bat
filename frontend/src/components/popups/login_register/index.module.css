@@ -106,6 +106,14 @@
   transition: background 0.2s ease;
 
   z-index: calc(var(--z-toast) + 100);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    transform: scale(1.5);
+  }
 }
 
 .close:hover {

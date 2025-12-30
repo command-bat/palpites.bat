@@ -77,6 +77,30 @@ exports.sendFriendRequest = async (req, res) => {
     res.json({ message: "Pedido enviado" });
 };
 
+// Cancelar pedido de amizade enviado
+exports.cancelSendFriendRequest = async (req, res) => {
+    const from = await User.findById(req.user.id);
+    const to = await findUser(req.params.userId);
+
+    if (!to || from.id === to.id) {
+        return res.status(400).json({ message: "Usuário inválido" });
+    }
+
+    // verifica se o pedido realmente foi enviado
+    if (!from.friends.send.includes(to.id)) {
+        return res.status(400).json({ message: "Pedido não encontrado" });
+    }
+
+    // remove o pedido
+    from.friends.send.pull(to.id);
+    to.friends.received.pull(from.id);
+
+    await from.save();
+    await to.save();
+
+    res.json({ message: "Pedido de amizade cancelado" });
+};
+
 // Pedidos recebidos
 exports.getReceivedOrders = async (req, res) => {
     const user = await User.findById(req.user.id)

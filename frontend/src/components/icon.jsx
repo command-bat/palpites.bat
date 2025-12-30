@@ -27,6 +27,7 @@ import {
   FaMagnifyingGlass,
   FaStar,
   FaPlus,
+  FaXmark,
 } from "react-icons/fa6";
 
 const iconsMap = {
@@ -58,6 +59,7 @@ const iconsMap = {
   find: FaMagnifyingGlass,
   star: FaStar,
   plus: FaPlus,
+  close: FaXmark,
 };
 
 export default function Icon({ icon = "home", className, ...props }) {

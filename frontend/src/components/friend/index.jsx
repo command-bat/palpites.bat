@@ -2,7 +2,14 @@
 import styles from "./index.module.css";
 import Icon from "../icon";
 
-export default function FriendCard({ friend, options }) {
+export default function FriendCard({ friend, options, onAnswer }) {
+  function handleClick(answer) {
+    onAnswer({
+      value: answer,
+      userId: friend._id,
+    });
+  }
+
   return (
     <div className={styles.card}>
       <div className={styles.avatarWrapper}>
@@ -22,16 +29,27 @@ export default function FriendCard({ friend, options }) {
         )}
 
         <p className={styles.id}>#{friend._id}</p>
-        {options && (
-          <>
-            <div>
-              {options.map((option) => (
-                <button className={option.color}>{option.text}</button>
-              ))}
-            </div>
-          </>
-        )}
       </div>
+
+      {options?.length > 0 && (
+        <div
+          className={`${styles.buttons} ${
+            styles[options.length % 2 === 0 ? "pair" : "odd"]
+          }`}
+        >
+          {options.map((option, index) => (
+            <button
+              key={index}
+              className={`${styles[option.color]} ${
+                styles[index % 2 === 0 ? "left" : "right"]
+              }`}
+              onClick={() => handleClick(option.answer)}
+            >
+              {option.text}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

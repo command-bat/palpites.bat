@@ -1,7 +1,8 @@
 .card {
   background: var(--background_secondary);
 
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
   gap: 14px;
 
@@ -117,4 +118,55 @@
   color: var(--text_unselect);
 
   font-variant-caps: all-small-caps;
+}
+
+.buttons {
+  width: 100%;
+  display: flex;
+  gap: 0px;
+  grid-column: 1 / -1;
+  flex-wrap: wrap;
+  button {
+    color: var(--text_select);
+    cursor: pointer;
+    border: none;
+    padding: 10px 22px;
+    font-weight: 600;
+    transition: transform 0.15s, opacity 0.15s;
+  }
+
+  button:hover {
+    transform: translateY(-2px);
+  }
+
+  .green {
+    background: var(--green);
+  }
+  .red {
+    background: var(--red);
+  }
+
+  .gray {
+  }
+}
+
+.pair {
+  .left {
+    width: 50%;
+
+    border-radius: 7px 0px 0px 7px;
+  }
+  .right {
+    width: 50%;
+
+    border-radius: 0px 7px 7px 0px;
+  }
+}
+
+.odd {
+  .left {
+    width: 100%;
+
+    border-radius: 7px;
+  }
 }

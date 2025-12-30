@@ -1,4 +1,5 @@
 import styles from "./index.module.css";
+import Icon from "../../icon";
 
 export default function login_register({ onClose }) {
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
@@ -8,7 +9,7 @@ export default function login_register({ onClose }) {
       <div className={styles.overlay}>
         <div className={styles.popup}>
           <button className={styles.close} onClick={onClose}>
-            ✕
+            <Icon icon={"close"} />
           </button>
 
           <h2 className={styles.title}>Entrar</h2>

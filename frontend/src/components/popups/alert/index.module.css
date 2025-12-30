@@ -1,0 +1,119 @@
+/* fundo escuro suave */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.18s ease;
+}
+
+/* caixa do alert */
+.alert {
+  width: 360px;
+  padding: 16px 18px;
+
+  background: linear-gradient(
+    180deg,
+    var(--background),
+    var(--background_secondary)
+  );
+
+  border-radius: 18px;
+  border: 1px solid var(--background_secondary);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+
+  animation: popupIn 0.18s ease;
+}
+
+/* estados */
+.success {
+  border-left: 4px solid var(--green);
+}
+
+.error {
+  border-left: 4px solid var(--red);
+}
+
+/* conteúdo */
+.content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon {
+  font-size: 22px;
+  color: var(--color_primary);
+}
+
+/* textos */
+.texts h1 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.texts p {
+  font-size: 13px;
+  color: var(--text_unselect);
+  margin: 2px 0 0;
+}
+
+/* botão fechar */
+.close {
+  background: var(--background_secondary);
+  border: none;
+  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s ease, transform 0.18s ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    transform: scale(1.5);
+  }
+}
+
+.close:hover {
+  background: var(--background);
+  transform: scale(1.1);
+}
+
+/* animações */
+@keyframes popupIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

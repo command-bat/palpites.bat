@@ -17,7 +17,7 @@ exports.getMatches = async (req, res) => {
     const teams = req.query.teams === "true";
     const season = req.query.season ? Number(req.query.season) : null;
     const competition = (req.query.competition) || "BSA";
-    const date = (req.query.date);
+    const date = (req.query.date) || new Date().toISOString().split("T")[0];;
     const palpite = (req.query.palpite === "true") || false;
     const token = req.cookies.auth_token;
 
