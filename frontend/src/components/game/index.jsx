@@ -373,7 +373,11 @@ export default function MatchCard({ match }) {
                   className={`${styles.teamOption} ${
                     selectedTeam === selectPalpite[index] ? styles.selected : ""
                   } ${stylesPalpite[index]}`}
-                  onClick={() => setSelectedTeam(selectPalpite[index])}
+                  onClick={() => {
+                    selectedTeam !== selectPalpite[index]
+                      ? setSelectedTeam(selectPalpite[index])
+                      : setSelectedTeam("");
+                  }}
                 >
                   <img src={team.crest} alt={team.name} />
                   <p>{team.shortName}</p>
