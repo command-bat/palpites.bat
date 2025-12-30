@@ -25,17 +25,7 @@
     width: 100%;
     margin-top: 20px;
   }
-
-  /* .homeTeam,
-  .awayTeam {
-    flex-direction: column !important;
-  } */
 }
-
-/* .match:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 0 1px var(--color_secondary);
-} */
 
 /* HEADER */
 
@@ -111,8 +101,6 @@
     max-width: 100%;
 
     display: flex;
-    /* justify-content: center; */
-    /* flex-wrap: wrap; */
     @container (max-width: 350px) {
       flex-direction: column !important;
     }
@@ -360,6 +348,13 @@
   justify-content: center;
 
   gap: 5px;
+
+  /* animação */
+  animation: slideDown 0.3s ease forwards;
+
+  /* opcional: inicia invisível se quiser efeito fade */
+  opacity: 0;
+
   .homeTeam {
     background-color: var(--color_primary);
     width: 35%;

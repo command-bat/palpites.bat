@@ -416,7 +416,7 @@ export default function MatchCard({ match }) {
           )}
         <Icon
           className={styles.eye}
-          icon={"eyeOpen"}
+          icon={showStatistics ? "up" : "statistics"}
           onClick={() => {
             setShowStatistics((v) => !v);
             fetchStatistics(match.matchId);

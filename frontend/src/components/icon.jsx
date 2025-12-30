@@ -29,6 +29,8 @@ import {
   FaPlus,
   FaXmark,
   FaGlobe,
+  FaChartLine,
+  FaChevronUp,
 } from "react-icons/fa6";
 
 const iconsMap = {
@@ -62,6 +64,8 @@ const iconsMap = {
   plus: FaPlus,
   close: FaXmark,
   globe: FaGlobe,
+  statistics: FaChartLine,
+  up: FaChevronUp,
 };
 
 export default function Icon({ icon = "home", className, ...props }) {
