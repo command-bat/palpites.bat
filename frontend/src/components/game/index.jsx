@@ -2,12 +2,20 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.css";
 import Icon from "../icon";
+import { useAuth } from "../../auth/useAuth";
 
 export default function MatchCard({ match }) {
+  const { user } = useAuth();
+
   const [showPicker, setShowPicker] = useState(false);
+  const [showStatistics, setShowStatistics] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [resultado, setResultado] = useState(""); // mostra resultado do envio
   const [selectStatusRound, setSelectStatusRound] = useState(0); // <-- estado do status
+  const [palpiteStatisticsGlobal, setPalpiteStatisticsGlobal] = useState([]);
+  const [palpiteStatisticsFriends, setPalpiteStatisticsFriends] = useState([]);
+
+  const [loading, setLoading] = useState(true);
 
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
 
@@ -50,6 +58,45 @@ export default function MatchCard({ match }) {
     if (match.status === "FINISHED") return 3;
     return -1;
   };
+
+  // fetch das estatisticas globais
+  async function fetchStatistics(match) {
+    setLoading(true);
+    try {
+      const res = await fetch(`${LINK}/palpite/match/${match}`, {
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("Not authenticated");
+      const data = await res.json();
+      console.log(data);
+
+      setPalpiteStatisticsGlobal(data);
+    } catch (err) {
+      setPalpiteStatisticsGlobal([]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // fetch das estatisticas dos amigos
+  async function fetchStatisticsFriends(match) {
+    console.log("chamou");
+    setLoading(true);
+    try {
+      const res = await fetch(`${LINK}/friends/palpite/${match}`, {
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("Not authenticated");
+      const data = await res.json();
+      console.log(data);
+
+      setPalpiteStatisticsFriends(data);
+    } catch (err) {
+      setPalpiteStatisticsFriends([]);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   // Atualiza status a cada minuto e quando o componente monta
   useEffect(() => {
@@ -140,8 +187,6 @@ export default function MatchCard({ match }) {
   async function enviarPalpite() {
     setShowPicker(false);
 
-    console.log(match);
-    // console.log(selectedTeam);
     if (!selectedTeam) return;
 
     try {
@@ -165,7 +210,6 @@ export default function MatchCard({ match }) {
       }
 
       setResultado("Palpite enviado com sucesso!");
-      console.log("Palpite enviado:", data);
     } catch (err) {
       console.error(err);
       setResultado("Erro de conexão com o servidor");
@@ -173,7 +217,11 @@ export default function MatchCard({ match }) {
   }
 
   return (
-    <div className={`${styles.match} ${showPicker ? styles.expanded : ""}`}>
+    <div
+      className={`${styles.match} ${showPicker ? styles.expanded : ""} ${
+        showStatistics ? styles.moreexpanded : ""
+      }`}
+    >
       {showPicker && <div className={styles.blurOverlay}></div>}
 
       <div className={styles.header}>
@@ -199,7 +247,6 @@ export default function MatchCard({ match }) {
           />
           <p>{match.homeTeam.shortName}</p>
         </div>
-
         <div className={styles.centralInfo}>
           {stage ? (
             <div className={styles.stage}>{stage}</div>
@@ -207,7 +254,6 @@ export default function MatchCard({ match }) {
             <div className={styles.fakeStage}>{stage}</div>
           )}
         </div>
-
         <div className={styles.awayTeam}>
           <img
             className={styles.img}
@@ -216,7 +262,104 @@ export default function MatchCard({ match }) {
           />
           <p>{match.awayTeam.shortName}</p>
         </div>
+        {showStatistics && (
+          <>
+            <div className={styles.statisticsMenu}>
+              <p
+                title={
+                  user?.isPremium
+                    ? "Estatistica Premium"
+                    : "Compre o Premium para poder ver"
+                }
+                className={user?.isPremium ? "" : styles.blockPremium}
+              >
+                <Icon icon={"lock"} /> Estatistica globais:
+              </p>
 
+              {user?.isPremium ? (
+                <>
+                  <div className={styles.statisticGlobal}>
+                    <div
+                      title={match.homeTeam.name}
+                      className={styles.homeTeam}
+                      style={{
+                        width: `${
+                          (100 / palpiteStatisticsGlobal.total) *
+                          palpiteStatisticsGlobal.homeTeam
+                        }%`,
+                      }}
+                    ></div>
+                    <div
+                      title={"Empate"}
+                      className={styles.tie}
+                      style={{
+                        width: `${
+                          (100 / palpiteStatisticsGlobal.total) *
+                          palpiteStatisticsGlobal.tie
+                        }%`,
+                      }}
+                    ></div>
+                    <div
+                      title={match.awayTeam.name}
+                      className={styles.awayTeam}
+                      style={{
+                        width: `${
+                          (100 / palpiteStatisticsGlobal.total) *
+                          palpiteStatisticsGlobal.awayTeam
+                        }%`,
+                      }}
+                    ></div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className={styles.statisticGlobal}>
+                    <div
+                      title={"Compre o Premium para poder ver"}
+                      className={styles.premium}
+                      style={{
+                        width: `100%`,
+                      }}
+                    ></div>
+                  </div>
+                </>
+              )}
+              <p>Estatistica dos seus amigos:</p>
+              <div className={styles.statisticFriends}>
+                <div
+                  title={match.homeTeam.name}
+                  className={styles.homeTeam}
+                  style={{
+                    width: `${
+                      (100 / palpiteStatisticsFriends.total) *
+                      palpiteStatisticsFriends.homeTeam?.length
+                    }%`,
+                  }}
+                ></div>
+                <div
+                  title={"Empate"}
+                  className={styles.tie}
+                  style={{
+                    width: `${
+                      (100 / palpiteStatisticsFriends.total) *
+                      palpiteStatisticsFriends.tie?.length
+                    }%`,
+                  }}
+                ></div>
+                <div
+                  title={match.awayTeam.name}
+                  className={styles.awayTeam}
+                  style={{
+                    width: `${
+                      (100 / palpiteStatisticsFriends.total) *
+                      palpiteStatisticsFriends.awayTeam?.length
+                    }%`,
+                  }}
+                ></div>
+              </div>
+            </div>
+          </>
+        )}
         {showPicker && (
           <div className={styles.palpiteMenu}>
             <p>Escolha o vencedor</p>
@@ -258,7 +401,6 @@ export default function MatchCard({ match }) {
                 className={styles.palpitar}
                 onClick={() => {
                   setShowPicker((v) => !v);
-                  setResultado("");
                 }}
               >
                 Palpitar
@@ -268,7 +410,11 @@ export default function MatchCard({ match }) {
         <Icon
           className={styles.eye}
           icon={"eyeOpen"}
-          onClick={() => alert("Em Breve")}
+          onClick={() => {
+            setShowStatistics((v) => !v);
+            fetchStatistics(match.matchId);
+            fetchStatisticsFriends(match.matchId);
+          }}
         />
       </div>
     </div>

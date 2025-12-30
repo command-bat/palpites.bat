@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const Palpite = require("../models/palpite.model");
 const mongoose = require("mongoose");
 
 // helper: achar user por id, email ou nome
@@ -158,4 +159,49 @@ exports.rejectOrder = async (req, res) => {
     await from.save();
 
     res.json({ message: "Pedido rejeitado" });
+};
+
+exports.getpalpiteFriends = async (req, res) => {
+    try {
+        const { matchId } = req.params;
+
+        // Busca usuário logado e popula amigos
+        const user = await User.findById(req.user.id)
+            .populate("friends.friends", "name avatar");
+
+        if (!user) return res.status(404).json({ message: "Usuário não encontrado" });
+
+        const friendsIds = user.friends.friends.map(f => f._id);
+
+        // Busca palpites dos amigos apenas para a partida específica
+        const palpites = await Palpite.find({
+            userId: { $in: friendsIds },
+            matchId: matchId
+        }).populate("userId", "name avatar");
+
+        // Organiza os palpites por tipo
+        const response = {
+            homeTeam: [],
+            tie: [],
+            awayTeam: [],
+            total: 0
+        };
+
+        palpites.forEach(p => {
+            if (p.palpite) {
+                response[p.palpite].push({
+                    userId: p.userId._id,
+                    name: p.userId.name,
+                    avatar: p.userId.avatar
+                });
+                response.total += 1;
+            }
+        });
+
+        return res.json(response); // retorna dentro de um array, conforme seu modelo
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Erro interno" });
+    }
 };

@@ -351,3 +351,57 @@
     color: var(--text);
   }
 }
+
+.statisticsMenu {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+
+  gap: 5px;
+  .homeTeam {
+    background-color: var(--color_primary);
+    width: 35%;
+  }
+  .tie {
+    background-color: var(--gray);
+    width: 30%;
+  }
+  .awayTeam {
+    background-color: var(--color_secondary);
+    width: 35%;
+  }
+  .premium {
+    background-color: var(--background_highlight);
+    width: 100%;
+  }
+
+  .homeTeam,
+  .tie,
+  .awayTeam,
+  .premium {
+    padding: 0px;
+    height: 10px;
+  }
+
+  .homeTeam:hover,
+  .tie:hover,
+  .awayTeam:hover {
+    transform: scale(1.01);
+  }
+}
+
+.statisticGlobal,
+.statisticFriends {
+  display: flex;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.statisticFriends {
+}
+
+.blockPremium {
+  color: var(--color_primary) !important;
+}

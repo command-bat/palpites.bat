@@ -8,7 +8,7 @@ const isPremium = require("../middlewares/isPremium");
 router.post("/", isAuthenticatedJWT, controller.createPalpite);
 
 // Quantidades de palpites da partida
-router.get("/match/:matchId", isPremium, isAuthenticatedJWT, controller.getPalpiteByIdMatch);
+router.get("/match/:matchId", isAuthenticatedJWT, isPremium, controller.getPalpiteByIdMatch);
 
 // Rota sem userId (usa o logado)
 router.get("/user", isAuthenticatedJWT, controller.getPalpiteByIdUser);

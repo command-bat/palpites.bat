@@ -31,6 +31,7 @@ router.post("/orders/:userId/accept", isAuthenticatedJWT, controller.acceptOrder
 //Rejeita um pedido do user
 router.post("/orders/:userId/reject", isAuthenticatedJWT, controller.rejectOrder);
 
-
+//lista de dos palpites dos amigos do user logado
+router.get("/palpite/:matchId", isAuthenticatedJWT, controller.getpalpiteFriends);
 
 module.exports = router;
