@@ -157,11 +157,26 @@ export default function sidebar({
                     alert("Compre o Premium");
                   }}
                 />
-                <label htmlFor="sidebarSelectHistory">
+                <label
+                  htmlFor="sidebarSelectHistory"
+                  style={{ paddingBottom: "10px", paddingTop: "10px" }}
+                >
                   <div>
                     <Icon icon={"lock"} className={styles.icon} />
                   </div>
-                  <span>Historico</span>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <span>Historico</span>
+                    <p
+                      style={{
+                        fontSize: "10px",
+                        textTransform: "uppercase",
+                        fontVariantCaps: "all-small-caps",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      PREMIUM
+                    </p>
+                  </div>
                 </label>
               </div>
             </>
@@ -205,11 +220,26 @@ export default function sidebar({
                     alert("Compre o Premium");
                   }}
                 />
-                <label htmlFor="sidebarSelectComparator">
+                <label
+                  htmlFor="sidebarSelectComparator"
+                  style={{ paddingBottom: "10px", paddingTop: "10px" }}
+                >
                   <div>
                     <Icon icon={"lock"} className={styles.icon} />
                   </div>
-                  <span> Comparador</span>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <span> Comparador</span>
+                    <p
+                      style={{
+                        fontSize: "10px",
+                        textTransform: "uppercase",
+                        fontVariantCaps: "all-small-caps",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      PREMIUM
+                    </p>
+                  </div>
                 </label>
               </div>
             </>
