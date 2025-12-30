@@ -274,7 +274,7 @@ export default function MatchCard({ match }) {
                 className={user?.isPremium ? "" : styles.blockPremium}
               >
                 <Icon icon={user?.isPremium ? "globe" : "lock"} /> Estatistica
-                globais:
+                global:
               </p>
 
               {user?.isPremium ? (
