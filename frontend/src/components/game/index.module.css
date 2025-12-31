@@ -378,6 +378,7 @@
   .premium {
     padding: 0px;
     height: 10px;
+    overflow: hidden;
   }
 
   .homeTeam:hover,
@@ -392,6 +393,17 @@
   display: flex;
   border-radius: 999px;
   overflow: hidden;
+
+  .homeTeam,
+  .tie,
+  .awayTeam {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
 }
 
 .statisticFriends {
@@ -399,4 +411,8 @@
 
 .blockPremium {
   color: var(--color_primary) !important;
+}
+
+.imgBar {
+  width: 10px;
 }

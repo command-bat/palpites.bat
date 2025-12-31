@@ -68,7 +68,6 @@ export default function MatchCard({ match }) {
       });
       if (!res.ok) throw new Error("Not authenticated");
       const data = await res.json();
-      console.log(data);
 
       setPalpiteStatisticsGlobal(data);
     } catch (err) {
@@ -80,7 +79,6 @@ export default function MatchCard({ match }) {
 
   // fetch das estatisticas dos amigos
   async function fetchStatisticsFriends(match) {
-    console.log("chamou");
     setLoading(true);
     try {
       const res = await fetch(`${LINK}/friends/palpite/${match}`, {
@@ -88,7 +86,6 @@ export default function MatchCard({ match }) {
       });
       if (!res.ok) throw new Error("Not authenticated");
       const data = await res.json();
-      console.log(data);
 
       setPalpiteStatisticsFriends(data);
     } catch (err) {
@@ -289,7 +286,13 @@ export default function MatchCard({ match }) {
                           palpiteStatisticsGlobal.homeTeam
                         }%`,
                       }}
-                    ></div>
+                    >
+                      <img
+                        className={styles.imgBar}
+                        src={match.homeTeam.crest}
+                        alt={match.homeTeam.name}
+                      />
+                    </div>
                     <div
                       title={"Empate"}
                       className={styles.tie}
@@ -299,7 +302,13 @@ export default function MatchCard({ match }) {
                           palpiteStatisticsGlobal.tie
                         }%`,
                       }}
-                    ></div>
+                    >
+                      <img
+                        className={styles.imgBar}
+                        src={"/placeholder/Empate.png"}
+                        alt={"empate"}
+                      />
+                    </div>
                     <div
                       title={match.awayTeam.name}
                       className={styles.awayTeam}
@@ -309,7 +318,13 @@ export default function MatchCard({ match }) {
                           palpiteStatisticsGlobal.awayTeam
                         }%`,
                       }}
-                    ></div>
+                    >
+                      <img
+                        className={styles.imgBar}
+                        src={match.awayTeam.crest}
+                        alt={match.awayTeam.name}
+                      />
+                    </div>
                   </div>
                 </>
               ) : (
@@ -338,7 +353,13 @@ export default function MatchCard({ match }) {
                       palpiteStatisticsFriends.homeTeam?.length
                     }%`,
                   }}
-                ></div>
+                >
+                  <img
+                    className={styles.imgBar}
+                    src={match.homeTeam.crest}
+                    alt={match.homeTeam.name}
+                  />
+                </div>
                 <div
                   title={"Empate"}
                   className={styles.tie}
@@ -348,7 +369,13 @@ export default function MatchCard({ match }) {
                       palpiteStatisticsFriends.tie?.length
                     }%`,
                   }}
-                ></div>
+                >
+                  <img
+                    className={styles.imgBar}
+                    src={"/placeholder/Empate.png"}
+                    alt={"empate"}
+                  />
+                </div>
                 <div
                   title={match.awayTeam.name}
                   className={styles.awayTeam}
@@ -358,7 +385,13 @@ export default function MatchCard({ match }) {
                       palpiteStatisticsFriends.awayTeam?.length
                     }%`,
                   }}
-                ></div>
+                >
+                  <img
+                    className={styles.imgBar}
+                    src={match.awayTeam.crest}
+                    alt={match.awayTeam.name}
+                  />
+                </div>
               </div>
             </div>
           </>
