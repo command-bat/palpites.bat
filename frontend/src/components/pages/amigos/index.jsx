@@ -207,9 +207,8 @@ export default function Amigos() {
             className={styles.dropdown}
             onClick={() => setOpenSelect((v) => !v)}
           >
-            {" "}
             {select.name}
-            <Icon icon={"down"} />{" "}
+            <Icon icon={"down"} />
           </button>
           {openSelect && (
             <SelectFriends

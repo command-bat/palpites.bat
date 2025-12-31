@@ -1,47 +1,28 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user.model");
 const isAuthenticated = require("../middlewares/isAuthenticatedJWT");
+const usersController = require("../controllers/users.controller");
+
 
 /**
  * GET /users/me
  * Retorna o usuário logado (via JWT)
  */
-router.get("/me", isAuthenticated, async (req, res) => {
-    const user = await User.findById(req.user.id).select("-__v");
+router.get("/me", isAuthenticated, usersController.getUserMe);
 
-    if (!user) {
-        return res.status(404).json({ message: "Usuário não encontrado" });
-    }
 
-    res.json(user);
-});
+/**
+ * GET /users/:userId/stats
+ * Retorna o stats do user
+ */
+router.get("/stats/:userId", isAuthenticated, usersController.getUserStats);
 
 /**
  * GET /users/:id
  * Busca usuário pelo ID
  */
-router.get("/:id", isAuthenticated, async (req, res) => {
-    try {
-        const user = await User.findById(req.params.id).select(
-            "email name avatar providers createdAt"
-        );
+router.get("/:id", isAuthenticated, usersController.getUserId);
 
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
 
-        res.json({
-            id: user._id,
-            email: user.email,
-            name: user.name,
-            avatar: user.avatar,
-            providers: user.providers,
-            createdAt: user.createdAt,
-        });
-    } catch (err) {
-        res.status(500).json({ message: "Server error" });
-    }
-});
 
 module.exports = router;

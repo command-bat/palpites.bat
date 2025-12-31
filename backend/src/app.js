@@ -37,6 +37,7 @@ app.use("/matches", require("./routes/matches.routes"));
 app.use("/palpite", require("./routes/palpite.routes"));
 app.use("/friends", require("./routes/friends.routes"));
 app.use("/users", require("./routes/users.routes"));
+app.use("/ranking", require("./routes/ranking.routes"));
 app.use("/admin", require("./routes/admin.routes"));
 
 app.get("/", (_req, res) => console.log(_req.query));

@@ -39,4 +39,6 @@ const MatchSchema = new mongoose.Schema({
     lastUpdated: Date,
 });
 
+MatchSchema.index({ matchId: 1, status: 1 });
+
 module.exports = mongoose.model("Match", MatchSchema);

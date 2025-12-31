@@ -31,6 +31,7 @@ import {
   FaGlobe,
   FaChartLine,
   FaChevronUp,
+  FaHourglassHalf,
 } from "react-icons/fa6";
 
 const iconsMap = {
@@ -66,6 +67,7 @@ const iconsMap = {
   globe: FaGlobe,
   statistics: FaChartLine,
   up: FaChevronUp,
+  HourglassHalf: FaHourglassHalf,
 };
 
 export default function Icon({ icon = "home", className, ...props }) {

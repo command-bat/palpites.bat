@@ -20,5 +20,7 @@ const PalpiteSchema = new mongoose.Schema(
 
 // 🔒 1 palpite por usuário por partida
 PalpiteSchema.index({ userId: 1, matchId: 1 }, { unique: true });
+PalpiteSchema.index({ userId: 1 });
+PalpiteSchema.index({ matchId: 1 });
 
 module.exports = mongoose.model("Palpite", PalpiteSchema);

@@ -1,0 +1,197 @@
+.card {
+  background: var(--background_secondary);
+  border: 1px solid var(--detais);
+  border-radius: 20px;
+  padding: 20px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  flex-direction: row;
+
+  gap: 24px;
+
+  position: relative;
+}
+
+/* -------- LEFT / RIGHT -------- */
+
+.left,
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  z-index: 1;
+}
+
+/* -------- USER -------- */
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid
+    linear-gradient(135deg, var(--color_primary), var(--color_secondary));
+}
+
+.user img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user p {
+  font-weight: 600;
+  color: var(--text);
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* -------- BAR -------- */
+
+.statisticBody {
+  width: 100%;
+  max-width: 220px;
+  height: 6px;
+  background: var(--color_secondary);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.statisticBar {
+  height: 100%;
+  width: 0%;
+  background: var(--color_primary);
+  border-radius: inherit;
+  transition: width 0.4s ease;
+}
+
+/* -------- MAIN STAT -------- */
+
+.statistic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.statistic h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--color_primary);
+}
+
+.statistic p {
+  font-size: 0.85rem;
+  color: var(--text_unselect);
+  font-variant-caps: all-small-caps;
+}
+
+/* -------- DETAILS -------- */
+
+.statisticDetails {
+  display: flex;
+  gap: 12px;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.statisticDetails p {
+  white-space: nowrap;
+}
+
+/* -------- DROPDOWN -------- */
+.dropdownDiv {
+  position: relative;
+}
+
+.dropdown {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  background: var(--background);
+  color: var(--text);
+
+  border: 1px solid var(--background_secondary);
+  border-radius: 12px;
+
+  padding: 8px 12px;
+  height: 36px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+  font-variant-caps: all-small-caps;
+
+  transition: background 0.18s ease, border 0.18s ease, transform 0.18s ease;
+}
+
+.dropdown:hover {
+  background: var(--background_secondary);
+}
+
+.dropdown:active {
+  transform: scale(0.97);
+}
+
+/* -------- VS -------- */
+
+.vs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--color_secondary);
+  opacity: 0.8;
+
+  z-index: 1;
+}
+
+/* -------- MOBILE -------- */
+
+@media (width <= 768px) {
+  .card {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .vs {
+    display: none;
+  }
+
+  .left,
+  .right {
+    width: 100%;
+  }
+}
+
+.correct {
+  color: var(--green);
+}
+
+.wrong {
+  color: var(--red);
+}
+
+.pending {
+  color: var(--blue);
+}
+
+.correct,
+.wrong,
+.pending {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
