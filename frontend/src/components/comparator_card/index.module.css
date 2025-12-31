@@ -5,10 +5,13 @@
   padding: 20px;
 
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   align-content: center;
   flex-direction: row;
+
+  width: fit-content;
 
   gap: 24px;
 
@@ -159,12 +162,7 @@
 
 @media (width <= 768px) {
   .card {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .vs {
-    display: none;
+    justify-content: center;
   }
 
   .left,
