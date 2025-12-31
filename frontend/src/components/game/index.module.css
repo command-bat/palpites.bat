@@ -416,3 +416,113 @@
 .imgBar {
   width: 10px;
 }
+.statisticsMenu {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.friendsTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.moreFriendsInline {
+  min-width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: var(--background_highlight);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.moreFriendsInline:hover {
+  background: var(--color_primary);
+  color: #fff;
+}
+
+.friendsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.homeTeamBackgroundImg,
+.tieBackgroundImg,
+.awayTeamBackgroundImg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.homeTeamBackgroundImg img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid var(--color_primary);
+  object-fit: cover;
+}
+
+.tieBackgroundImg img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid var(--gray);
+  object-fit: cover;
+}
+
+.awayTeamBackgroundImg img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid var(--color_secondary);
+  object-fit: cover;
+}
+
+/* coluna expandida */
+.friendsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 6px;
+  animation: slideDown 0.2s ease;
+}
+
+.friendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.friendItem img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.friendItem span {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.moreFriends {
+  min-width: 25px;
+  height: 25px;
+  border-radius: 999px;
+  background: var(--background_highlight);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.moreFriends:hover {
+  background: var(--color_primary);
+  color: #fff;
+}

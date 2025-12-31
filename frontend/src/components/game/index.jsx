@@ -1,12 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "./index.module.css";
 import Icon from "../icon";
 import { useAuth } from "../../auth/useAuth";
 
 export default function MatchCard({ match }) {
   const { user } = useAuth();
-
   const [showPicker, setShowPicker] = useState(false);
   const [showStatistics, setShowStatistics] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState(null);
@@ -14,7 +13,7 @@ export default function MatchCard({ match }) {
   const [selectStatusRound, setSelectStatusRound] = useState(0); // <-- estado do status
   const [palpiteStatisticsGlobal, setPalpiteStatisticsGlobal] = useState([]);
   const [palpiteStatisticsFriends, setPalpiteStatisticsFriends] = useState([]);
-
+  const [showAllFriends, setShowAllFriends] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
@@ -25,6 +24,7 @@ export default function MatchCard({ match }) {
     style: ["", "idle", "on", "off"],
   };
 
+  const options = ["homeTeam", "tie", "awayTeam"];
   const mapWinnerToUserPalpite = (winner) => {
     switch (winner) {
       case "HOME_TEAM":
@@ -213,13 +213,28 @@ export default function MatchCard({ match }) {
     }
   }
 
+  const allFriends = [
+    ...(palpiteStatisticsFriends.homeTeam || []).map((f) => ({
+      ...f,
+      type: "homeTeam",
+    })),
+    ...(palpiteStatisticsFriends.tie || []).map((f) => ({
+      ...f,
+      type: "tie",
+    })),
+    ...(palpiteStatisticsFriends.awayTeam || []).map((f) => ({
+      ...f,
+      type: "awayTeam",
+    })),
+  ];
+
   return (
     <div
       className={`${styles.match} ${showPicker ? styles.expanded : ""} ${
         showStatistics ? styles.moreexpanded : ""
       }`}
     >
-      {showPicker && <div className={styles.blurOverlay}></div>}
+      {showPicker && <div className={styles.blurOverlay} />}
 
       <div className={styles.header}>
         <div className={styles.date}>{formatDate(match.utcDate)}</div>
@@ -237,28 +252,19 @@ export default function MatchCard({ match }) {
 
       <div className={styles.body}>
         <div className={styles.homeTeam}>
-          <img
-            className={styles.img}
-            src={match.homeTeam.crest}
-            alt={match.homeTeam.name}
-          />
+          <img className={styles.img} src={match.homeTeam.crest} />
           <p>{match.homeTeam.shortName}</p>
         </div>
+
         <div className={styles.centralInfo}>
-          {stage ? (
-            <div className={styles.stage}>{stage}</div>
-          ) : (
-            <div className={styles.fakeStage}>{stage}</div>
-          )}
+          {stage && <div className={styles.stage}>{stage}</div>}
         </div>
+
         <div className={styles.awayTeam}>
-          <img
-            className={styles.img}
-            src={match.awayTeam.crest}
-            alt={match.awayTeam.name}
-          />
+          <img className={styles.img} src={match.awayTeam.crest} />
           <p>{match.awayTeam.shortName}</p>
         </div>
+
         {showStatistics && (
           <>
             <div className={styles.statisticsMenu}>
@@ -342,6 +348,12 @@ export default function MatchCard({ match }) {
               )}
               <p>
                 <Icon icon={"friends"} /> Estatistica dos seus amigos:
+                <button
+                  className={styles.moreFriendsInline}
+                  onClick={() => setShowAllFriends(true)}
+                >
+                  +{allFriends.length}
+                </button>
               </p>
               <div className={styles.statisticFriends}>
                 <div
@@ -393,12 +405,42 @@ export default function MatchCard({ match }) {
                   />
                 </div>
               </div>
+              <div className={styles.friendsWrapper}>
+                {showAllFriends && (
+                  <div className={styles.friendsColumn}>
+                    {allFriends.map((friend) => (
+                      <div key={friend._id} className={styles.friendItem}>
+                        <div className={styles[`${friend.type}BackgroundImg`]}>
+                          <img src={friend.avatar} alt={friend.name} />
+                        </div>
+                        <span>{friend.name}</span>
+                        <img
+                          src={
+                            friend.type === "tie"
+                              ? "/placeholder/Empate.png"
+                              : match[friend.type]?.crest
+                          }
+                          alt="time"
+                        />
+                      </div>
+                    ))}
+                    <button
+                      className={styles.moreFriends}
+                      onClick={() => setShowAllFriends(false)}
+                    >
+                      Fechar
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </>
         )}
+
         {showPicker && (
           <div className={styles.palpiteMenu}>
             <p>Escolha o vencedor</p>
+
             <div className={styles.teamsPicker}>
               {[match.homeTeam, empate, match.awayTeam].map((team, index) => (
                 <div
@@ -406,13 +448,15 @@ export default function MatchCard({ match }) {
                   className={`${styles.teamOption} ${
                     selectedTeam === selectPalpite[index] ? styles.selected : ""
                   } ${stylesPalpite[index]}`}
-                  onClick={() => {
-                    selectedTeam !== selectPalpite[index]
-                      ? setSelectedTeam(selectPalpite[index])
-                      : setSelectedTeam("");
-                  }}
+                  onClick={() =>
+                    setSelectedTeam(
+                      selectedTeam === selectPalpite[index]
+                        ? ""
+                        : selectPalpite[index]
+                    )
+                  }
                 >
-                  <img src={team.crest} alt={team.name} />
+                  <img src={team.crest} />
                   <p>{team.shortName}</p>
                 </div>
               ))}
