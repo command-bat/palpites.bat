@@ -350,7 +350,7 @@ export default function MatchCard({ match }) {
                 <Icon icon={"friends"} /> Estatistica dos seus amigos:
                 <button
                   className={styles.moreFriendsInline}
-                  onClick={() => setShowAllFriends(true)}
+                  onClick={() => setShowAllFriends(!showAllFriends)}
                 >
                   +{allFriends.length}
                 </button>
