@@ -60,10 +60,10 @@ export default function MatchCard({ match }) {
   };
 
   // fetch das estatisticas globais
-  async function fetchStatistics(match) {
+  async function fetchStatistics() {
     setLoading(true);
     try {
-      const res = await fetch(`${LINK}/palpite/match/${match}`, {
+      const res = await fetch(`${LINK}/palpite/match/${match.matchId}`, {
         credentials: "include",
       });
       if (!res.ok) throw new Error("Not authenticated");
@@ -78,10 +78,10 @@ export default function MatchCard({ match }) {
   }
 
   // fetch das estatisticas dos amigos
-  async function fetchStatisticsFriends(match) {
+  async function fetchStatisticsFriends() {
     setLoading(true);
     try {
-      const res = await fetch(`${LINK}/friends/palpite/${match}`, {
+      const res = await fetch(`${LINK}/friends/palpite/${match.matchId}`, {
         credentials: "include",
       });
       if (!res.ok) throw new Error("Not authenticated");
@@ -185,6 +185,12 @@ export default function MatchCard({ match }) {
       setSelectedTeam(match.userPalpite);
     }
   }, [match?.hasPalpite, match?.userPalpite]);
+
+  useEffect(() => {
+    alert("atualizou?");
+    fetchStatistics();
+    fetchStatisticsFriends();
+  }, [showStatistics]);
 
   async function enviarPalpite() {
     setShowPicker(false);
@@ -519,8 +525,6 @@ export default function MatchCard({ match }) {
           icon={showStatistics ? "up" : "statistics"}
           onClick={() => {
             setShowStatistics((v) => !v);
-            fetchStatistics(match.matchId);
-            fetchStatisticsFriends(match.matchId);
           }}
         />
       </div>
