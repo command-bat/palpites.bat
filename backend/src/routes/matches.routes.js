@@ -8,9 +8,9 @@ const isPremium = require("../middlewares/isPremium");
 router.get("/", controller.getMatches);
 
 // Data das partidas rescentes
-router.get("/days", isAuthenticatedJWT, controller.getMatchDays);
+router.get("/days", controller.getMatchDays);
 // Datas de todas as partidas
-// router.get("/matches/days/all", isAuthenticatedJWT, isAdmin, controller.getMatchDays);
+router.get("/days/all", isAuthenticatedJWT, isAdmin, controller.getMatchDays);
 
 
 // Partida específica (completa)
