@@ -17,7 +17,7 @@
   left: 175px; /* começa depois de 176px */
   width: calc(100% - 175px);
   height: 1px;
-  background-color: black;
+  background-color: var(--detais);
 }
 
 @media (width <= 767px) and (orientation: portrait) {
