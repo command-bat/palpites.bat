@@ -62,7 +62,6 @@ export default function Amigos() {
       const friends = await resfriends.json(); // ARRAY direto
 
       setFriends(friends);
-      console.log("amigos:", friends);
     } catch (err) {
       console.error(err);
       setFriends([]);

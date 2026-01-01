@@ -48,7 +48,6 @@ export default function Palpites() {
 
       // 4️⃣ Remove possíveis nulls
       setMatches(matchesData.filter(Boolean));
-      console.log(matchesData.filter(Boolean));
     } catch (err) {
       console.error(err);
       setMatches([]);

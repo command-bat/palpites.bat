@@ -75,8 +75,6 @@ export default function Home() {
       );
       if (!res.ok) throw new Error("Not authenticated");
       const data = await res.json();
-      console.log(data);
-
       return Array.isArray(data) ? data : [];
     } catch (err) {
       return [];
