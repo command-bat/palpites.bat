@@ -139,13 +139,11 @@ body {
 }
 
 a {
-  color: inherit;
   text-decoration: none;
   cursor: pointer;
 }
 
 a:-webkit-any-link {
-  color: inherit;
   text-decoration: none;
   cursor: pointer;
 }

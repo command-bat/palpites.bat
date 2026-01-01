@@ -3,19 +3,19 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.css";
 import { useAuth } from "../../auth/useAuth";
 
-export default function Ranking() {
+export default function Ranking({ select }) {
   const { user } = useAuth();
   const [ranking, setRanking] = useState([]);
 
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
+  const isErrors = select === "errors";
 
   async function fetchRanking() {
     try {
-      const res = await fetch(`${LINK}/ranking`, {
+      const res = await fetch(`${LINK}/ranking?by=${select}`, {
         credentials: "include",
       });
       const data = await res.json();
-      console.log(data);
       setRanking(Array.isArray(data.ranking) ? data.ranking : []);
     } catch (err) {
       console.error(err);
@@ -25,13 +25,18 @@ export default function Ranking() {
 
   useEffect(() => {
     fetchRanking();
-  }, []);
+  }, [select]);
 
   return (
     <div className={styles.ranking}>
       {ranking.map((userRank, index) => {
         const isYou = user?._id === userRank.userId;
         const position = index + 1;
+
+        // % dinâmica
+        const percent = isErrors
+          ? ((userRank.errors / userRank.total) * 100).toFixed(2)
+          : userRank.accuracy;
 
         return (
           <div
@@ -52,12 +57,20 @@ export default function Ranking() {
               <p>{userRank.name}</p>
             </div>
 
-            {/* APROVEITAMENTO */}
-            <div className={styles.accuracy}>{userRank.accuracy}%</div>
+            {/* % */}
+            <div
+              className={`${styles.accuracy} ${
+                isErrors ? styles.error : styles.success
+              }`}
+            >
+              {percent}%
+            </div>
 
             {/* DETALHES */}
             <div className={styles.details}>
-              <span className={styles.correct}>{userRank.correct}</span>
+              <span className={isErrors ? styles.wrong : styles.correct}>
+                {isErrors ? userRank.errors : userRank.correct}
+              </span>
               <span>/</span>
               <span className={styles.total}>{userRank.total}</span>
             </div>

@@ -8,3 +8,94 @@
 
   gap: 15px;
 }
+
+.headerRanking {
+  background: var(--background_secondary);
+  color: var(--text_select);
+
+  width: 100%;
+  height: 50px;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+
+  border-radius: 10px;
+  padding: 15px;
+  gap: 5px;
+}
+
+.headerRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  max-width: 40%;
+
+  cursor: default; /* no futuro quero colocar diferente conforme o estado*/
+}
+
+.selectOrderRank {
+  position: relative; /* referência do dropdown */
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.textSelect {
+  display: flex;
+  justify-content: flex-end;
+
+  cursor: pointer;
+
+  color: var(--text);
+
+  h1 {
+    font-weight: bold;
+    font-size: large;
+    font-variant-caps: all-small-caps;
+    height: 22px;
+
+    gap: 5px;
+
+    text-wrap: nowrap;
+    white-space: nowrap;
+    text-overflow: clip;
+    overflow: hidden;
+  }
+  max-width: 100%;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  h1 {
+    display: flex;
+
+    color: var(--text);
+    font-variant-caps: all-petite-caps;
+    font-weight: bold;
+    font-size: large;
+
+    gap: 5px;
+
+    cursor: default;
+
+    text-wrap: nowrap;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  p {
+    color: var(--text);
+    font-variant-caps: small-caps;
+    font-size: small;
+
+    cursor: default;
+  }
+}

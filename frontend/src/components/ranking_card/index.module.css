@@ -27,7 +27,6 @@
 /* -------- YOU -------- */
 
 .you {
-  background: var(--background_highlight);
   border-color: var(--color_primary);
 }
 
@@ -113,6 +112,19 @@
 
 .correct {
   color: var(--green);
+  font-weight: 600;
+}
+
+.success {
+  color: var(--green);
+}
+
+.error {
+  color: var(--red);
+}
+
+.wrong {
+  color: var(--red);
   font-weight: 600;
 }
 
