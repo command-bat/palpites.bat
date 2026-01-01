@@ -187,7 +187,6 @@ export default function MatchCard({ match }) {
   }, [match?.hasPalpite, match?.userPalpite]);
 
   useEffect(() => {
-    alert("atualizou?");
     fetchStatistics();
     fetchStatisticsFriends();
   }, [showStatistics]);
