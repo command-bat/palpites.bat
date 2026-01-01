@@ -1,0 +1,135 @@
+.ranking {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* -------- ROW -------- */
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+
+  padding: 12px 16px;
+  border-radius: 14px;
+
+  background: var(--background_secondary);
+  border: 1px solid var(--detais);
+
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.row:hover {
+  background: var(--background_select);
+}
+
+/* -------- YOU -------- */
+
+.you {
+  background: var(--background_highlight);
+  border-color: var(--color_primary);
+}
+
+/* -------- USER -------- */
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.user img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user p {
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* -------- POSITION -------- */
+
+.position {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--background);
+  color: var(--text_unselect);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* TOP 3 */
+
+.top1 {
+  background: linear-gradient(135deg, #f5c542, #ffde7a);
+  color: #000;
+}
+
+.top2 {
+  background: linear-gradient(135deg, #cfd3d6, #ffffff);
+  color: #000;
+}
+
+.top3 {
+  background: linear-gradient(135deg, #cd7f32, #f1b36b);
+  color: #000;
+}
+
+/* -------- ACCURACY -------- */
+
+.accuracy {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color_primary);
+  min-width: 48px;
+  text-align: right;
+}
+
+/* -------- DETAILS -------- */
+
+.details {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  margin-left: 14px;
+
+  font-size: 0.85rem;
+  color: var(--text_unselect);
+}
+
+.correct {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.total {
+  color: var(--text_unselect);
+}
+
+/* -------- MOBILE -------- */
+
+@media (width <= 600px) {
+  .row {
+    grid-template-columns: 1fr auto;
+    row-gap: 6px;
+  }
+
+  .details {
+    grid-column: 2;
+    justify-self: end;
+  }
+}

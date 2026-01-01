@@ -4,7 +4,7 @@ const User = require("../models/user.model");
 
 exports.getRanking = async (req, res) => {
     try {
-        const by = req.query.by === "errors" ? "errors" : "correct";
+        const MIN_PALPITES = 0; // 🔥 pode mudar depois (ex: 5 mensal)
 
         const pipeline = [
             // Junta palpite com partida
@@ -52,20 +52,44 @@ exports.getRanking = async (req, res) => {
             {
                 $group: {
                     _id: "$userId",
-                    correct: {
-                        $sum: { $cond: ["$isCorrect", 1, 0] },
-                    },
-                    errors: {
-                        $sum: { $cond: ["$isCorrect", 0, 1] },
+                    correct: { $sum: { $cond: ["$isCorrect", 1, 0] } },
+                    errors: { $sum: { $cond: ["$isCorrect", 0, 1] } },
+                },
+            },
+
+            // Total de palpites
+            {
+                $addFields: {
+                    total: { $add: ["$correct", "$errors"] },
+                },
+            },
+
+            // 🔒 Filtro mínimo de palpites
+            {
+                $match: {
+                    total: { $gte: MIN_PALPITES },
+                },
+            },
+
+            // Aproveitamento (%)
+            {
+                $addFields: {
+                    accuracy: {
+                        $multiply: [
+                            { $divide: ["$correct", "$total"] },
+                            100,
+                        ],
                     },
                 },
             },
 
-            // Ordenação dinâmica
+            // 🏆 Ordenação FINAL (justa)
             {
-                $sort: by === "errors"
-                    ? { errors: -1 }
-                    : { correct: -1 },
+                $sort: {
+                    accuracy: -1, // principal
+                    total: -1,    // desempate
+                    correct: -1,  // opcional
+                },
             },
 
             { $limit: 100 },
@@ -81,6 +105,7 @@ exports.getRanking = async (req, res) => {
             },
             { $unwind: "$user" },
 
+            // Retorno final
             {
                 $project: {
                     _id: 0,
@@ -89,6 +114,8 @@ exports.getRanking = async (req, res) => {
                     avatar: "$user.avatar",
                     correct: 1,
                     errors: 1,
+                    total: 1,
+                    accuracy: { $round: ["$accuracy", 2] },
                 },
             },
         ];
@@ -96,8 +123,9 @@ exports.getRanking = async (req, res) => {
         const ranking = await Palpite.aggregate(pipeline);
 
         res.json({
-            type: by,
-            total: ranking.length,
+            metric: "accuracy",
+            minPalpites: MIN_PALPITES,
+            totalUsers: ranking.length,
             ranking,
         });
 
@@ -106,3 +134,4 @@ exports.getRanking = async (req, res) => {
         res.status(500).json({ message: "Erro ao gerar ranking" });
     }
 };
+

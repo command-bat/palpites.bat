@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import styles from "./index.module.css";
-import Select from "../popups/select_dropdown";
-import Icon from "../icon";
 import { useAuth } from "../../auth/useAuth";
 
 export default function Ranking() {
+  const { user } = useAuth();
   const [ranking, setRanking] = useState([]);
 
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
@@ -15,9 +14,8 @@ export default function Ranking() {
       const res = await fetch(`${LINK}/ranking`, {
         credentials: "include",
       });
-      if (!res.ok) throw new Error("Not authenticated");
       const data = await res.json();
-      console.log(Array.isArray(data.ranking) ? data.ranking : []);
+      console.log(data);
       setRanking(Array.isArray(data.ranking) ? data.ranking : []);
     } catch (err) {
       console.error(err);
@@ -29,20 +27,43 @@ export default function Ranking() {
     fetchRanking();
   }, []);
 
-  useEffect(() => {
-    console.log("ranking atualizado:", ranking);
-  }, [ranking]);
-
   return (
-    <>
-      {ranking.map((user) => (
-        <div key={user.userId}>
-          <img src={user.avatar} alt={user.name} width={40} />
-          <strong>{user.name}</strong>
-          <span> ✔ {user.correct}</span>
-          <span> ✖ {user.errors}</span>
-        </div>
-      ))}
-    </>
+    <div className={styles.ranking}>
+      {ranking.map((userRank, index) => {
+        const isYou = user?._id === userRank.userId;
+        const position = index + 1;
+
+        return (
+          <div
+            key={userRank.userId}
+            className={`${styles.row} ${isYou ? styles.you : ""}`}
+          >
+            {/* POSIÇÃO + USUÁRIO */}
+            <div className={styles.user}>
+              <span
+                className={`${styles.position} ${
+                  position <= 3 ? styles["top" + position] : ""
+                }`}
+              >
+                {position}
+              </span>
+
+              <img src={userRank.avatar} alt={userRank.name} />
+              <p>{userRank.name}</p>
+            </div>
+
+            {/* APROVEITAMENTO */}
+            <div className={styles.accuracy}>{userRank.accuracy}%</div>
+
+            {/* DETALHES */}
+            <div className={styles.details}>
+              <span className={styles.correct}>{userRank.correct}</span>
+              <span>/</span>
+              <span className={styles.total}>{userRank.total}</span>
+            </div>
+          </div>
+        );
+      })}
+    </div>
   );
 }

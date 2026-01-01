@@ -6,8 +6,10 @@ import Ranking from "../../ranking_card";
 export default function Comparador() {
   return (
     <>
-      <Ranking />
-      <ComparatorCard />
+      <div className={styles.pageComparador}>
+        <ComparatorCard />
+        <Ranking />
+      </div>
     </>
   );
 }
