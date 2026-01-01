@@ -439,6 +439,7 @@
   font-weight: 600;
   border: none;
   cursor: pointer;
+  margin-left: 5px;
 }
 
 .moreFriendsInline:hover {

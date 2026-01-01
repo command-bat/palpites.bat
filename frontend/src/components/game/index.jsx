@@ -172,6 +172,11 @@ export default function MatchCard({ match }) {
     );
   }
 
+  function calcWidth(value, total) {
+    if (!total || total <= 0 || !value) return "0%";
+    return `${(100 / total) * value}%`;
+  }
+
   if (!match) return null;
   const stage = renderStage(match.stage);
 
@@ -287,10 +292,10 @@ export default function MatchCard({ match }) {
                       title={match.homeTeam.name}
                       className={styles.homeTeam}
                       style={{
-                        width: `${
-                          (100 / palpiteStatisticsGlobal.total) *
-                          palpiteStatisticsGlobal.homeTeam
-                        }%`,
+                        width: calcWidth(
+                          palpiteStatisticsGlobal.homeTeam,
+                          palpiteStatisticsGlobal.total
+                        ),
                       }}
                     >
                       <img
@@ -303,26 +308,29 @@ export default function MatchCard({ match }) {
                       title={"Empate"}
                       className={styles.tie}
                       style={{
-                        width: `${
-                          (100 / palpiteStatisticsGlobal.total) *
-                          palpiteStatisticsGlobal.tie
-                        }%`,
+                        width: calcWidth(
+                          palpiteStatisticsGlobal.tie,
+                          palpiteStatisticsGlobal.total
+                        ),
                       }}
                     >
                       <img
                         className={styles.imgBar}
                         src={"/placeholder/Empate.png"}
                         alt={"empate"}
+                        style={{
+                          filter: "invert(1)  ",
+                        }}
                       />
                     </div>
                     <div
                       title={match.awayTeam.name}
                       className={styles.awayTeam}
                       style={{
-                        width: `${
-                          (100 / palpiteStatisticsGlobal.total) *
-                          palpiteStatisticsGlobal.awayTeam
-                        }%`,
+                        width: calcWidth(
+                          palpiteStatisticsGlobal.awayTeam,
+                          palpiteStatisticsGlobal.total
+                        ),
                       }}
                     >
                       <img
@@ -346,67 +354,74 @@ export default function MatchCard({ match }) {
                   </div>
                 </>
               )}
-              <p>
-                <Icon icon={"friends"} /> Estatistica dos seus amigos:
-                {allFriends.length > 0 && (
-                  <button
-                    className={styles.moreFriendsInline}
-                    onClick={() => setShowAllFriends(!showAllFriends)}
-                  >
-                    +{allFriends.length}
-                  </button>
-                )}
-              </p>
-              <div className={styles.statisticFriends}>
-                <div
-                  title={match.homeTeam.name}
-                  className={styles.homeTeam}
-                  style={{
-                    width: `${
-                      (100 / palpiteStatisticsFriends.total) *
-                      palpiteStatisticsFriends.homeTeam?.length
-                    }%`,
-                  }}
-                >
-                  <img
-                    className={styles.imgBar}
-                    src={match.homeTeam.crest}
-                    alt={match.homeTeam.name}
-                  />
-                </div>
-                <div
-                  title={"Empate"}
-                  className={styles.tie}
-                  style={{
-                    width: `${
-                      (100 / palpiteStatisticsFriends.total) *
-                      palpiteStatisticsFriends.tie?.length
-                    }%`,
-                  }}
-                >
-                  <img
-                    className={styles.imgBar}
-                    src={"/placeholder/Empate.png"}
-                    alt={"empate"}
-                  />
-                </div>
-                <div
-                  title={match.awayTeam.name}
-                  className={styles.awayTeam}
-                  style={{
-                    width: `${
-                      (100 / palpiteStatisticsFriends.total) *
-                      palpiteStatisticsFriends.awayTeam?.length
-                    }%`,
-                  }}
-                >
-                  <img
-                    className={styles.imgBar}
-                    src={match.awayTeam.crest}
-                    alt={match.awayTeam.name}
-                  />
-                </div>
-              </div>
+              {palpiteStatisticsFriends.total > 0 && (
+                <>
+                  <p>
+                    <Icon icon={"friends"} /> Estatistica dos seus amigos:
+                    {allFriends.length > 0 && (
+                      <button
+                        className={styles.moreFriendsInline}
+                        onClick={() => setShowAllFriends(!showAllFriends)}
+                      >
+                        +{allFriends.length}
+                      </button>
+                    )}
+                  </p>
+                  <div className={styles.statisticFriends}>
+                    <div
+                      title={match.homeTeam.name}
+                      className={styles.homeTeam}
+                      style={{
+                        width: calcWidth(
+                          palpiteStatisticsFriends.homeTeam?.length,
+                          palpiteStatisticsFriends.total
+                        ),
+                      }}
+                    >
+                      <img
+                        className={styles.imgBar}
+                        src={match.homeTeam.crest}
+                        alt={match.homeTeam.name}
+                      />
+                    </div>
+                    <div
+                      title={"Empate"}
+                      className={styles.tie}
+                      style={{
+                        width: calcWidth(
+                          palpiteStatisticsFriends.tie?.length,
+                          palpiteStatisticsFriends.total
+                        ),
+                      }}
+                    >
+                      <img
+                        className={styles.imgBar}
+                        src={"/placeholder/Empate.png"}
+                        alt={"empate"}
+                        style={{
+                          filter: "invert(1)",
+                        }}
+                      />
+                    </div>
+                    <div
+                      title={match.awayTeam.name}
+                      className={styles.awayTeam}
+                      style={{
+                        width: calcWidth(
+                          palpiteStatisticsFriends.awayTeam?.length,
+                          palpiteStatisticsFriends.total
+                        ),
+                      }}
+                    >
+                      <img
+                        className={styles.imgBar}
+                        src={match.awayTeam.crest}
+                        alt={match.awayTeam.name}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
               <div className={styles.friendsWrapper}>
                 {showAllFriends && (
                   <div className={styles.friendsColumn}>
@@ -423,6 +438,12 @@ export default function MatchCard({ match }) {
                               : match[friend.type]?.crest
                           }
                           alt="time"
+                          style={{
+                            filter:
+                              friend.type === "tie"
+                                ? "var(--filter)"
+                                : undefined,
+                          }}
                         />
                       </div>
                     ))}

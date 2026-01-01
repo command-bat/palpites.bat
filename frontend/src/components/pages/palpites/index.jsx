@@ -61,7 +61,9 @@ export default function Palpites() {
     fetchPalpitesEPartidas();
   }, []);
 
-  if (loading) return <p>Carregando palpites...</p>;
+  if (loading) {
+    return <div>Carregando palpites...</div>;
+  }
 
   return (
     <>
