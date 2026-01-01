@@ -5,9 +5,10 @@
   align-items: center;
   justify-content: space-between;
   height: fit-content;
-  width: 99dvw;
+  width: 100dvw;
   container-type: inline-size;
   z-index: var(--z-header);
+  border-bottom: 1px solid var(--detais);
 }
 .left,
 .center,
