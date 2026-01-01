@@ -8,8 +8,25 @@
   width: 100dvw;
   container-type: inline-size;
   z-index: var(--z-header);
-  border-bottom: 1px solid var(--detais);
 }
+
+.header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 175px; /* começa depois de 176px */
+  width: calc(100% - 175px);
+  height: 1px;
+  background-color: black;
+}
+
+@media (width <= 767px) and (orientation: portrait) {
+  .header::after {
+    left: 0px;
+    width: 100%;
+  }
+}
+
 .left,
 .center,
 .right {
