@@ -5,7 +5,7 @@ import Select from "../popups/select_dropdown";
 import Icon from "../icon";
 import { useAuth } from "../../auth/useAuth";
 
-export default function ComparatorCard() {
+export default function ComparatorCard({ userFixed, fixed = false }) {
   const [select, setSelect] = useState(null);
   const [select2, setSelect2] = useState(null);
   const [openSelect, setOpenSelect] = useState(false);
@@ -56,10 +56,27 @@ export default function ComparatorCard() {
   useEffect(() => {
     if (!user) return;
 
-    setSelect({ name: user.name, code: user._id, avatar: user.avatar });
+    if (fixed) {
+      setSelect2({ name: user.name, code: user._id, avatar: user.avatar });
+    } else {
+      setSelect({ name: user.name, code: user._id, avatar: user.avatar });
+    }
 
     fetchFriends();
   }, [user]);
+
+  // Inicializa usuário logado
+  useEffect(() => {
+    if (!userFixed) return;
+
+    setSelect({
+      name: userFixed.name,
+      code: userFixed._id,
+      avatar: userFixed.avatar,
+    });
+
+    fetchFriends();
+  }, [userFixed]);
 
   // Inicializa select2 quando friends estiverem carregados
   useEffect(() => {
@@ -153,9 +170,9 @@ export default function ComparatorCard() {
             className={styles.dropdown}
             onClick={() => setOpenSelect((v) => !v)}
           >
-            {select.name} <Icon icon="down" />
+            {select.name} {!fixed && <Icon icon="down" />}
           </button>
-          {openSelect && (
+          {openSelect && !fixed && (
             <Select
               values={valuesFriend}
               setValue={(v) => {

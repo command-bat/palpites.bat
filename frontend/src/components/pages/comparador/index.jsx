@@ -22,36 +22,38 @@ export default function Comparador() {
     <>
       <div className={styles.pageComparador}>
         <ComparatorCard />
-        <div className={styles.headerRanking}>
-          <div className={styles.title}>
-            <h1>
-              <Icon icon={"rank"} /> Ranking
-            </h1>
-          </div>
-          <div className={styles.headerRight}>
-            <div className={styles.selectOrderRank}>
-              <div
-                className={styles.textSelect}
-                onClick={() => setOpenSelectOrdemRanking((v) => !v)}
-              >
-                <h1>{ordemRanking.name}</h1>
-                <Icon icon={"down"} />
-              </div>
+        <div className={styles.ranking}>
+          <div className={styles.headerRanking}>
+            <div className={styles.title}>
+              <h1>
+                <Icon icon={"rank"} /> Ranking
+              </h1>
+            </div>
+            <div className={styles.headerRight}>
+              <div className={styles.selectOrderRank}>
+                <div
+                  className={styles.textSelect}
+                  onClick={() => setOpenSelectOrdemRanking((v) => !v)}
+                >
+                  <h1>{ordemRanking.name}</h1>
+                  <Icon icon={"down"} />
+                </div>
 
-              {openSelectOrdemRanking && (
-                <Select
-                  setValue={(c) => {
-                    setOrdemRanking(c);
-                    setOpenSelectOrdemRanking(false);
-                  }}
-                  onClose={() => setOpenSelectOrdemRanking(false)}
-                  values={valuesSelect}
-                />
-              )}
+                {openSelectOrdemRanking && (
+                  <Select
+                    setValue={(c) => {
+                      setOrdemRanking(c);
+                      setOpenSelectOrdemRanking(false);
+                    }}
+                    onClose={() => setOpenSelectOrdemRanking(false)}
+                    values={valuesSelect}
+                  />
+                )}
+              </div>
             </div>
           </div>
+          <Ranking select={ordemRanking.code} />
         </div>
-        <Ranking select={ordemRanking.code} />
       </div>
     </>
   );

@@ -27,7 +27,7 @@
 /* -------- YOU -------- */
 
 .you {
-  border-color: var(--color_primary);
+  border: 2px solid var(--color_primary);
 }
 
 /* -------- USER -------- */

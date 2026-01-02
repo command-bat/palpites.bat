@@ -1,0 +1,94 @@
+.perfilPage {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.headerPerfil {
+  background: var(--background_secondary);
+  color: var(--text_select);
+
+  width: 100%;
+  height: 50px;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+
+  border-radius: 10px;
+  padding: 15px;
+  gap: 5px;
+}
+
+.options {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+  width: 100%;
+
+  h1 {
+    display: flex;
+    justify-content: center;
+
+    color: var(--text);
+    font-variant-caps: all-petite-caps;
+    font-weight: bold;
+    font-size: large;
+
+    gap: 5px;
+
+    cursor: pointer;
+
+    text-wrap: nowrap;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+  }
+}
+
+.select {
+  display: none;
+  position: relative; /* referência do dropdown */
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+}
+
+.textSelect {
+  display: flex;
+  justify-content: flex-end;
+
+  cursor: pointer;
+
+  color: var(--text);
+
+  h1 {
+    font-weight: bold;
+    font-size: large;
+    font-variant-caps: all-small-caps;
+    height: 22px;
+
+    gap: 5px;
+
+    text-wrap: nowrap;
+    white-space: nowrap;
+    text-overflow: clip;
+    overflow: hidden;
+  }
+  max-width: 100%;
+}
+
+@media (width <= 767px) and (orientation: portrait) {
+  .options {
+    display: none;
+  }
+  .select {
+    display: flex;
+  }
+}

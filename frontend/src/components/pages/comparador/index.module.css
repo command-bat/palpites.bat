@@ -2,9 +2,11 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   flex-direction: row;
   align-content: center;
+
+  width: 100%;
 
   gap: 15px;
 }
@@ -98,4 +100,11 @@
 
     cursor: default;
   }
+}
+
+.ranking {
+  width: fit-content;
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
 }
