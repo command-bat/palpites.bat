@@ -34,6 +34,7 @@ import {
   FaHourglassHalf,
   FaRankingStar,
   FaCheck,
+  FaUserPlus,
 } from "react-icons/fa6";
 
 const iconsMap = {
@@ -72,6 +73,7 @@ const iconsMap = {
   HourglassHalf: FaHourglassHalf,
   rank: FaRankingStar,
   check: FaCheck,
+  adduser: FaUserPlus,
 };
 
 export default function Icon({ icon = "home", className, ...props }) {

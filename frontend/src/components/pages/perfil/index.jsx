@@ -24,6 +24,8 @@ export default function Perfil({}) {
 
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isMe, setIsMe] = useState(false);
+  const [isFriend, setIsFriend] = useState(false);
 
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
 
@@ -50,8 +52,16 @@ export default function Perfil({}) {
   useEffect(() => {
     if (profileId) {
       fetchUserById(profileId);
+      if (loggedUser) {
+        loggedUser.friends.friends.map((friend) => {
+          if (friend === profileId) {
+            setIsFriend(true);
+          }
+        });
+      }
     } else if (loggedUser) {
       setProfileUser(normalizeUser(loggedUser));
+      setIsMe(true);
     }
   }, [profileId, loggedUser]);
 
@@ -178,7 +188,7 @@ export default function Perfil({}) {
     switch (page.code) {
       case "perfil":
         if (!userWithStats) return <p>Carregando perfil...</p>;
-        return <UserId user={userWithStats} />;
+        return <UserId user={userWithStats} isMe={isMe} isFriend={isFriend} />;
 
       case "palpites":
         if (loading) return <p>Carregando palpites...</p>;

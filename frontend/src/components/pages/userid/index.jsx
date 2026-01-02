@@ -2,24 +2,33 @@
 import styles from "./index.module.css";
 import Icon from "../../icon";
 
-export default function ProfileStatsCard({ user }) {
+export default function ProfileStatsCard({ user, isMe, isFriend }) {
   return (
     <div className={styles.wrapper}>
       {/* HEADER */}
       <div className={styles.header}>
-        <div className={styles.avatarWrapper}>
-          <img src={user.avatar} alt={user.name} />
-          {user.isPremium && (
-            <div className={styles.premiumIcon}>
-              <Icon icon="star" />
-            </div>
-          )}
-        </div>
+        <div className={styles.avatarName}>
+          <div className={styles.avatarWrapper}>
+            <img src={user.avatar} alt={user.name} />
+            {user.isPremium && (
+              <div className={styles.premiumIcon}>
+                <Icon icon="star" />
+              </div>
+            )}
+          </div>
 
-        <div className={styles.info}>
-          <p className={styles.name}>{user.name}</p>
-          {user.premium && <span className={styles.premiumBadge}>Premium</span>}
+          <div className={styles.info}>
+            <p className={styles.name}>{user.name}</p>
+            {user.premium && (
+              <span className={styles.premiumBadge}>Premium</span>
+            )}
+          </div>
         </div>
+        {!isMe && !isFriend && (
+          <button>
+            <Icon icon={"adduser"} />
+          </button>
+        )}
       </div>
 
       {/* STATS */}
