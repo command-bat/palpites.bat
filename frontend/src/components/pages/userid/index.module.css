@@ -10,6 +10,8 @@
 
   position: relative;
   overflow: hidden;
+
+  width: -webkit-fill-available;
 }
 
 /* ===================== */
