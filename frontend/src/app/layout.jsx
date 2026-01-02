@@ -14,6 +14,7 @@ export default function RootLayout({ children }) {
   );
   const [icon, setIcon] = useState(Cookies.get("icon"));
   const [showSidebar, setShowSidebar] = useState(false);
+  const [perfilPage, setPerfilPage] = useState(false);
 
   const capitalize = (str) =>
     str ? str.substring(0, 1).toUpperCase() + str.substring(1) : "";
@@ -36,8 +37,9 @@ export default function RootLayout({ children }) {
             setIcon={setIcon}
             setShowSidebar={setShowSidebar}
             showSidebar={showSidebar}
+            setPerfilPage={setPerfilPage}
           />
-          <MainPage page={page} />
+          <MainPage page={page} setPage={setPage} />
         </body>
       </html>
     </AuthProvider>

@@ -3,6 +3,8 @@ import { useEffect, useState, useRef } from "react";
 import styles from "./index.module.css";
 import Icon from "../icon";
 import { useAuth } from "../../auth/useAuth";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 export default function MatchCard({ match }) {
   const { user } = useAuth();
@@ -15,6 +17,7 @@ export default function MatchCard({ match }) {
   const [palpiteStatisticsFriends, setPalpiteStatisticsFriends] = useState([]);
   const [showAllFriends, setShowAllFriends] = useState(false);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
 
@@ -431,7 +434,14 @@ export default function MatchCard({ match }) {
                 {showAllFriends && (
                   <div className={styles.friendsColumn}>
                     {allFriends.map((friend) => (
-                      <div key={friend._id} className={styles.friendItem}>
+                      <div
+                        key={friend.userId}
+                        className={styles.friendItem}
+                        onClick={() => {
+                          Cookies.set("page", "perfil");
+                          router.push("?id=" + friend.userId);
+                        }}
+                      >
                         <div className={styles[`${friend.type}BackgroundImg`]}>
                           <img src={friend.avatar} alt={friend.name} />
                         </div>

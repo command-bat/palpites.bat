@@ -6,7 +6,7 @@ import Ranking from "../../ranking_card";
 import Icon from "../../icon";
 import Select from "../../popups/select_dropdown";
 
-export default function Comparador() {
+export default function Comparador({ setPage }) {
   const [ordemRanking, setOrdemRanking] = useState({
     name: "Acertos",
     code: "correct",
@@ -52,7 +52,7 @@ export default function Comparador() {
               </div>
             </div>
           </div>
-          <Ranking select={ordemRanking.code} />
+          <Ranking select={ordemRanking.code} setPage={setPage} />
         </div>
       </div>
     </>

@@ -1,8 +1,12 @@
 "use client";
 import styles from "./index.module.css";
 import Icon from "../icon";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 export default function FriendCard({ friend, options, onAnswer }) {
+  const router = useRouter();
+
   function handleClick(answer) {
     onAnswer({
       value: answer,
@@ -11,7 +15,13 @@ export default function FriendCard({ friend, options, onAnswer }) {
   }
 
   return (
-    <div className={styles.card}>
+    <div
+      className={styles.card}
+      onClick={() => {
+        Cookies.set("page", "perfil");
+        router.push("?id=" + friend._id);
+      }}
+    >
       <div className={styles.avatarWrapper}>
         <img src={friend.avatar} alt={friend.name} />
         {friend.isPremium && (

@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import Cookies from "js-cookie";
 import Icon from "../icon";
 import { useAuth } from "../../auth/useAuth";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 export default function sidebar({
   page = "home",
@@ -15,6 +16,9 @@ export default function sidebar({
   const [chosenTargetPage, setChosenTargetPage] = useState("home");
   const [isDesktop, setIsDesktop] = useState(true);
   const { user, loading } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -63,6 +67,9 @@ export default function sidebar({
               }}
               onClick={() => {
                 setShowSidebar(!showSidebar);
+                if (searchParams.size !== 0) {
+                  router.replace(pathname);
+                }
               }}
             />
             <label htmlFor="sidebarSelectHome">
@@ -86,6 +93,9 @@ export default function sidebar({
               }}
               onClick={() => {
                 setShowSidebar(!showSidebar);
+                if (searchParams.size !== 0) {
+                  router.replace(pathname);
+                }
               }}
             />
             <label htmlFor="sidebarSelectGuesses">
@@ -109,6 +119,9 @@ export default function sidebar({
               }}
               onClick={() => {
                 setShowSidebar(!showSidebar);
+                if (searchParams.size !== 0) {
+                  router.replace(pathname);
+                }
               }}
             />
             <label htmlFor="sidebarSelectFriends">
@@ -134,6 +147,9 @@ export default function sidebar({
                   }}
                   onClick={() => {
                     setShowSidebar(!showSidebar);
+                    if (searchParams.size !== 0) {
+                      router.replace(pathname);
+                    }
                   }}
                 />
                 <label htmlFor="sidebarSelectHistory">
@@ -197,6 +213,9 @@ export default function sidebar({
                   }}
                   onClick={() => {
                     setShowSidebar(!showSidebar);
+                    if (searchParams.size !== 0) {
+                      router.replace(pathname);
+                    }
                   }}
                 />
                 <label htmlFor="sidebarSelectComparator">
@@ -258,6 +277,9 @@ export default function sidebar({
               }}
               onClick={() => {
                 setShowSidebar(!showSidebar);
+                if (searchParams.size !== 0) {
+                  router.replace(pathname);
+                }
               }}
             />
             <label htmlFor="sidebarSelectProfile">
@@ -283,6 +305,9 @@ export default function sidebar({
                 }}
                 onClick={() => {
                   setShowSidebar(!showSidebar);
+                  if (searchParams.size !== 0) {
+                    router.replace(pathname);
+                  }
                 }}
               />
               <label htmlFor="sidebarSelectAdmin">

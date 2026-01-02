@@ -6,7 +6,7 @@ import Icon from "../../icon";
 import SelectCompetition from "../../popups/select_dropdown";
 import SelectDate from "../../popups/select_calendar";
 
-export default function Home() {
+export default function Home({ setPage }) {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -165,7 +165,9 @@ export default function Home() {
       </div>
 
       {!loading &&
-        matches.map((match) => <Matches key={match.matchId} match={match} />)}
+        matches.map((match) => (
+          <Matches key={match.matchId} match={match} setPage={setPage} />
+        ))}
     </>
   );
 }

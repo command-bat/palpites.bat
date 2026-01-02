@@ -10,7 +10,7 @@ import Icon from "../../icon";
 import Select from "../../popups/select_dropdown";
 import { useAuth } from "../../../auth/useAuth";
 
-export default function Perfil() {
+export default function Perfil({}) {
   const { user: loggedUser } = useAuth();
   const searchParams = useSearchParams();
 

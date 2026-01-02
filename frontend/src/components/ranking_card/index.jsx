@@ -2,10 +2,13 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.css";
 import { useAuth } from "../../auth/useAuth";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
-export default function Ranking({ select }) {
+export default function Ranking({ select, setPage }) {
   const { user } = useAuth();
   const [ranking, setRanking] = useState([]);
+  const router = useRouter();
 
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
   const isErrors = select === "errors";
@@ -42,6 +45,14 @@ export default function Ranking({ select }) {
           <div
             key={userRank.userId}
             className={`${styles.row} ${isYou ? styles.you : ""}`}
+            onClick={() => {
+              Cookies.set("page", "perfil");
+              if (isYou) {
+                setPage("perfil");
+              } else {
+                router.push("?id=" + userRank.userId);
+              }
+            }}
           >
             {/* POSIÇÃO + USUÁRIO */}
             <div className={styles.user}>
