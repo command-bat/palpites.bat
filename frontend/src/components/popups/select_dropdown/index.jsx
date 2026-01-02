@@ -28,15 +28,16 @@ export default function Select({ setValue, onClose, values }) {
   }, [onClose]);
 
   return (
-    <div ref={ref} className={styles.dropdown}>
+    <div
+      ref={ref}
+      className={styles.dropdown}
+      onMouseDown={(e) => e.stopPropagation()} // 👈 impede fechar ao clicar dentro
+    >
       {values.map((value) => (
         <div
           key={value.code}
           className={styles.option}
-          onClick={() => {
-            setValue(value);
-            onClose();
-          }}
+          onClick={() => setValue(value)}
         >
           {value.name}
         </div>

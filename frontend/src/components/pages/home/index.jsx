@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "./index.module.css";
 import Matches from "../../game";
 import Icon from "../../icon";
@@ -18,6 +18,8 @@ export default function Home({ setPage }) {
     code: "WC",
   });
   const [openSetCompetition, setOpenSetCompetition] = useState(false);
+
+  const competitionTriggerRef = useRef(null);
 
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
 
@@ -143,8 +145,12 @@ export default function Home({ setPage }) {
         <div className={styles.alertRight}>
           <div className={styles.competitionWrapper}>
             <div
+              ref={competitionTriggerRef}
               className={styles.titleCompetition}
-              onClick={() => setOpenSetCompetition((v) => !v)}
+              onMouseDown={(e) => {
+                e.preventDefault(); // 🔥 evita foco/click fantasma
+                setOpenSetCompetition((v) => !v);
+              }}
             >
               <h1>{competition.name}</h1>
               <Icon icon={"down"} />
@@ -152,6 +158,7 @@ export default function Home({ setPage }) {
 
             {openSetCompetition && (
               <SelectCompetition
+                triggerRef={competitionTriggerRef} // 👈 PASSA O REF
                 setValue={(c) => {
                   setCompetition(c);
                   setOpenSetCompetition(false);
