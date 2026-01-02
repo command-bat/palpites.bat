@@ -3,11 +3,19 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./index.module.css";
 import Icon from "../../icon";
 
-export default function SelectDate({ date, setDate, onClose, availableDates }) {
-  const ref = useRef(null);
+export default function SelectDate({
+  date,
+  setDate,
+  onClose,
+  availableDates,
+  triggerRef, // 👈 NOVO (obrigatório)
+}) {
+  const dropdownRef = useRef(null);
   const [dates, setDates] = useState([]);
 
-  // busca datas ao abrir calendário
+  /* ===============================
+     BUSCA DATAS DISPONÍVEIS
+  =============================== */
   useEffect(() => {
     async function loadDates() {
       if (typeof availableDates === "function") {
@@ -20,6 +28,9 @@ export default function SelectDate({ date, setDate, onClose, availableDates }) {
     loadDates();
   }, [availableDates]);
 
+  /* ===============================
+     CONVERTE PARA DATAS PERMITIDAS
+  =============================== */
   const allowedDates = useMemo(
     () =>
       dates.map((d) => {
@@ -29,6 +40,9 @@ export default function SelectDate({ date, setDate, onClose, availableDates }) {
     [dates]
   );
 
+  /* ===============================
+     MESES DISPONÍVEIS
+  =============================== */
   const months = useMemo(() => {
     const map = new Map();
     allowedDates.forEach((d) => {
@@ -38,7 +52,11 @@ export default function SelectDate({ date, setDate, onClose, availableDates }) {
     return Array.from(map.values()).sort((a, b) => a - b);
   }, [allowedDates]);
 
+  /* ===============================
+     MÊS ATUAL
+  =============================== */
   const [monthIndex, setMonthIndex] = useState(0);
+
   useEffect(() => {
     const idx = months.findIndex(
       (m) =>
@@ -50,14 +68,28 @@ export default function SelectDate({ date, setDate, onClose, availableDates }) {
 
   const currentMonth = months[monthIndex];
 
+  /* ===============================
+     CLICK FORA (dropdown + trigger)
+  =============================== */
   useEffect(() => {
     function handleClickOutside(e) {
-      if (ref.current && !ref.current.contains(e.target)) onClose();
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target) &&
+        triggerRef?.current &&
+        !triggerRef.current.contains(e.target)
+      ) {
+        onClose();
+      }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [onClose]);
+  }, [onClose, triggerRef]);
 
+  /* ===============================
+     UTILITÁRIOS
+  =============================== */
   function isAllowed(day) {
     return allowedDates.some(
       (d) =>
@@ -69,6 +101,7 @@ export default function SelectDate({ date, setDate, onClose, availableDates }) {
 
   function buildCalendar() {
     if (!currentMonth) return [];
+
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth();
     const firstDay = new Date(year, month, 1);
@@ -84,8 +117,11 @@ export default function SelectDate({ date, setDate, onClose, availableDates }) {
 
   if (!currentMonth) return null;
 
+  /* ===============================
+     RENDER
+  =============================== */
   return (
-    <div ref={ref} className={styles.dropdown}>
+    <div ref={dropdownRef} className={styles.dropdown}>
       <div className={styles.header}>
         <button
           disabled={monthIndex === 0}
@@ -93,12 +129,14 @@ export default function SelectDate({ date, setDate, onClose, availableDates }) {
         >
           <Icon icon={"arrowTwoLeft"} />
         </button>
+
         <span>
           {currentMonth.toLocaleDateString("pt-BR", {
             month: "long",
             year: "numeric",
           })}
         </span>
+
         <button
           disabled={monthIndex === months.length - 1}
           onClick={() => setMonthIndex((i) => i + 1)}
@@ -108,8 +146,8 @@ export default function SelectDate({ date, setDate, onClose, availableDates }) {
       </div>
 
       <div className={styles.weekdays}>
-        {["D", "S", "T", "Q", "Q", "S", "S"].map((d, index) => (
-          <span key={`${d}-${index}`}>{d}</span>
+        {["D", "S", "T", "Q", "Q", "S", "S"].map((d, i) => (
+          <span key={i}>{d}</span>
         ))}
       </div>
 

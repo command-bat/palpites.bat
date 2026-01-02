@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "./index.module.css";
 import Matches from "../../game";
 import Icon from "../../icon";
@@ -20,6 +20,9 @@ export default function Historico() {
     code: "BSA",
   });
   const [openSetCompetition, setOpenSetCompetition] = useState(false);
+
+  const calendarTriggerRef = useRef(null);
+  const competitionTriggerRef = useRef(null);
 
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
 
@@ -68,7 +71,6 @@ export default function Historico() {
     return `${ano}-${mes}-${dia}`;
   }
 
-  // fetch das datas disponíveis
   async function fetchDate() {
     try {
       const res = await fetch(
@@ -79,14 +81,12 @@ export default function Historico() {
       );
       if (!res.ok) throw new Error("Not authenticated");
       const data = await res.json();
-
       return Array.isArray(data) ? data : [];
-    } catch (err) {
+    } catch {
       return [];
     }
   }
 
-  // fetch das partidas da data selecionada
   async function fetchMatch(date) {
     setLoading(true);
     try {
@@ -99,14 +99,13 @@ export default function Historico() {
       if (!res.ok) throw new Error("Not authenticated");
       const data = await res.json();
       setMatches(Array.isArray(data) ? data : []);
-    } catch (err) {
+    } catch {
       setMatches([]);
     } finally {
       setLoading(false);
     }
   }
 
-  // atualiza partidas quando competição ou data muda
   useEffect(() => {
     fetchMatch(selectedDate);
   }, [competition, selectedDate]);
@@ -116,14 +115,21 @@ export default function Historico() {
       <div className={styles.alertMatches}>
         <div className={styles.infosRound}>
           <div className={styles.dateWrapper}>
-            <h1 onClick={() => setOpenCalendar((v) => !v)}>
+            <h1
+              ref={calendarTriggerRef}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                setOpenCalendar((v) => !v);
+              }}
+            >
               <Icon icon={"calendar"} /> {formattedDateForDisplay(selectedDate)}
             </h1>
 
             {openCalendar && (
               <SelectDate
+                triggerRef={calendarTriggerRef}
                 date={selectedDate}
-                availableDates={fetchDate} // função async
+                availableDates={fetchDate}
                 setDate={(d) => {
                   setSelectedDate(d);
                   setOpenCalendar(false);
@@ -137,8 +143,12 @@ export default function Historico() {
         <div className={styles.alertRight}>
           <div className={styles.competitionWrapper}>
             <div
+              ref={competitionTriggerRef}
               className={styles.titleCompetition}
-              onClick={() => setOpenSetCompetition((v) => !v)}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                setOpenSetCompetition((v) => !v);
+              }}
             >
               <h1>{competition.name}</h1>
               <Icon icon={"down"} />
@@ -146,6 +156,7 @@ export default function Historico() {
 
             {openSetCompetition && (
               <SelectCompetition
+                triggerRef={competitionTriggerRef}
                 setValue={(c) => {
                   setCompetition(c);
                   setOpenSetCompetition(false);

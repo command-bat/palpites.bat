@@ -19,6 +19,7 @@ export default function Home({ setPage }) {
   });
   const [openSetCompetition, setOpenSetCompetition] = useState(false);
 
+  const calendarTriggerRef = useRef(null);
   const competitionTriggerRef = useRef(null);
 
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
@@ -124,14 +125,21 @@ export default function Home({ setPage }) {
       <div className={styles.alertMatches}>
         <div className={styles.infosRound}>
           <div className={styles.dateWrapper}>
-            <h1 onClick={() => setOpenCalendar((v) => !v)}>
+            <h1
+              ref={calendarTriggerRef}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                setOpenCalendar((v) => !v);
+              }}
+            >
               <Icon icon={"calendar"} /> {formattedDateForDisplay(selectedDate)}
             </h1>
 
             {openCalendar && (
               <SelectDate
+                triggerRef={calendarTriggerRef}
                 date={selectedDate}
-                availableDates={fetchDate} // função async
+                availableDates={fetchDate}
                 setDate={(d) => {
                   setSelectedDate(d);
                   setOpenCalendar(false);
@@ -148,7 +156,7 @@ export default function Home({ setPage }) {
               ref={competitionTriggerRef}
               className={styles.titleCompetition}
               onMouseDown={(e) => {
-                e.preventDefault(); // 🔥 evita foco/click fantasma
+                e.preventDefault();
                 setOpenSetCompetition((v) => !v);
               }}
             >
@@ -158,7 +166,7 @@ export default function Home({ setPage }) {
 
             {openSetCompetition && (
               <SelectCompetition
-                triggerRef={competitionTriggerRef} // 👈 PASSA O REF
+                triggerRef={competitionTriggerRef}
                 setValue={(c) => {
                   setCompetition(c);
                   setOpenSetCompetition(false);
