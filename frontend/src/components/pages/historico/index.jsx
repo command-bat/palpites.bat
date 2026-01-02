@@ -8,9 +8,14 @@ import SelectDate from "../../popups/select_calendar";
 import { useAuth } from "../../../auth/useAuth";
 
 export default function Historico() {
+  const { user } = useAuth();
+
+  if (!user || !user.isPremium) {
+    return <p style={{ color: "var(--text)" }}>Pagina Premium</p>;
+  }
+
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [openCalendar, setOpenCalendar] = useState(false);

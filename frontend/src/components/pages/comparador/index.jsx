@@ -5,8 +5,15 @@ import ComparatorCard from "../../comparator_card";
 import Ranking from "../../ranking_card";
 import Icon from "../../icon";
 import Select from "../../popups/select_dropdown";
+import { useAuth } from "../../../auth/useAuth";
 
 export default function Comparador({ setPage }) {
+  const { user } = useAuth();
+
+  if (!user || !user.isPremium) {
+    return <p style={{ color: "var(--text)" }}>Pagina Premium</p>;
+  }
+
   const [ordemRanking, setOrdemRanking] = useState({
     name: "Acertos",
     code: "correct",
