@@ -247,7 +247,10 @@ export default function sidebar({
               }}
               onClick={() => {
                 setShowSidebar(!showSidebar);
-                if (searchParams.size !== 0) {
+                if (
+                  searchParams.size !== 0 &&
+                  searchParams.get("id") !== user._id
+                ) {
                   router.replace(pathname + "?id=" + user._id);
                 }
               }}
