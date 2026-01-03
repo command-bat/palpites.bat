@@ -65,12 +65,6 @@ export default function sidebar({
                 setPage("home");
                 Cookies.set("page", "home");
               }}
-              onClick={() => {
-                setShowSidebar(!showSidebar);
-                if (searchParams.size !== 0) {
-                  router.replace(pathname);
-                }
-              }}
             />
             <label htmlFor="sidebarSelectHome">
               <div>
@@ -91,12 +85,6 @@ export default function sidebar({
                 setPage("palpites");
                 Cookies.set("page", "palpites");
               }}
-              onClick={() => {
-                setShowSidebar(!showSidebar);
-                if (searchParams.size !== 0) {
-                  router.replace(pathname);
-                }
-              }}
             />
             <label htmlFor="sidebarSelectGuesses">
               <div>
@@ -116,12 +104,6 @@ export default function sidebar({
                 setChosenTargetPage("amigos");
                 setPage("amigos");
                 Cookies.set("page", "amigos");
-              }}
-              onClick={() => {
-                setShowSidebar(!showSidebar);
-                if (searchParams.size !== 0) {
-                  router.replace(pathname);
-                }
               }}
             />
             <label htmlFor="sidebarSelectFriends">
@@ -144,12 +126,6 @@ export default function sidebar({
                     setChosenTargetPage("historico");
                     setPage("historico");
                     Cookies.set("page", "historico");
-                  }}
-                  onClick={() => {
-                    setShowSidebar(!showSidebar);
-                    if (searchParams.size !== 0) {
-                      router.replace(pathname);
-                    }
                   }}
                 />
                 <label htmlFor="sidebarSelectHistory">
@@ -210,12 +186,6 @@ export default function sidebar({
                     setChosenTargetPage("comparador");
                     setPage("comparador");
                     Cookies.set("page", "comparador");
-                  }}
-                  onClick={() => {
-                    setShowSidebar(!showSidebar);
-                    if (searchParams.size !== 0) {
-                      router.replace(pathname);
-                    }
                   }}
                 />
                 <label htmlFor="sidebarSelectComparator">
@@ -278,7 +248,7 @@ export default function sidebar({
               onClick={() => {
                 setShowSidebar(!showSidebar);
                 if (searchParams.size !== 0) {
-                  router.replace(pathname);
+                  router.replace(pathname + "?id=" + user._id);
                 }
               }}
             />
@@ -302,12 +272,6 @@ export default function sidebar({
                   setChosenTargetPage("admin");
                   setPage("admin");
                   Cookies.set("page", "admin");
-                }}
-                onClick={() => {
-                  setShowSidebar(!showSidebar);
-                  if (searchParams.size !== 0) {
-                    router.replace(pathname);
-                  }
                 }}
               />
               <label htmlFor="sidebarSelectAdmin">
