@@ -6,7 +6,9 @@ import SelectFriends from "../../popups/select_dropdown";
 import Friend from "../../friend";
 import Alert from "../../popups/alert";
 
-export default function Amigos() {
+export default function Amigos({
+  startSelect = { name: "Amigos", code: "friends" },
+}) {
   const [openSelect, setOpenSelect] = useState(false);
   const [loading, setLoading] = useState(true);
   const [friends, setFriends] = useState([]);
@@ -15,10 +17,7 @@ export default function Amigos() {
   const [notFound, setNotFound] = useState(false);
   const [alert, setAlert] = useState(null);
 
-  const [select, setSelect] = useState({
-    name: "Amigos",
-    code: "friends",
-  });
+  const [select, setSelect] = useState(startSelect);
 
   const LINK = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3030";
 
@@ -161,6 +160,7 @@ export default function Amigos() {
   }, []);
 
   useEffect(() => {
+    console.log(select);
     if (select.code === "friends") fetchFriends();
     if (select.code === "send" || select.code === "received")
       fetchOrders(select.code);

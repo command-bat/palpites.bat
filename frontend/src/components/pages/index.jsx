@@ -8,11 +8,11 @@ import Comparador from "./comparador";
 import Perfil from "./perfil";
 import Admin from "./admin";
 
-export default function MainPage({ page, setPage }) {
+export default function MainPage({ page, setPage, setSelect }) {
   const pages = {
     home: <Home setPage={setPage} />,
     palpites: <Palpites setPage={setPage} />,
-    amigos: <Amigos setPage={setPage} />,
+    amigos: <Amigos setPage={setPage} startSelect={setSelect} />,
     historico: <Historico setPage={setPage} />,
     comparador: <Comparador setPage={setPage} />,
     perfil: <Perfil setPage={setPage} />,
