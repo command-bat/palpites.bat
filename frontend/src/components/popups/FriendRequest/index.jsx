@@ -11,7 +11,7 @@ export default function FriendRequestPopup({
   setSelect,
 }) {
   useEffect(() => {
-    const timer = setTimeout(onClose, 400000000);
+    const timer = setTimeout(onClose, 4000);
     return () => clearTimeout(timer);
   }, [onClose]);
 
