@@ -53,7 +53,10 @@ export default function FriendCard({ friend, options, onAnswer }) {
               className={`${styles[option.color]} ${
                 styles[index % 2 === 0 ? "left" : "right"]
               }`}
-              onClick={() => handleClick(option.answer)}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleClick(option.answer);
+              }}
             >
               {option.text}
             </button>

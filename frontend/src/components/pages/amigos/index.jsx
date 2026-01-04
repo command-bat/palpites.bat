@@ -160,7 +160,6 @@ export default function Amigos({
   }, []);
 
   useEffect(() => {
-    console.log(select);
     if (select.code === "friends") fetchFriends();
     if (select.code === "send" || select.code === "received")
       fetchOrders(select.code);
