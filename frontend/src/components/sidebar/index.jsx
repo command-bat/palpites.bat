@@ -65,6 +65,9 @@ export default function sidebar({
                 setPage("home");
                 Cookies.set("page", "home");
               }}
+              onClick={() => {
+                setShowSidebar(!showSidebar);
+              }}
             />
             <label htmlFor="sidebarSelectHome">
               <div>
@@ -85,6 +88,9 @@ export default function sidebar({
                 setPage("palpites");
                 Cookies.set("page", "palpites");
               }}
+              onClick={() => {
+                setShowSidebar(!showSidebar);
+              }}
             />
             <label htmlFor="sidebarSelectGuesses">
               <div>
@@ -104,6 +110,9 @@ export default function sidebar({
                 setChosenTargetPage("amigos");
                 setPage("amigos");
                 Cookies.set("page", "amigos");
+              }}
+              onClick={() => {
+                setShowSidebar(!showSidebar);
               }}
             />
             <label htmlFor="sidebarSelectFriends">
@@ -126,6 +135,9 @@ export default function sidebar({
                     setChosenTargetPage("historico");
                     setPage("historico");
                     Cookies.set("page", "historico");
+                  }}
+                  onClick={() => {
+                    setShowSidebar(!showSidebar);
                   }}
                 />
                 <label htmlFor="sidebarSelectHistory">
@@ -186,6 +198,9 @@ export default function sidebar({
                     setChosenTargetPage("comparador");
                     setPage("comparador");
                     Cookies.set("page", "comparador");
+                  }}
+                  onClick={() => {
+                    setShowSidebar(!showSidebar);
                   }}
                 />
                 <label htmlFor="sidebarSelectComparator">
@@ -275,6 +290,9 @@ export default function sidebar({
                   setChosenTargetPage("admin");
                   setPage("admin");
                   Cookies.set("page", "admin");
+                }}
+                onClick={() => {
+                  setShowSidebar(!showSidebar);
                 }}
               />
               <label htmlFor="sidebarSelectAdmin">
