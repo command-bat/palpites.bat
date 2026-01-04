@@ -40,10 +40,16 @@ export default function FriendRequestPopup({
             <img src={user.avatar} alt={user.name} />
           </div>
 
-          <span className={styles.name}>{user.name}</span>
+          <span className={styles.name}>
+            {"  "}
+            {user.name}
+          </span>
         </div>
         <div className={styles.info}>
-          <span className={styles.id}>Pedido de amizade</span>
+          <span className={styles.id}>
+            Pedido de amizade Recebido
+            {"  "}
+          </span>
         </div>
       </div>
     </div>

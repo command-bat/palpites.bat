@@ -10,6 +10,7 @@
 
   /* evita clique acidental fora */
   pointer-events: auto;
+  color: var(--text);
 }
 
 /* melhora o card SEM alterar o global */
@@ -19,6 +20,7 @@
 
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
+  background-color: var(--background_secondary);
 
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 0 1px var(--detais);
 
@@ -54,6 +56,8 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-end;
+  gap: 3px;
+
   span {
     font-size: 25px;
     font-weight: bold;
@@ -61,12 +65,13 @@
   }
   img {
     margin-left: 10px;
-    width: 30px;
+    width: 27px;
     border-radius: 100%;
   }
 }
 .id {
   margin-left: 10px;
+  padding-right: 10px;
 }
 /* botão fechar */
 .close {
