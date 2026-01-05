@@ -4,9 +4,9 @@ import { useEffect, useState, useRef } from "react";
 import Cookies from "js-cookie";
 import Icon from "../icon";
 import { useAuth } from "../../auth/useAuth";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
-export default function sidebar({
+export default function Sidebar({
   page = "home",
   showSidebar = false,
   setShowSidebar,
@@ -16,18 +16,18 @@ export default function sidebar({
   const [chosenTargetPage, setChosenTargetPage] = useState("home");
   const [isDesktop, setIsDesktop] = useState(true);
   const { user, loading } = useAuth();
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    if (searchParams.has("id")) {
+      setChosenTargetPage("perfil");
+      setPage("perfil");
+      Cookies.set("page", "perfil");
+    } else {
       const page = Cookies.get("page") || "home";
       setChosenTargetPage(page);
-    }, 500);
-
-    return () => clearInterval(interval);
-  }, [setShowSidebar]);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const media = window.matchMedia("(width <= 767px)");
@@ -67,6 +67,7 @@ export default function sidebar({
               }}
               onClick={() => {
                 setShowSidebar(!showSidebar);
+                window.history.replaceState(null, "", "/");
               }}
             />
             <label htmlFor="sidebarSelectHome">
@@ -90,6 +91,7 @@ export default function sidebar({
               }}
               onClick={() => {
                 setShowSidebar(!showSidebar);
+                window.history.replaceState(null, "", "/");
               }}
             />
             <label htmlFor="sidebarSelectGuesses">
@@ -113,6 +115,7 @@ export default function sidebar({
               }}
               onClick={() => {
                 setShowSidebar(!showSidebar);
+                window.history.replaceState(null, "", "/");
               }}
             />
             <label htmlFor="sidebarSelectFriends">
@@ -138,6 +141,7 @@ export default function sidebar({
                   }}
                   onClick={() => {
                     setShowSidebar(!showSidebar);
+                    window.history.replaceState(null, "", "/");
                   }}
                 />
                 <label htmlFor="sidebarSelectHistory">
@@ -201,6 +205,7 @@ export default function sidebar({
                   }}
                   onClick={() => {
                     setShowSidebar(!showSidebar);
+                    window.history.replaceState(null, "", "/");
                   }}
                 />
                 <label htmlFor="sidebarSelectComparator">
@@ -250,11 +255,11 @@ export default function sidebar({
           )}
           <div>
             <input
-              checked={chosenTargetPage == "perfil"}
-              type={"radio"}
-              name={"sidebarSelect"}
-              id={"sidebarSelectProfile"}
-              value={"perfil"}
+              checked={chosenTargetPage === "perfil"}
+              type="radio"
+              name="sidebarSelect"
+              id="sidebarSelectProfile"
+              value="perfil"
               onChange={() => {
                 setChosenTargetPage("perfil");
                 setPage("perfil");
@@ -262,17 +267,17 @@ export default function sidebar({
               }}
               onClick={() => {
                 setShowSidebar(!showSidebar);
-                if (
-                  searchParams.size !== 0 &&
-                  searchParams.get("id") !== user._id
-                ) {
-                  router.replace(pathname + "?id=" + user._id);
-                }
+                const url =
+                  searchParams.has("id") && searchParams.get("id") !== user._id
+                    ? "/?id=" + user._id
+                    : "/";
+
+                window.history.replaceState(null, "", url);
               }}
             />
             <label htmlFor="sidebarSelectProfile">
               <div>
-                <Icon icon={"perfil"} className={styles.icon} />
+                <Icon icon="perfil" className={styles.icon} />
               </div>
               <span>Perfil</span>
             </label>
@@ -293,6 +298,7 @@ export default function sidebar({
                 }}
                 onClick={() => {
                   setShowSidebar(!showSidebar);
+                  window.history.replaceState(null, "", "/");
                 }}
               />
               <label htmlFor="sidebarSelectAdmin">

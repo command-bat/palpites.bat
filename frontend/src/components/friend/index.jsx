@@ -2,11 +2,8 @@
 import styles from "./index.module.css";
 import Icon from "../icon";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 
-export default function FriendCard({ friend, options, onAnswer }) {
-  const router = useRouter();
-
+export default function FriendCard({ friend, options, onAnswer, setPage }) {
   function handleClick(answer) {
     onAnswer({
       value: answer,
@@ -19,7 +16,12 @@ export default function FriendCard({ friend, options, onAnswer }) {
       className={styles.card}
       onClick={() => {
         Cookies.set("page", "perfil");
-        router.push("?id=" + friend._id);
+        setPage("perfil");
+        // router.push("?id=" + friend._id);
+
+        const url = "/?id=" + friend._id;
+
+        window.history.replaceState(null, "", url);
       }}
     >
       <div className={styles.avatarWrapper}>

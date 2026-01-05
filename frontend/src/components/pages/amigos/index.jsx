@@ -8,6 +8,7 @@ import Alert from "../../popups/alert";
 
 export default function Amigos({
   startSelect = { name: "Amigos", code: "friends" },
+  setPage,
 }) {
   const [openSelect, setOpenSelect] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -254,6 +255,7 @@ export default function Amigos({
                   : []
               }
               onAnswer={handleFriendAnswer}
+              setPage={setPage}
             />
           ))}
 
