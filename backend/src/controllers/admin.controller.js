@@ -53,23 +53,28 @@ exports.fetch = async (req, res) => {
 
 exports.getUserRaw = async (req, res) => {
     try {
-        const { value } = req.params;
+        const { userId } = req.params;
 
-        let query = null;
-
-        // 1️⃣ Se for ObjectId
-        if (mongoose.Types.ObjectId.isValid(value)) {
-            query = { _id: value };
+        // segurança básica
+        if (typeof userId !== "string" || !userId.trim()) {
+            return res.status(400).json({ error: "Parâmetro inválido" });
         }
 
-        // 2️⃣ Se for email
-        else if (value.includes("@")) {
-            query = { email: value.toLowerCase() };
+        let query;
+
+        // 1️⃣ Busca por ObjectId
+        if (mongoose.Types.ObjectId.isValid(userId)) {
+            query = { _id: userId };
         }
 
-        // 3️⃣ Caso contrário, buscar por nome (case-insensitive)
+        // 2️⃣ Busca por email
+        else if (userId.includes("@")) {
+            query = { email: userId.toLowerCase() };
+        }
+
+        // 3️⃣ Busca por nome (case-insensitive)
         else {
-            query = { name: new RegExp(`^${value}$`, "i") };
+            query = { name: new RegExp(`^${userId}$`, "i") };
         }
 
         const user = await User.findOne(query).lean();
@@ -84,7 +89,6 @@ exports.getUserRaw = async (req, res) => {
         return res.status(500).json({ error: "Erro interno" });
     }
 };
-
 
 
 exports.updateUser = async (req, res) => {
