@@ -53,13 +53,26 @@ exports.fetch = async (req, res) => {
 
 exports.getUserRaw = async (req, res) => {
     try {
-        const { userId } = req.params;
+        const { value } = req.params;
 
-        if (!mongoose.Types.ObjectId.isValid(userId)) {
-            return res.status(400).json({ error: "ID inválido" });
+        let query = null;
+
+        // 1️⃣ Se for ObjectId
+        if (mongoose.Types.ObjectId.isValid(value)) {
+            query = { _id: value };
         }
 
-        const user = await User.findById(userId).lean();
+        // 2️⃣ Se for email
+        else if (value.includes("@")) {
+            query = { email: value.toLowerCase() };
+        }
+
+        // 3️⃣ Caso contrário, buscar por nome (case-insensitive)
+        else {
+            query = { name: new RegExp(`^${value}$`, "i") };
+        }
+
+        const user = await User.findOne(query).lean();
 
         if (!user) {
             return res.status(404).json({ error: "Usuário não encontrado" });
@@ -71,6 +84,7 @@ exports.getUserRaw = async (req, res) => {
         return res.status(500).json({ error: "Erro interno" });
     }
 };
+
 
 
 exports.updateUser = async (req, res) => {

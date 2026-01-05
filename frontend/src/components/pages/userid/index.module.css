@@ -117,6 +117,12 @@
   text-transform: uppercase;
 }
 
+.userId {
+  color: var(--gray);
+  font-size: 10px;
+  font-weight: bold;
+}
+
 /* ===================== */
 /* STATS */
 /* ===================== */

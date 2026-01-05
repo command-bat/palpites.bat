@@ -55,9 +55,10 @@ export default function ProfileStatsCard({ user, isMe, isFriend }) {
 
             <div className={styles.info}>
               <p className={styles.name}>{user.name}</p>
-              {user.premium && (
+              {user.isPremium && (
                 <span className={styles.premiumBadge}>Premium</span>
               )}
+              <p className={styles.userId}>#{user._id}</p>
             </div>
           </div>
           {!isMe && !isFriend && (
