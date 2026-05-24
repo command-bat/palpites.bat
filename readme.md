@@ -35,6 +35,8 @@ Aplicação full-stack voltada para criação e gerenciamento de palpites, com A
 npm install
 npm run dev
 ```
+```
+
 
 ---
 
