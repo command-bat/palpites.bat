@@ -30,11 +30,10 @@ Aplicação full-stack voltada para criação e gerenciamento de palpites, com A
 - Estrutura full-stack
 
 ## ⚙️ Como rodar o projeto
-
+```
 ```bash
 npm install
 npm run dev
-```
 ```
 
 
