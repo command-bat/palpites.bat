@@ -29,9 +29,10 @@ Aplicação full-stack voltada para criação e gerenciamento de palpites, com A
 - Interface dinâmica
 - Estrutura full-stack
 
-## ⚙️ Como rodar o projeto
 ```
 ```bash
+## ⚙️ Como rodar o projeto
+
 npm install
 npm run dev
 ```
