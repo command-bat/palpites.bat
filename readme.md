@@ -1,7 +1,7 @@
 
 ---
 
-# 2. palpites.bat
+# Palpites.bat
 
 ```md
 # palpites.bat
