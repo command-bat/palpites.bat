@@ -39,4 +39,4 @@ npm run dev
 
 ---
 
-<!-- PORTFOLIO_DATA_START { "title": "palpites.bat", "fullDescription": "Sistema de palpites e previsões desenvolvido com Next.js e backend em Node.js + Express. Possui API REST própria, interface dinâmica e estrutura full-stack para gerenciamento de dados.", "image": "https://tiagonl.com.br/fatec.png", "tags": [ "Next.js", "React", "HTML", "CSS", "Node.js", "Express", "API REST" ] } PORTFOLIO_DATA_END -->
+<!-- PORTFOLIO_DATA_START { "title": "palpites.bat", "fullDescription": "Sistema de palpites e previsões desenvolvido com Next.js e backend em Node.js + Express. Possui API REST própria, interface dinâmica e estrutura full-stack para gerenciamento de dados.", "image": "", "tags": [ "Next.js", "React", "HTML", "CSS", "Node.js", "Express", "API REST" ] } PORTFOLIO_DATA_END -->
